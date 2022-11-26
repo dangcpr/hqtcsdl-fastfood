@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.32802.440
+# Visual Studio 15
+VisualStudioVersion = 15.0.33026.149
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfApp1", "WpfApp1\WpfApp1.csproj", "{157D238E-B982-4984-966F-F3CE78C9ED1D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "hqtcsdl-fastfood", "hqtcsdl-fastfood\hqtcsdl-fastfood.csproj", "{456EB081-7CF3-4F2F-854F-33392FBA71F4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,15 +11,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{157D238E-B982-4984-966F-F3CE78C9ED1D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{157D238E-B982-4984-966F-F3CE78C9ED1D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{157D238E-B982-4984-966F-F3CE78C9ED1D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{157D238E-B982-4984-966F-F3CE78C9ED1D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{456EB081-7CF3-4F2F-854F-33392FBA71F4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{456EB081-7CF3-4F2F-854F-33392FBA71F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{456EB081-7CF3-4F2F-854F-33392FBA71F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{456EB081-7CF3-4F2F-854F-33392FBA71F4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {C8B078DD-977B-49E6-9803-42EBB8D3681E}
+		SolutionGuid = {644E6A37-FE7A-4768-A972-06571EDE546E}
 	EndGlobalSection
 EndGlobal
