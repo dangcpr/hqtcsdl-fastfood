@@ -10,18 +10,16 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
-using _08.Model;
 
 namespace _08
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for Register_KhachHang.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class Register_KhachHang : Window
     {
-        public MainWindow()
+        public Register_KhachHang()
         {
             InitializeComponent();
         }
