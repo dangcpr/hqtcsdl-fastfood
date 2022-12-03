@@ -83,6 +83,12 @@ namespace _08
                             Register_DoiTac register_DoiTac = new Register_DoiTac(Username);
                             register_DoiTac.ShowDialog();
                         }
+                        if (RoleName == "KhachHang")
+                        {
+                            register.Close();
+                            Register_KhachHang register_KhachHang = new Register_KhachHang(Username);
+                            register_KhachHang.ShowDialog();
+                        }
                     }
                 }
                 else if (result == 1)
