@@ -23,7 +23,8 @@ namespace _08
     /// </summary>
     public partial class Login : Window
     {
-        public static string UserName = "";
+        public string UserName = "";
+        string RoleName = "";
         public bool IsLogin = false;
         public Login()
         {
@@ -34,49 +35,54 @@ namespace _08
 
         private void SubmitLogin(object sender, RoutedEventArgs e)
         {
-            //DataProvider.Ins.DB.SaveChanges();
-            //var result = DataProvider.Ins.DB.TimKiemUser(username_account.Text).FirstOrDefault();
-            //DataProvider.Ins.DB.SaveChanges();
-            //if (result == null)
-            //{
-            //    IsLogin = false;
-            //    MessageBox.Show("Sai tên đăng nhập hoặc mật khẩu!");
-            //}
-            //else
-            //{
-            //    if (result.Pass != password_account.Password)
-            //    {
-            //        IsLogin = false;
-            //        MessageBox.Show("Sai tên đăng nhập hoặc mật khẩu!");
-            //    }
-            //    else
-            //    {
-            //        IsLogin = true;
-            //        MessageBox.Show("Đăng nhập thành công!");
-            //        login.Close();
-
-            //    }
-
-            //}
-            SqlConnection db = new SqlConnection(@"Server=LAPTOP-DVGEP05O\MINHDOAN;Database=GIAONHANHANG;Trusted_Connection=True;");
-            db.Open();
-            SqlCommand cmd = db.CreateCommand();
-            cmd.CommandType = CommandType.StoredProcedure;
-            cmd.CommandText = "LoginUser";
-            cmd.Parameters.AddWithValue("@Username", username_account.Text);
-            cmd.Parameters.AddWithValue("@Pass", password_account.Password);
-            UserName = username_account.Text;
-            int result = Convert.ToInt32(cmd.ExecuteScalar());
-            if (result == 0)
+            
+            SqlConnection db = new SqlConnection("Server=.;Database=GIAONHANHANG;integrated security = true");
+            try
             {
-                MessageBox.Show("Đăng nhập thành công!");
-                IsLogin = true;
-                login.Close();
+                db.Open();
+                SqlCommand cmd = db.CreateCommand();
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.CommandText = "LoginUser";
+                cmd.Parameters.AddWithValue("@Username", username_account.Text);
+                cmd.Parameters.AddWithValue("@Pass", password_account.Password);
+                UserName = username_account.Text;
+                int result = Convert.ToInt32(cmd.ExecuteScalar());
+                if (result == 0)
+                {
+                    MessageBox.Show("Đăng nhập thành công!");
+                    IsLogin = true;
+                    login.Hide();
+                    try
+                    {
+                        SqlCommand cmd2 = db.CreateCommand();
+                        cmd2.CommandType = CommandType.StoredProcedure;
+                        cmd2.CommandText = "TimKiemUser";
+                        cmd2.Parameters.AddWithValue("@Username", username_account.Text);
+                        SqlDataReader sdr = cmd2.ExecuteReader();
+                        sdr.Read();
+                        RoleName = sdr["RoleName"].ToString();
+                        if (RoleName == "NhanVien")
+                        {
+                            NhanVien_Window nv = new NhanVien_Window(UserName);
+                            nv.ShowDialog();
+                            login.Close();
+                        }
+                    }
+                    catch
+                    {
+                        MessageBox.Show("Lỗi hệ thống!");
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Sai tên đăng nhập hoặc mật khẩu!");
+                }
             }
-            else
+            catch
             {
-                MessageBox.Show("Sai tên đăng nhập hoặc mật khẩu!");
+                MessageBox.Show("Lỗi hệ thống!");
             }
+            
         }
         private void ClickRegister(object sender, RoutedEventArgs e)
         {

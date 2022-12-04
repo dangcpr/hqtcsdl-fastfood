@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using _08;
 
 namespace _08
 {
@@ -31,6 +32,7 @@ namespace _08
             if (login.IsLogin)
             {
                 main.Show();
+                
             }
             else
             {

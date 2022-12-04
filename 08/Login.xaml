@@ -21,7 +21,7 @@
             <Button Content="SUBMIT" Style="{StaticResource ButtonStyle}" Click="SubmitLogin" ToolTipService.ToolTip="Dang nhap"></Button>
             <TextBlock FontSize="20" HorizontalAlignment="Center">
                 <Italic>You don't have account?
-                <Hyperlink>Register</Hyperlink>
+                <Hyperlink Click="ClickRegister">Register</Hyperlink>
                 here</Italic>
             </TextBlock>
         </StackPanel>

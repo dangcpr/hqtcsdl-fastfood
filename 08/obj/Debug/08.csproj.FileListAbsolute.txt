@@ -8,6 +8,7 @@ D:\CNTT KHTN-HCM\3st year\HK5\HQTCSDL-PTBHuệ\Lab\08\08\bin\Debug\EntityFramewo
 D:\CNTT KHTN-HCM\3st year\HK5\HQTCSDL-PTBHuệ\Lab\08\08\obj\Debug\08.csprojAssemblyReference.cache
 D:\CNTT KHTN-HCM\3st year\HK5\HQTCSDL-PTBHuệ\Lab\08\08\obj\Debug\Login.g.cs
 D:\CNTT KHTN-HCM\3st year\HK5\HQTCSDL-PTBHuệ\Lab\08\08\obj\Debug\MainWindow.g.cs
+D:\CNTT KHTN-HCM\3st year\HK5\HQTCSDL-PTBHuệ\Lab\08\08\obj\Debug\NhanVien_Window.g.cs
 D:\CNTT KHTN-HCM\3st year\HK5\HQTCSDL-PTBHuệ\Lab\08\08\obj\Debug\Register.g.cs
 D:\CNTT KHTN-HCM\3st year\HK5\HQTCSDL-PTBHuệ\Lab\08\08\obj\Debug\App.g.cs
 D:\CNTT KHTN-HCM\3st year\HK5\HQTCSDL-PTBHuệ\Lab\08\08\obj\Debug\08_MarkupCompile.cache
@@ -15,6 +16,7 @@ D:\CNTT KHTN-HCM\3st year\HK5\HQTCSDL-PTBHuệ\Lab\08\08\obj\Debug\08_MarkupComp
 D:\CNTT KHTN-HCM\3st year\HK5\HQTCSDL-PTBHuệ\Lab\08\08\obj\Debug\App.baml
 D:\CNTT KHTN-HCM\3st year\HK5\HQTCSDL-PTBHuệ\Lab\08\08\obj\Debug\Login.baml
 D:\CNTT KHTN-HCM\3st year\HK5\HQTCSDL-PTBHuệ\Lab\08\08\obj\Debug\MainWindow.baml
+D:\CNTT KHTN-HCM\3st year\HK5\HQTCSDL-PTBHuệ\Lab\08\08\obj\Debug\NhanVien_Window.baml
 D:\CNTT KHTN-HCM\3st year\HK5\HQTCSDL-PTBHuệ\Lab\08\08\obj\Debug\Register.baml
 D:\CNTT KHTN-HCM\3st year\HK5\HQTCSDL-PTBHuệ\Lab\08\08\obj\Debug\Resource.baml
 D:\CNTT KHTN-HCM\3st year\HK5\HQTCSDL-PTBHuệ\Lab\08\08\obj\Debug\08.g.resources
@@ -24,4 +26,3 @@ D:\CNTT KHTN-HCM\3st year\HK5\HQTCSDL-PTBHuệ\Lab\08\08\obj\Debug\08.csproj.Cor
 D:\CNTT KHTN-HCM\3st year\HK5\HQTCSDL-PTBHuệ\Lab\08\08\obj\Debug\08.csproj.CopyComplete
 D:\CNTT KHTN-HCM\3st year\HK5\HQTCSDL-PTBHuệ\Lab\08\08\obj\Debug\08.exe
 D:\CNTT KHTN-HCM\3st year\HK5\HQTCSDL-PTBHuệ\Lab\08\08\obj\Debug\08.pdb
-D:\CNTT KHTN-HCM\3st year\HK5\HQTCSDL-PTBHuệ\Lab\08\08\obj\Debug\GeneratedInternalTypeHelper.g.cs
