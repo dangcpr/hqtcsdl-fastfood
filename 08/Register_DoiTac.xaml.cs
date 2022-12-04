@@ -58,14 +58,14 @@ namespace _08
                 }
                 else if (result == 1)
                 {
-                    
+
                     MessageBox.Show("Thông tin trống!");
 
                 }
                 else if (result == 2)
                 {
                     MessageBox.Show("Mã đối tác đã tồn tại!");
-                    
+
                 }
                 else if (result == 3)
                 {
@@ -82,6 +82,6 @@ namespace _08
                 MessageBox.Show("Lỗi hệ thống!");
             }
         }
-        
+
     }
 }
