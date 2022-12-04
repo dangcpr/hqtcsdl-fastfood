@@ -10,7 +10,7 @@
         Title="Register" FontSize="20" Height="500" Width="800" Background="#33FF99">
     <Border Style="{StaticResource BorderStyle}">
         <Grid>
-            <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+            <ScrollViewer Margin="10" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
                 <StackPanel>
                     <TextBlock Height="50" FontSize="25" Text="REGISTER INFORMATION" Style="{StaticResource TextBlockStyle}"></TextBlock>
                     <StackPanel Orientation="Horizontal" Margin="50 0">
@@ -36,9 +36,64 @@
                         <Label Style="{StaticResource LabelStyle}" Width="200" Content="Confirm Password"></Label>
                         <PasswordBox Style="{StaticResource PasswordBoxStyle}" x:Name="confirm_password" Width="400" ToolTipService.ToolTip="Nhap lai mat khau"></PasswordBox>
                     </StackPanel>
+                    
+                    <!--Thông tin đăng ký cho NhanVien-->
+                    <StackPanel x:Name="Register_NhanVien" Visibility="Collapsed">
+                        <StackPanel Orientation="Horizontal" Margin="50 0">
+                            <Label Style="{StaticResource LabelStyle}" Width="200" Content="Mã nhân viên"></Label>
+                            <TextBox Style="{StaticResource TextBoxStyle}" x:Name="MNV" IsEnabled="False" Width="400"></TextBox>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="50 0">
+                            <Label Style="{StaticResource LabelStyle}" Width="200" Content="Họ tên"></Label>
+                            <TextBox Style="{StaticResource TextBoxStyle}" x:Name="HoTenNV" Width="400" ToolTipService.ToolTip="Nhập họ tên"></TextBox>
+                        </StackPanel>
+                    </StackPanel>
+
+
+                    <!--Thông tin đăng ký cho QuanTri-->
+                    <StackPanel x:Name="Register_QuanTri" Visibility="Collapsed">
+                        <StackPanel Orientation="Horizontal" Margin="50 0">
+                            <Label Style="{StaticResource LabelStyle}" Width="200" Content="Mã quản trị viên"></Label>
+                            <TextBox Style="{StaticResource TextBoxStyle}" x:Name="MQT" IsEnabled="False" Width="400"></TextBox>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="50 0">
+                            <Label Style="{StaticResource LabelStyle}" Width="200" Content="Họ tên"></Label>
+                            <TextBox Style="{StaticResource TextBoxStyle}" x:Name="HoTenQTV" Width="400" ToolTipService.ToolTip="Nhập họ tên"></TextBox>
+                        </StackPanel>
+                    </StackPanel>
+
+
+                    <!--Thông tin đăng ký cho DoiTac-->
+                    <StackPanel x:Name="Register_DoiTac" Visibility="Collapsed">
+                        <StackPanel Orientation="Horizontal" Margin="50 0">
+                            <Label Style="{StaticResource LabelStyle}" Width="200" Content="Email"></Label>
+                            <TextBox Style="{StaticResource TextBoxStyle}" x:Name="Email" Width="400" ToolTipService.ToolTip="Nhập email"></TextBox>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="50 0">
+                            <Label Style="{StaticResource LabelStyle}" Width="200" Content="Tên quán/nhà hàng"></Label>
+                            <TextBox Style="{StaticResource TextBoxStyle}" x:Name="TenQuan" Width="400" ToolTipService.ToolTip="Nhập tên quán"></TextBox>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="50 0">
+                            <Label Style="{StaticResource LabelStyle}" Width="200" Content="Người đại diện"></Label>
+                            <TextBox Style="{StaticResource TextBoxStyle}" x:Name="NgDaiDien" Width="400" ToolTipService.ToolTip="Nhập tên người đại diện"></TextBox>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="50 0">
+                            <Label Style="{StaticResource LabelStyle}" Width="200" Content="Số lượng chi nhánh"></Label>
+                            <TextBox Style="{StaticResource TextBoxStyle}" x:Name="SLChiNhanh" Width="400" ToolTipService.ToolTip="Nhập số lượng chi nhánh"></TextBox>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="50 0">
+                            <Label Style="{StaticResource LabelStyle}" Width="200" Content="Loại ẩm thực"></Label>
+                            <TextBox Style="{StaticResource TextBoxStyle}" x:Name="LoaiTP" Width="400" ToolTipService.ToolTip="Nhập loại thực phẩm"></TextBox>
+                        </StackPanel>
+
+                    </StackPanel>
+                    
+                    
+                  
+                    
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                         <Button Style="{StaticResource ButtonStyle}" Content="Return" Click="ReturnLogin" ></Button>
-                        <Button Style="{StaticResource ButtonStyle}" Content="Next" Click="NextStepRegister"></Button>
+                        <Button Style="{StaticResource ButtonStyle}" Content="Register" Click="SubmitRegistration"></Button>
                     </StackPanel>
                     
                 </StackPanel>
