@@ -1,0 +1,76 @@
+﻿<Window x:Class="_08.NhanVien_Window"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:_08"
+        mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen"
+        Title="Nhân Viên" FontSize="20" Height="600" Width="1200" Background="#222">
+    <DockPanel LastChildFill="True">
+
+        <StackPanel DockPanel.Dock="Left" Width="200" Background="#CCFFFF">
+            
+            <Button Height="50" FontWeight="Bold" Background="#33FF99" Content="Thông tin cá nhân" Click="ShowTTCN"></Button>
+            <Button Height="50" FontWeight="Bold" Background="#33FF99" Content="Quản lý đối tác" Margin="0 10" Click="ShowQLDT"></Button>
+            <Button Height="50" FontWeight="Bold" Background="#33FF99" Content="Quản lý hợp đồng" Click="ShowQLHD"></Button>
+        </StackPanel>
+        <StackPanel Orientation="Vertical">
+            <StackPanel x:Name="ThongTinCaNhan" HorizontalAlignment="Center">
+                <StackPanel x:Name="InfoBox1" Orientation="Horizontal" Margin="20 20">
+                    <Label Foreground="WhiteSmoke" Style="{StaticResource LabelStyle}" Width="200" Content="Username"></Label>
+                    <TextBox Foreground="#FF0000" x:Name="UsernameBox" Style="{StaticResource TextBoxStyle}" IsEnabled="False" Width="400"></TextBox>
+                </StackPanel>
+                <StackPanel x:Name="InfoBox2" Orientation="Horizontal" Margin="20 20">
+                    <Label Foreground="WhiteSmoke" Style="{StaticResource LabelStyle}" Width="200" Content="Mã nhân viên"></Label>
+                    <TextBox Foreground="#FF0000" x:Name="MaNVBox" Style="{StaticResource TextBoxStyle}" IsEnabled="False" Width="400"></TextBox>
+                </StackPanel>
+                <StackPanel x:Name="InfoBox3" Orientation="Horizontal" Margin="20 20">
+                    <Label Foreground="WhiteSmoke" Style="{StaticResource LabelStyle}" Width="200" Content="Họ tên"></Label>
+                    <TextBox Foreground="#FF0000" x:Name="HoTenNVBox" Style="{StaticResource TextBoxStyle}" IsEnabled="False" Width="400"></TextBox>
+                </StackPanel>
+                <StackPanel x:Name="PassBox1" Orientation="Horizontal" Margin="20 20" Visibility="Collapsed">
+                    <Label Foreground="WhiteSmoke" Style="{StaticResource LabelStyle}" Width="200" Content="Nhập mật khẩu cũ"></Label>
+                    <PasswordBox Foreground="#FF0000" x:Name="OldPassBox" Style="{StaticResource PasswordBoxStyle}" Width="400"></PasswordBox>
+                </StackPanel>
+                <StackPanel x:Name="PassBox2" Orientation="Horizontal" Margin="20 20" Visibility="Collapsed">
+                    <Label Foreground="WhiteSmoke" Style="{StaticResource LabelStyle}" Width="200" Content="Nhập mật khẩu mới"></Label>
+                    <PasswordBox Foreground="#FF0000" x:Name="NewPassBox" Style="{StaticResource PasswordBoxStyle}" Width="400"></PasswordBox>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                    <StackPanel Orientation="Vertical">
+                        <Button x:Name="EditBtn" Style="{StaticResource ButtonStyle}" Click="Edit" Width="150" Height="70">
+                            <TextBlock Text="Chỉnh sửa thông tin" TextAlignment="Center" TextWrapping="Wrap"></TextBlock>
+                        </Button>
+                        <Button x:Name="SaveBtn" Style="{StaticResource ButtonStyle}" Content="Lưu" Click="Save" Width="150" Height="70" Visibility="Collapsed" ></Button>
+                    </StackPanel>
+                    <StackPanel Orientation="Vertical">
+                        <Button x:Name="ChangePassBtn" Style="{StaticResource ButtonStyle}" Width="150" Height="70" Click="DoiMatKhau">
+                            <TextBlock Text="Đổi mật khẩu" TextAlignment="Center" TextWrapping="Wrap"></TextBlock>
+                        </Button>
+                        <Button x:Name="SavePassBtn" Style="{StaticResource ButtonStyle}" Content="Lưu" Click="SavePass" Width="150" Height="70" Visibility="Collapsed" ></Button>
+                    </StackPanel>
+                </StackPanel>
+                
+                
+            </StackPanel>
+            <StackPanel x:Name="QuanLyDoiTac" Visibility="Collapsed">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                    <Button x:Name="DoiTac" Style="{StaticResource ButtonStyle}" Margin="0 30" Content="Hiển thị danh sách đối tác" Width="350" Click="HienThiDSDoiTac" ></Button>
+                </StackPanel>
+                <Grid>
+                    <DataGrid x:Name="dgDoiTac" Width="900" HorizontalAlignment="Center"></DataGrid>
+                </Grid>
+            </StackPanel>
+            <StackPanel x:Name="QuanLyHopDong" Visibility="Collapsed">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                    <Button x:Name="HopDong" Style="{StaticResource ButtonStyle}" Margin="0 30" Content="Hiển thị danh sách hợp đồng" Width="350" Click="HienThiDSHopDong" ></Button>
+                </StackPanel>
+                <Grid>
+                    <DataGrid x:Name="dgHopDong" Width="900" HorizontalAlignment="Center"></DataGrid>
+                </Grid>
+            </StackPanel>
+        </StackPanel>
+        
+    </DockPanel>
+</Window>
