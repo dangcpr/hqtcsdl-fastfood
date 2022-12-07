@@ -70,6 +70,9 @@
     <Compile Include="NhanVien_Window.xaml.cs">
       <DependentUpon>NhanVien_Window.xaml</DependentUpon>
     </Compile>
+    <Compile Include="QuanTri_Window.xaml.cs">
+      <DependentUpon>QuanTri_Window.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Register.xaml.cs">
       <DependentUpon>Register.xaml</DependentUpon>
     </Compile>
@@ -90,6 +93,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="NhanVien_Window.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="QuanTri_Window.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

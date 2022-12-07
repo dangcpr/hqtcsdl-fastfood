@@ -146,7 +146,6 @@ namespace _08
                     {
                         MessageBox.Show("Tạo tài khoản thành công!");
                         trans.Commit();
-                        
 
                         //NhanVien
                         if (RoleName == "NhanVien")

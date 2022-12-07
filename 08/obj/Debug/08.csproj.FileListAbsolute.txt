@@ -26,3 +26,5 @@ D:\CNTT KHTN-HCM\3st year\HK5\HQTCSDL-PTBHuệ\Lab\08\08\obj\Debug\08.csproj.Cor
 D:\CNTT KHTN-HCM\3st year\HK5\HQTCSDL-PTBHuệ\Lab\08\08\obj\Debug\08.csproj.CopyComplete
 D:\CNTT KHTN-HCM\3st year\HK5\HQTCSDL-PTBHuệ\Lab\08\08\obj\Debug\08.exe
 D:\CNTT KHTN-HCM\3st year\HK5\HQTCSDL-PTBHuệ\Lab\08\08\obj\Debug\08.pdb
+D:\CNTT KHTN-HCM\3st year\HK5\HQTCSDL-PTBHuệ\Lab\08\08\obj\Debug\QuanTri_Window.g.cs
+D:\CNTT KHTN-HCM\3st year\HK5\HQTCSDL-PTBHuệ\Lab\08\08\obj\Debug\QuanTri_Window.baml

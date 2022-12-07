@@ -11,6 +11,7 @@ CREATE TABLE USERS
 	Username varchar(20),
 	Pass varchar(30),
 	RoleName varchar(9),
+	TrangThai nvarchar(20),
 	PRIMARY KEY(Username)
 )
 
@@ -59,6 +60,7 @@ CREATE TABLE HOPDONG
 	NgayHetHan date,
 	MaDT varchar(10),
 	MaNV varchar(10),
+	TrangThai nvarchar(10),
 	Primary key(MaHD),
 	Foreign key(MaDT) references DOITAC(MaDT),
 	Foreign key(MaNV) references NHANVIEN(MaNV)
@@ -147,6 +149,43 @@ CREATE TABLE CHITIETDONDATHANG
 	Foreign key(MaTP,MaDT) references THUCPHAM(MaTP,MaDT)
 )
 
+create proc ThemUser
+	@Username varchar(20),
+	@Pass varchar(30),
+	@RoleName varchar(9)
+as
+begin tran ThemUser
+	begin try
+		if @Username='' or @Pass=''
+		begin 
+			print N'Thông tin trống'
+			select 1 as code
+			ROLLBACK TRAN ThemUser
+		end
+		if exists(select* from USERS where Username = @Username)
+		begin
+			print N'Username đã tồn tại'
+			select 2 as code
+			ROLLBACK TRAN ThemUser
+		end
+		if @RoleName != 'DoiTac' and @RoleName != 'KhachHang' and @RoleName != 'TaiXe' and @RoleName != 'NhanVien' and @RoleName != 'QuanTri'
+		begin
+			print N'Role name không hợp lệ!'
+			select 3 as code
+			ROLLBACK TRAN ThemUser
+		end
+		insert into USERS values(@Username,@Pass,@RoleName,N'Hoạt động')
+	end try
+	begin catch
+		print N'Lỗi hệ thống!'
+		select 4 as code
+		ROLLBACK TRAN ThemUser
+	END CATCH
+COMMIT TRAN ThemUser
+select 0 as code
+GO
+
+
 CREATE PROC LoginUser
 	@Username varchar(20),
 	@Pass varchar(30)
@@ -156,18 +195,24 @@ BEGIN TRAN
 		IF NOT EXISTS (SELECT * FROM USERS WHERE Username = @Username AND Pass = @Pass)
 		BEGIN
 			Print N'Sai tên đăng nhập hoặc mật khẩu!'
-			SELECT 1 AS code
+			SELECT 1
+			ROLLBACK TRAN
+		END
+		IF (SELECT TrangThai FROM USERS WHERE Username = @Username) = N'Bị khóa'
+		BEGIN
+			Print N'Tài khoản bị khóa!'
+			SELECT 2
 			ROLLBACK TRAN
 		END
 		
 	END TRY
 	BEGIN CATCH
 		print N'Lỗi hệ thống!'
-		SELECT 1 AS code
+		SELECT 3
 		ROLLBACK TRAN
 	END CATCH
 COMMIT TRAN
-SELECT 0 AS code
+SELECT 0
 GO
 
 CREATE PROC TimKiemUser
@@ -189,25 +234,262 @@ BEGIN TRAN
 COMMIT TRAN
 GO
 select * from USERS
-Select * from USERS where Username = 'vivu'
+
 CREATE PROC TimKiemNhanVien
-	@MaNV varchar(10)
+	@Username varchar(20)
 AS
-BEGIN TRAN
+BEGIN TRAN TimKiemNhanVien
 	BEGIN TRY
-		IF NOT EXISTS (SELECT * FROM NHANVIEN WHERE MaNV = @MaNV)
+		IF NOT EXISTS (SELECT * FROM NHANVIEN WHERE Username = @Username)
 		BEGIN
-			Print @MaNV + N' không tồn tại!'
-			ROLLBACK TRAN
+			Print @Username + N' không tồn tại!'
+			ROLLBACK TRAN TimKiemNhanVien
 		END
-		SELECT * FROM NHANVIEN WHERE MaNV = @MaNV
+		SELECT * FROM NHANVIEN WHERE Username = @Username
 	END TRY
 	BEGIN CATCH
 		print N'Lỗi hệ thống!'
-		ROLLBACK TRAN
+		ROLLBACK TRAN TimKiemNhanVien
 	END CATCH
-COMMIT TRAN
+COMMIT TRAN TimKiemNhanVien
 GO
+
+create proc ThemNhanVien
+	@MaNV varchar(10),
+	@HoTen nvarchar(30),
+	@Username varchar(20)
+as
+begin tran ThemNhanVien
+	begin try
+		if @MaNV='' or @HoTen=''
+		begin 
+			print N'Thông tin trống'
+			Select 1
+			rollback tran ThemNhanVien
+			
+		end
+		if exists(select* from NHANVIEN where MaNV=@MaNV)
+		begin
+			print N'Mã nhân viên đã tồn tại'
+			Select 2
+			rollback tran ThemNhanVien
+			
+		end
+		insert into NhanVien values(@MaNV,@HoTen,@Username)
+	end try
+	begin catch
+		print N'Lỗi hệ thống!'
+		ROLLBACK TRAN ThemNhanVien
+	END CATCH
+COMMIT TRAN ThemNhanVien
+Select 0
+GO
+
+Exec ThemNhanVien '0001',N'Lê Long', null
+
+Exec ThemNhanVien '0001',N'Lê Long', null
+
+Exec ThemNhanVien '',N'', null
+
+Exec ThemNhanVien '0002',N'Hoàng Xuân Huấn', null
+
+Exec ThemNhanVien '0004',N'Nguyễn Bách Khá', null
+
+Exec ThemNhanVien '0005',N'Phạm Lê Phú', null
+
+CREATE PROC CapNhatNhanVien
+	@MaNV varchar(10),
+	@HoTen nvarchar(30),
+	@Username varchar(20)
+AS
+BEGIN TRAN CapNhatNhanVien
+	BEGIN TRY
+		DECLARE @OldUsername varchar(20)
+		SET @OldUsername = (Select Username from NHANVIEN where MaNV = @MaNV)
+		IF NOT EXISTS (SELECT * FROM NHANVIEN WHERE MaNV = @MaNV)
+		BEGIN
+			Print N'Nhân viên không tồn tại!'
+			Select 1
+			ROLLBACK TRAN CapNhatNhanVien
+		END
+		IF EXISTS (SELECT * FROM USERS WHERE Username != @OldUsername AND Username = @Username)
+		BEGIN
+			Print N'Username mới đã tồn tại!'
+			Select 2
+			ROLLBACK TRAN CapNhatNhanVien
+		END
+		Update NHANVIEN
+		SET Username = null
+		where MaNV = @MaNV
+		Update USERS
+		SET Username = @Username
+		where Username = @OldUsername
+		Update NHANVIEN
+		SET HoTen = @HoTen, Username = @Username
+		where MaNV = @MaNV
+	END TRY
+	BEGIN CATCH
+		print N'Lỗi hệ thống!'
+		ROLLBACK TRAN CapNhatNhanVien
+	END CATCH
+COMMIT TRAN CapNhatNhanVien
+Select 0
+GO
+
+
+CREATE PROC TimKiemQuanTri
+	@Username varchar(20)
+AS
+BEGIN TRAN TimKiemQuanTri
+	BEGIN TRY
+		IF NOT EXISTS (SELECT * FROM QUANTRI WHERE Username = @Username)
+		BEGIN
+			Print @Username + N' không tồn tại!'
+			ROLLBACK TRAN TimKiemQuanTri
+		END
+		SELECT * FROM QUANTRI WHERE Username = @Username
+	END TRY
+	BEGIN CATCH
+		print N'Lỗi hệ thống!'
+		ROLLBACK TRAN TimKiemQuanTri
+	END CATCH
+COMMIT TRAN TimKiemQuanTri
+GO
+
+create proc ThemQuanTri
+	@MaQT varchar(10),
+	@HoTen nvarchar(30),
+	@Username varchar(20)
+as
+begin tran ThemQuanTri
+	begin try
+		if @MaQT='' or @HoTen=''
+		begin 
+			print N'Thông tin trống'
+			Select 1
+			rollback tran ThemQuanTri
+			
+		end
+		if exists(select* from QUANTRI where MaQT=@MaQT)
+		begin
+			print N'Mã quản trị viên đã tồn tại'
+			Select 2
+			rollback tran ThemQuanTri
+			
+		end
+		insert into QUANTRI values(@MaQT,@HoTen,@Username)
+	end try
+	begin catch
+		print N'Lỗi hệ thống!'
+		ROLLBACK TRAN ThemQuanTri
+	END CATCH
+COMMIT TRAN ThemQuanTri
+Select 0
+GO
+
+CREATE PROC CapNhatQuanTri
+	@MaQT varchar(10),
+	@HoTen nvarchar(30),
+	@Username varchar(20)
+AS
+BEGIN TRAN CapNhatQuanTri
+	BEGIN TRY
+		DECLARE @OldUsername varchar(20)
+		SET @OldUsername = (Select Username from QUANTRI where MaQT = @MaQT)
+		IF NOT EXISTS (SELECT * FROM QUANTRI WHERE MaQT = @MaQT)
+		BEGIN
+			Print N'Quản trị viên không tồn tại!'
+			Select 1
+			ROLLBACK TRAN CapNhatQuanTri
+		END
+		IF EXISTS (SELECT * FROM USERS WHERE Username != @OldUsername AND Username = @Username)
+		BEGIN
+			Print N'Username mới đã tồn tại!'
+			Select 2
+			ROLLBACK TRAN CapNhatQuanTri
+		END
+		Update QUANTRI
+		SET Username = null
+		where MaQT = @MaQT
+		Update USERS
+		SET Username = @Username
+		where Username = @OldUsername
+		Update QUANTRI
+		SET HoTen = @HoTen, Username = @Username
+		where MaQT = @MaQT
+	END TRY
+	BEGIN CATCH
+		print N'Lỗi hệ thống!'
+		ROLLBACK TRAN CapNhatQuanTri
+	END CATCH
+COMMIT TRAN CapNhatQuanTri
+Select 0
+GO
+
+
+CREATE PROC DoiMatKhau
+	@Username varchar(20),
+	@OldPass varchar(30),
+	@NewPass varchar(30)
+AS
+BEGIN TRAN DoiMatKhau
+	BEGIN TRY
+		IF NOT EXISTS (SELECT * FROM USERS WHERE Username = @Username)
+		BEGIN
+			Print N'Username không tồn tại!'
+			Select 1
+			ROLLBACK TRAN DoiMatKhau
+		END
+		IF EXISTS (SELECT * FROM USERS WHERE Username = @Username AND Pass != @OldPass)
+		BEGIN
+			Print N'Sai mật khẩu!'
+			Select 2
+			ROLLBACK TRAN DoiMatKhau
+		END
+		Update USERS
+		SET Pass = @NewPass
+		where Username = @Username
+		
+	END TRY
+	BEGIN CATCH
+		print N'Lỗi hệ thống!'
+		ROLLBACK TRAN DoiMatKhau
+	END CATCH
+COMMIT TRAN DoiMatKhau
+Select 0
+GO
+
+CREATE PROC DuyetHopDong
+	@MaHD varchar(10),
+	@ThoiHan nvarchar(10),
+	@NgayHetHan date
+AS
+BEGIN TRAN DuyetHopDong
+	BEGIN TRY
+		IF NOT EXISTS (SELECT * FROM HOPDONG WHERE MaHD = @MaHD)
+		BEGIN
+			Print @MaHD + N' không tồn tại!'
+			select 1
+			ROLLBACK TRAN DuyetHopDong
+		END
+		IF (SELECT TrangThai FROM HOPDONG WHERE MaHD = @MaHD) = N'Đã duyệt'
+		BEGIN
+			Print @MaHD + N' đã được duyệt!'
+			select 2
+			ROLLBACK TRAN DuyetHopDong
+		END
+		update HOPDONG
+		set TrangThai = N'Đã duyệt', NgayKy = GETDATE(), ThoiHan = @ThoiHan, NgayHetHan = @NgayHetHan
+		where MaHD = @MaHD
+	END TRY
+	BEGIN CATCH
+		print N'Lỗi hệ thống!'
+		ROLLBACK TRAN DuyetHopDong
+	END CATCH
+COMMIT TRAN DuyetHopDong
+select 0
+GO
+
 
 CREATE PROC TimKiemDoiTac
 	@MaDT varchar(10)
@@ -368,48 +650,8 @@ GO
 /* Tạo dữ liệu cho CSDL
 Người làm: 20120592 - Lê Minh Tiến*/
 
-create proc ThemUser
-	@Username varchar(20),
-	@Pass varchar(30),
-	@RoleName varchar(9)
-as
-begin tran ThemUser
-	begin try
-		if @Username='' or @Pass=''
-		begin 
-			print N'Thông tin trống'
-			select 1 as code
-			ROLLBACK TRAN ThemUser
-		end
-		if exists(select* from USERS where Username = @Username)
-		begin
-			print N'Username đã tồn tại'
-			select 2 as code
-			ROLLBACK TRAN ThemUser
-		end
-		if @RoleName != 'DoiTac' and @RoleName != 'KhachHang' and @RoleName != 'TaiXe' and @RoleName != 'NhanVien' and @RoleName != 'QuanTri'
-		begin
-			print N'Role name không hợp lệ!'
-			select 3 as code
-			ROLLBACK TRAN ThemUser
-		end
-		insert into USERS values(@Username,@Pass,@RoleName)
-	end try
-	begin catch
-		print N'Lỗi hệ thống!'
-		select 4 as code
-		ROLLBACK TRAN ThemUser
-	END CATCH
-COMMIT TRAN ThemUser
-select 0 as code
-GO
-DROP PROC ThemUser
 
-select * from USERS
-exec ThemUser 'vvmd','123456', 'QuanTri'
-exec ThemUser 'lmt','123456', 'NhanVien'
-exec ThemUser 'nhd','123456', 'DoiTac'
-exec ThemUser 'mqv','123456', 'KhachHang'
+
 --Thêm proc
 --1. Thêm nhân viên
 --Mô tả:
@@ -417,80 +659,6 @@ exec ThemUser 'mqv','123456', 'KhachHang'
 --output: 0- thành công 1- thêm không thành công
 --Kiểm tra thông tin nhập không được rỗng
 --Kiểm tra mã nhân viên thêm vào đã tồn tại
-create proc ThemNhanVien
-	@MaNV varchar(10),
-	@HoTen nvarchar(30),
-	@Username varchar(20)
-as
-begin tran ThemNhanVien
-	begin try
-		if @MaNV='' or @HoTen=''
-		begin 
-			print N'Thông tin trống'
-			Select 1
-			rollback tran ThemNhanVien
-			
-		end
-		if exists(select* from NHANVIEN where MaNV=@MaNV)
-		begin
-			print N'Mã nhân viên đã tồn tại'
-			Select 2
-			rollback tran ThemNhanVien
-			
-		end
-		insert into NhanVien values(@MaNV,@HoTen,@Username)
-	end try
-	begin catch
-		print N'Lỗi hệ thống!'
-		ROLLBACK TRAN ThemNhanVien
-	END CATCH
-COMMIT TRAN ThemNhanVien
-Select 0
-GO
-
-Exec sp_Them_Nhan_Vien '0001',N'Lê Long'
-
-Exec sp_Them_Nhan_Vien '0001',N'Lê Long'
-
-Exec sp_Them_Nhan_Vien '',N''
-
-Exec sp_Them_Nhan_Vien '0002',N'Hoàng Xuân Huấn'
-
-Exec sp_Them_Nhan_Vien '0004',N'Nguyễn Bách Khá'
-
-Exec sp_Them_Nhan_Vien '0005',N'Phạm Lê Phú'
-
-
-create proc ThemQuanTri
-	@MaQT varchar(10),
-	@HoTen nvarchar(30),
-	@Username varchar(20)
-as
-begin tran ThemQuanTri
-	begin try
-		if @MaQT='' or @HoTen=''
-		begin 
-			print N'Thông tin trống'
-			Select 1
-			rollback tran ThemQuanTri
-			
-		end
-		if exists(select* from QUANTRI where MaQT=@MaQT)
-		begin
-			print N'Mã quản trị viên đã tồn tại'
-			Select 2
-			rollback tran ThemQuanTri
-			
-		end
-		insert into QUANTRI values(@MaQT,@HoTen,@Username)
-	end try
-	begin catch
-		print N'Lỗi hệ thống!'
-		ROLLBACK TRAN ThemQuanTri
-	END CATCH
-COMMIT TRAN ThemQuanTri
-Select 0
-GO
 
 
 --2. Thêm 1 đôí tác
@@ -539,12 +707,12 @@ COMMIT TRAN ThemDoiTac
 select 0
 GO
 
-Exec sp_Them_Doi_Tac '0001','0001@gmail.com',N'Lee Chong Way',0,N'Cafe Hai Len',N'Cà phê'
-Exec sp_Them_Doi_Tac '0002','0002@gmail.com',N'Lê Nguyên Vũ',0,N'Trà sữa KoKo',N'Trà sữa'
-Exec sp_Them_Doi_Tac '0003','0003@gmail.com',N'Trần Uy',0,N'Bánh mì Ngon',N'Bánh mì'
-Exec sp_Them_Doi_Tac '0004','0004@gmail.com',N'Ngô Văn Quyền',0,N'Cơm Ngô Quyền',N'Cơm'
-Exec sp_Them_Doi_Tac '0005','0005@gmail.com',N'Nguyên Văn Kí',0,N'Cơm Nguyên Kí',N'Cơm'
-
+Exec ThemDoiTac '0001','0001@gmail.com',N'Lee Chong Way',0,N'Cafe Hai Len',N'Cà phê', null
+Exec ThemDoiTac '0002','0002@gmail.com',N'Lê Nguyên Vũ',0,N'Trà sữa KoKo',N'Trà sữa', null
+Exec ThemDoiTac '0003','0003@gmail.com',N'Trần Uy',0,N'Bánh mì Ngon',N'Bánh mì', null
+Exec ThemDoiTac '0004','0004@gmail.com',N'Ngô Văn Quyền',0,N'Cơm Ngô Quyền',N'Cơm', null
+Exec ThemDoiTac '0005','0005@gmail.com',N'Nguyên Văn Kí',0,N'Cơm Nguyên Kí',N'Cơm', null
+select * from DOITAC
 
 --3. Thêm hợp đồng
 --Mô tả:
@@ -599,7 +767,7 @@ as
 			from DoiTac
 			where MaDT=@MaDT
 			insert into HopDong values
-			(@MaHD,@NgDaiDien,@SLChiNhanh,@SoTaiKhoan,@NganHang,@CNNganHang,@MaSoThue,@NgayKy,@ThoiHan,@NgayHetHan,@MaDT,@MaNV)
+			(@MaHD,@NgDaiDien,@SLChiNhanh,@SoTaiKhoan,@NganHang,@CNNganHang,@MaSoThue,@NgayKy,@ThoiHan,@NgayHetHan,@MaDT,@MaNV, N'Chờ duyệt')
 		end try
 		begin catch
 			print N'Lỗi hệ thống!'
@@ -609,12 +777,8 @@ as
 COMMIT TRAN
 RETURN 0
 GO
-Exec sp_Them_Hop_Dong '01',0,'789','Agribank',N'CN.Thủ Đức','KD01','2020-1-10',N'3 năm','2023-1-10','0001','0001'
-Exec sp_Them_Hop_Dong '02',0,'789','BIDV',N'CN.Thủ Đức','KD01','2020-1-10',N'4 năm','2024-1-10','0004','0003'
-Exec sp_Them_Hop_Dong '03',0,'987','Vietcombank',N'CN.Thủ Đức','KD01','2021-1-10',N'5 năm','2026-1-10','0003','0004'
-Exec sp_Them_Hop_Dong '03',0,'987','Vietcombank',N'CN.Thủ Đức','KD01','2021-1-10',N'5 năm','2026-1-10','0003','0009'
-Exec sp_Them_Hop_Dong '05',0,'987','Vietcombank',N'CN.Thủ Đức','KD01','2021-1-10',N'5 năm','2026-1-10','0009','0001'
-
+drop proc sp_Them_Hop_Dong
+a
 --4.Thêm chi nhánh
 --Mô tả
 --input: các thông tin của chi nhánh
