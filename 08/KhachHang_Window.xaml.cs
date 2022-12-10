@@ -111,6 +111,7 @@ namespace _08
             ResetVisibility();
             MonAn.Visibility = Visibility.Visible;
             items.Clear();
+            Total.Content = "0";
             TotalFee = 20000;
             
             BangMonAnDaDat.Items.Clear();

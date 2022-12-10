@@ -15,7 +15,7 @@
         </StackPanel>
         <ScrollViewer Margin="10" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
 
-            <StackPanel x:Name="Infomation" >
+            <StackPanel x:Name="Infomation" Visibility="Collapsed">
             <StackPanel Orientation="Horizontal" Margin="20 5">
                 <Label Foreground="WhiteSmoke" Style="{StaticResource LabelStyle}" Width="200" Content="Mã tài xế"></Label>
                 <TextBox Foreground="WhiteSmoke" Style="{StaticResource TextBoxStyle}" x:Name="TMaTX" IsEnabled="False" Width="300"></TextBox>
@@ -66,15 +66,15 @@
         </ScrollViewer>
         <ScrollViewer Margin="10" VerticalScrollBarVisibility="Auto">
 
-            <StackPanel x:Name="PhucVu" Margin="0,0,0,0" Width="568" Visibility="Collapsed">
+            <StackPanel x:Name="PhucVu" Margin="0,0,0,0" Width="568" >
                 <StackPanel Orientation="Horizontal" Margin="20 20">
                     <Label Foreground="WhiteSmoke" Style="{StaticResource LabelStyle}" Width="300" Content="Chọn đơn hàng muốn phục vụ"></Label>
                     <ComboBox HorizontalAlignment="Left" SelectedIndex="0" x:Name="DonHang" SelectionChanged = "ChonDonHang" Width="170" Height="40"/>
                 </StackPanel>
                 <Button Margin="20 10" Height="50" FontWeight="Bold" Background="Orange" Content="Xác nhận phục vụ" Width="224" x:Name="SubmitPhucVu" Click="ClickPhucVu"></Button>
                 <Button Margin="20 10" Height="50" FontWeight="Bold" Background="Orange" Content="Reload bảng" Width="224" x:Name="SubmitReload" Click="ClickReload"></Button>
-                <Grid>
-                    <DataGrid Name="BangPhucVu" Margin="20 10 20 10"/>
+                <Grid Margin="0,0,19,0">
+                    <DataGrid Name="BangPhucVu" Margin="20,12,39,9.8"/>
                 </Grid>
             </StackPanel>
         </ScrollViewer>
