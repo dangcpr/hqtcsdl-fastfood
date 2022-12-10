@@ -67,16 +67,10 @@ namespace _08
                             nv.ShowDialog();
                             login.Close();
                         }
-                        if (RoleName == "KhachHang")
+                        if (RoleName == "QuanTri")
                         {
-                            KhachHang_Window kh = new KhachHang_Window(UserName);
-                            kh.ShowDialog();
-                            login.Close();
-                        }
-                        if (RoleName == "TaiXe")
-                        {
-                            TaiXe_Window tx = new TaiXe_Window(UserName);
-                            tx.ShowDialog();
+                            QuanTri_Window qt = new QuanTri_Window(UserName);
+                            qt.ShowDialog();
                             login.Close();
                         }
                     }
@@ -85,9 +79,17 @@ namespace _08
                         MessageBox.Show("Lỗi hệ thống!");
                     }
                 }
-                else
+                else if (result == 1)
                 {
                     MessageBox.Show("Sai tên đăng nhập hoặc mật khẩu!");
+                }
+                else if (result == 2)
+                {
+                    MessageBox.Show("Tài khoản bị khóa không thể đăng nhập!");
+                }
+                else
+                {
+                    MessageBox.Show("Lỗi hệ thống!");
                 }
             }
             catch
