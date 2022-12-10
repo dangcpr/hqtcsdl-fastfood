@@ -26,3 +26,31 @@ D:\CNTT KHTN-HCM\3st year\HK5\HQTCSDL-PTBHuệ\Lab\08\08\obj\Debug\08.csproj.Cor
 D:\CNTT KHTN-HCM\3st year\HK5\HQTCSDL-PTBHuệ\Lab\08\08\obj\Debug\08.csproj.CopyComplete
 D:\CNTT KHTN-HCM\3st year\HK5\HQTCSDL-PTBHuệ\Lab\08\08\obj\Debug\08.exe
 D:\CNTT KHTN-HCM\3st year\HK5\HQTCSDL-PTBHuệ\Lab\08\08\obj\Debug\08.pdb
+D:\hqtcsdl-fastfood\08\bin\Debug\08.exe.config
+D:\hqtcsdl-fastfood\08\bin\Debug\08.exe
+D:\hqtcsdl-fastfood\08\bin\Debug\08.pdb
+D:\hqtcsdl-fastfood\08\bin\Debug\EntityFramework.dll
+D:\hqtcsdl-fastfood\08\bin\Debug\EntityFramework.SqlServer.dll
+D:\hqtcsdl-fastfood\08\bin\Debug\EntityFramework.xml
+D:\hqtcsdl-fastfood\08\bin\Debug\EntityFramework.SqlServer.xml
+D:\hqtcsdl-fastfood\08\obj\Debug\08.csproj.AssemblyReference.cache
+D:\hqtcsdl-fastfood\08\obj\Debug\Login.g.cs
+D:\hqtcsdl-fastfood\08\obj\Debug\NhanVien_Window.g.cs
+D:\hqtcsdl-fastfood\08\obj\Debug\QuanTri_Window.g.cs
+D:\hqtcsdl-fastfood\08\obj\Debug\Register.g.cs
+D:\hqtcsdl-fastfood\08\obj\Debug\App.g.cs
+D:\hqtcsdl-fastfood\08\obj\Debug\08_MarkupCompile.cache
+D:\hqtcsdl-fastfood\08\obj\Debug\08_MarkupCompile.lref
+D:\hqtcsdl-fastfood\08\obj\Debug\App.baml
+D:\hqtcsdl-fastfood\08\obj\Debug\Login.baml
+D:\hqtcsdl-fastfood\08\obj\Debug\NhanVien_Window.baml
+D:\hqtcsdl-fastfood\08\obj\Debug\QuanTri_Window.baml
+D:\hqtcsdl-fastfood\08\obj\Debug\Register.baml
+D:\hqtcsdl-fastfood\08\obj\Debug\Resource.baml
+D:\hqtcsdl-fastfood\08\obj\Debug\08.g.resources
+D:\hqtcsdl-fastfood\08\obj\Debug\_08.Properties.Resources.resources
+D:\hqtcsdl-fastfood\08\obj\Debug\08.csproj.GenerateResource.cache
+D:\hqtcsdl-fastfood\08\obj\Debug\08.csproj.CoreCompileInputs.cache
+D:\hqtcsdl-fastfood\08\obj\Debug\08.csproj.CopyComplete
+D:\hqtcsdl-fastfood\08\obj\Debug\08.exe
+D:\hqtcsdl-fastfood\08\obj\Debug\08.pdb
