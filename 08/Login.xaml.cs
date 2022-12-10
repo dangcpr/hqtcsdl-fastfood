@@ -24,6 +24,7 @@ namespace _08
     public partial class Login : Window
     {
         public string UserName = "";
+        string RoleName = "";
         public bool IsLogin = false;
         public Login()
         {
@@ -34,31 +35,8 @@ namespace _08
 
         private void SubmitLogin(object sender, RoutedEventArgs e)
         {
-            //DataProvider.Ins.DB.SaveChanges();
-            //var result = DataProvider.Ins.DB.TimKiemUser(username_account.Text).FirstOrDefault();
-            //DataProvider.Ins.DB.SaveChanges();
-            //if (result == null)
-            //{
-            //    IsLogin = false;
-            //    MessageBox.Show("Sai tên đăng nhập hoặc mật khẩu!");
-            //}
-            //else
-            //{
-            //    if (result.Pass != password_account.Password)
-            //    {
-            //        IsLogin = false;
-            //        MessageBox.Show("Sai tên đăng nhập hoặc mật khẩu!");
-            //    }
-            //    else
-            //    {
-            //        IsLogin = true;
-            //        MessageBox.Show("Đăng nhập thành công!");
-            //        login.Close();
-
-            //    }
-
-            //}
-            SqlConnection db = new SqlConnection("server=DANG; database=GIAONHANHANG; integrated security = true");
+            
+            SqlConnection db = new SqlConnection("Server=.;Database=GIAONHANHANG;integrated security = true");
             try
             {
                 db.Open();
@@ -73,17 +51,76 @@ namespace _08
                 {
                     MessageBox.Show("Đăng nhập thành công!");
                     IsLogin = true;
-                    login.Close();
+                    login.Hide();
+                    try
+                    {
+                        SqlCommand cmd2 = db.CreateCommand();
+                        cmd2.CommandType = CommandType.StoredProcedure;
+                        cmd2.CommandText = "TimKiemUser";
+                        cmd2.Parameters.AddWithValue("@Username", username_account.Text);
+                        SqlDataReader sdr = cmd2.ExecuteReader();
+                        sdr.Read();
+                        RoleName = sdr["RoleName"].ToString();
+                        if (RoleName == "NhanVien")
+                        {
+                            NhanVien_Window nv = new NhanVien_Window(UserName);
+                            nv.ShowDialog();
+                            login.Close();
+                        }
+                        if (RoleName == "KhachHang")
+                        {
+                            KhachHang_Window kh = new KhachHang_Window(UserName);
+                            kh.ShowDialog();
+                            login.Close();
+                        }
+                        if (RoleName == "TaiXe")
+                        {
+                            TaiXe_Window tx = new TaiXe_Window(UserName);
+                            tx.ShowDialog();
+                            login.Close();
+                        }
+                        if (RoleName == "NhanVien")
+                        {
+                            NhanVien_Window nv = new NhanVien_Window(UserName);
+                            nv.ShowDialog();
+                            login.Close();
+                        }
+                        if (RoleName == "QuanTri")
+                        {
+                            QuanTri_Window qt = new QuanTri_Window(UserName);
+                            qt.ShowDialog();
+                            login.Close();
+                        }
+                        if (RoleName == "DoiTac")
+                        {
+                            DoiTacWindow dt = new DoiTacWindow(UserName);
+                            dt.ShowDialog();
+                            login.Close();
+                        }
+                    }
+                    catch
+                    {
+                        MessageBox.Show("Lỗi hệ thống!");
+                    }
+                }
+                else if (result == 1)
+                {
+                    MessageBox.Show("Sai tên đăng nhập hoặc mật khẩu!");
+                }
+                else if (result == 2)
+                {
+                    MessageBox.Show("Tài khoản bị khóa không thể đăng nhập!");
                 }
                 else
                 {
-                    MessageBox.Show("Sai tên đăng nhập hoặc mật khẩu!");
+                    MessageBox.Show("Lỗi hệ thống!");
                 }
             }
             catch
             {
                 MessageBox.Show("Lỗi hệ thống!");
             }
+
             
         }
         private void ClickRegister(object sender, RoutedEventArgs e)

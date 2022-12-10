@@ -1,0 +1,122 @@
+﻿<Window x:Class="_08.KhachHang_Window"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:_08"
+        mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen"
+        Title="Khách Hàng" FontSize="20" Height="500" Width="800" Background="#222">
+    <DockPanel LastChildFill="True">
+        <StackPanel DockPanel.Dock="Left" Width="200" Background="#CCFFFF">
+            <Button Height="50" FontWeight="Bold" Background="#33FF99" Content="Thông tin cá nhân" Click="GetInfo"></Button>
+            <Button Height="50" FontWeight="Bold" Background="#33FF99" Content="Danh sách đối tác" Click="SelectDoiTac" ></Button>
+            <Button Height="50" FontWeight="Bold" Background="#33FF99" Content="Tìm kiếm/Đặt hàng" Click="GetMonAn"></Button>
+            <Button Height="50" FontWeight="Bold" Background="#33FF99" Content="Theo dõi đơn hàng" Click="TDDH"></Button>
+        </StackPanel>
+        <StackPanel x:Name="Infomation" Margin="0,0,0,0" Width="574" >
+            <StackPanel Orientation="Horizontal" Margin="20 5">
+                <Label Foreground="WhiteSmoke" Style="{StaticResource LabelStyle}" Width="200" Content="Mã khách hàng"></Label>
+                <TextBox Foreground="WhiteSmoke" Style="{StaticResource TextBoxStyle}" x:Name="CMaKH" IsEnabled="False" Width="300"></TextBox>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="20 5">
+                <Label Foreground="WhiteSmoke" Style="{StaticResource LabelStyle}" Width="200" Content="Email"></Label>
+                <TextBox Style="{StaticResource TextBoxStyle}" x:Name="CEmail" Width="300" ToolTipService.ToolTip="Nhập email"></TextBox>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="20 5">
+                <Label Foreground="WhiteSmoke" Style="{StaticResource LabelStyle}" Width="200" Content="Họ và tên"></Label>
+                <TextBox Style="{StaticResource TextBoxStyle}" x:Name="CHoTen" Width="300" ToolTipService.ToolTip="Nhập tên quán"></TextBox>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="20 5">
+                <Label Foreground="WhiteSmoke" Style="{StaticResource LabelStyle}" Width="200" Content="Số điện thoại"></Label>
+                <TextBox Style="{StaticResource TextBoxStyle}" x:Name="CSDT" Width="300" ToolTipService.ToolTip="Nhập tên người đại diện"></TextBox>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="20 5">
+                <Label Foreground="WhiteSmoke" Style="{StaticResource LabelStyle}" Width="200" Content="Địa chỉ"></Label>
+                <TextBox Style="{StaticResource TextBoxStyle}" x:Name="CDiaChi" Width="300" ToolTipService.ToolTip="Nhập số lượng chi nhánh"></TextBox>
+            </StackPanel>
+
+            <Button Margin="20 10" Height="50" FontWeight="Bold" Background="Orange" Content="Cập nhật thông tin" Width="224" x:Name="UpdateInfo" Click="ClickUpdateInfo"></Button>
+
+        </StackPanel>
+        <StackPanel x:Name="DoiTac" Visibility="Collapsed">
+            <Grid>
+                <DataGrid Name="BangDoiTac" Margin="20 10 20 10"/>
+            </Grid>
+        </StackPanel>
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+
+            <StackPanel x:Name="MonAn" Margin="0,0,0,0.4"  Visibility="Collapsed" >
+                <!--<StackPanel Orientation="Horizontal" Margin="20 20">
+                <Label Foreground="WhiteSmoke" Style="{StaticResource LabelStyle}" Width="200" Content="Mã đối tác"></Label>
+                <TextBox Style="{StaticResource TextBoxStyle}" x:Name="MaDT" Width="300"></TextBox>
+            </StackPanel>-->
+                <!--<StackPanel Orientation="Horizontal" Margin="20 20">
+                <Label Foreground="WhiteSmoke" Style="{StaticResource LabelStyle}" Width="200" Content="Mã đối tác"></Label>
+                <TextBox Style="{StaticResource TextBoxStyle}" x:Name="MaDT" Width="300"></TextBox>
+            </StackPanel>-->
+                <Label Foreground="WhiteSmoke" Style="{StaticResource LabelStyle}" Content="CÁC MÓN ĂN CÓ THỂ ĐẶT" HorizontalContentAlignment="Center"/>
+                <Grid>
+                    <DataGrid x:Name="BangMonAn" Margin="10 10 10 10"/>
+                </Grid>
+                <Label Foreground="WhiteSmoke" Style="{StaticResource LabelStyle}" Content="KHU VỰC ĐẶT HÀNG" HorizontalContentAlignment="Center"/>
+                <StackPanel Orientation="Horizontal" Margin="20 5">
+                    <Label Foreground="WhiteSmoke" Style="{StaticResource LabelStyle}" Width="200" Content="Mã đơn hàng"/>
+                    <TextBox Foreground="WhiteSmoke" Style="{StaticResource TextBoxStyle}" x:Name="CMaDH" IsEnabled="False" Width="300"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="20 0">
+                    <Label Foreground="WhiteSmoke" Style="{StaticResource LabelStyle}" Width="200" Content="Mã đối tác"/>
+                    <ComboBox HorizontalAlignment="Left" SelectedIndex="0" x:Name="MaDT" SelectionChanged = "ChonDoiTac" Width="170" Height="40"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="20 0">
+                    <Label Foreground="WhiteSmoke" Style="{StaticResource LabelStyle}" Width="200" Content="Mã món ăn"/>
+                    <ComboBox HorizontalAlignment="Left" SelectedIndex="0" x:Name="MaTP" SelectionChanged = "ListMonAn" Width="170" Height="40"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="20 0">
+                    <Label Foreground="WhiteSmoke" Style="{StaticResource LabelStyle}" Width="200" Content="Số lượng"/>
+                    <TextBox Foreground="Black" Style="{StaticResource TextBoxStyle}" x:Name="CSoLuong" Width="300"/>
+                </StackPanel>
+
+                <Button Height="50" FontWeight="Bold" Background="Orange" Content="Thêm món ăn" Width="224" x:Name="InsertMonAn" Click="ClickInsertMonAn"/>
+                <Label Foreground="WhiteSmoke" Style="{StaticResource LabelStyle}" Content="CÁC MÓN ĐÃ ĐẶT" HorizontalContentAlignment="Center"/>
+                <Grid>
+                    <DataGrid x:Name="BangMonAnDaDat" Margin="10 10 10 10" ItemsSource="{Binding MySource}" Loaded="DataGrid_Loaded"/>
+                </Grid>
+                <StackPanel Orientation="Horizontal" Margin="20 0">
+                    <Label Foreground="WhiteSmoke" Style="{StaticResource LabelStyle}" Width="373" Content="Tổng số tiền (đã bao gồm 20000đ ship): "/>
+                    <Label Foreground="WhiteSmoke" Style="{StaticResource LabelStyle}" Width="163" Content="0" x:Name="Total"/>
+                </StackPanel>
+                <Button Height="50" FontWeight="Bold" Background="Orange" Content="Xác nhận đặt hàng" Width="224" x:Name="XacNhanDatHang" Click="ClickXacNhanDatHang"/>
+            </StackPanel>
+        </ScrollViewer>
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+
+
+            <StackPanel x:Name="DonHang"  Visibility="Collapsed">
+                <!--<StackPanel Orientation="Horizontal" Margin="20 20">
+                <Label Foreground="WhiteSmoke" Style="{StaticResource LabelStyle}" Width="200" Content="Mã đối tác"></Label>
+                <TextBox Style="{StaticResource TextBoxStyle}" x:Name="MaDT" Width="300"></TextBox>
+            </StackPanel>-->
+                <Label Foreground="WhiteSmoke" Style="{StaticResource LabelStyle}" Width="253" Content="Danh sách đơn hàng đã đặt"></Label>
+                <Grid>
+                    <DataGrid Name="BangDonHang" Margin="20 10 20 20"/>
+                </Grid>
+                <Button Height="50" FontWeight="Bold" Background="Orange" Content="Reload đơn hàng" Width="224" x:Name="ReloadDonHang" Click="ClickReloadDonHang"></Button>
+
+                <Label Foreground="WhiteSmoke" Style="{StaticResource LabelStyle}" Width="213" Content="Chi tiết đơn - Hủy đơn" Margin="10 30 10 0" HorizontalContentAlignment="Center"></Label>
+                <StackPanel Orientation="Horizontal" Margin="20 20">
+                    <Label Foreground="WhiteSmoke" Style="{StaticResource LabelStyle}" Width="171" Content="Chọn đơn hàng"></Label>
+                    <ComboBox HorizontalAlignment="Left" SelectedIndex="0" x:Name="ChonMaDH" SelectionChanged = "ItemDonHang" Width="148" Height="40"/>
+                    <Button Height="50" FontWeight="Bold" Background="Orange" Content="Xem" Width="80" x:Name="XemChitiet" Click="ClickXemChiTiet" Margin="15 0 0 0"></Button>
+                    <Button Height="50" FontWeight="Bold" Background="Orange" Content="Hủy đơn" Width="100" x:Name="HuyDon" Click="ClickHuyDon" Margin="15 0 0 0"></Button>
+                </StackPanel>
+                <Grid>
+                    <DataGrid Name="BangChiTiet" Margin="20 10 20 20">
+                        
+                    </DataGrid>
+                </Grid>
+                <Button Height="50" FontWeight="Bold" Background="Orange" Content="Reload chi tiết" Width="224" x:Name="ReloadChitiet" Click="ClickReloadChiTiet"></Button>
+            </StackPanel>
+        </ScrollViewer>
+    </DockPanel>
+</Window>

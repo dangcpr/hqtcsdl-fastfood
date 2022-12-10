@@ -1,0 +1,711 @@
+﻿<Window x:Class="_08.DoiTacWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:_08"
+        mc:Ignorable="d"
+        Background="Navy"
+        MinHeight="600" 
+        MinWidth="875"
+        Height="600" 
+        Width="977"
+        Title="Đối tác">
+
+    <Window.Resources>
+        <Style x:Key="MyStyle_GridBackground"  TargetType="Grid">
+            <Setter Property="Background" Value="Transparent"/>
+
+        </Style>
+        <!--Định dạng cho Label-->
+        <Style x:Key="MyStyle_Label"  TargetType="Label">
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="VerticalAlignment" Value="Top"/>
+            <Setter Property="FontSize" Value="16"/>
+        </Style>
+        <!--Định dạng cho Button-->
+        <Style x:Key="MyStyle_Button"  TargetType="Button">
+            <Setter Property="HorizontalAlignment" Value="Right"/>
+            <Setter Property="VerticalAlignment" Value="Bottom"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="Width" Value="90"/>
+            <Setter Property="Height" Value="30"/>
+        </Style>
+
+        <!--Định dạng cho Textbox-->
+        <Style x:Key="MyStyle_TextBox"  TargetType="TextBox">
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="VerticalAlignment" Value="Top"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="Height" Value="30"/>
+            <Setter Property="TextWrapping" Value="Wrap"/>
+        </Style>
+        <!--Định dạng cho ReadOnlyTextbox-->
+        <Style x:Key="MyStyle_ReadOnlyTextbox"  TargetType="TextBox">
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="VerticalAlignment" Value="Top"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="Height" Value="30"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+
+            <Setter Property="Background" Value="#ebecf0"/>
+            <Setter Property="IsReadOnly" Value="True"/>
+        </Style>
+        <!--Định dạng cho DatePicker-->
+        <Style x:Key="MyStyle_DatePicker"  TargetType="DatePicker">
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="VerticalAlignment" Value="Top"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="Height" Value="30"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+        </Style>
+        <!--Định dạng cho ComboBox-->
+        <Style x:Key="MyStyle_ComboBox"  TargetType="ComboBox">
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="VerticalAlignment" Value="Top"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="Height" Value="30"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+        </Style>
+        <Style x:Key="CellRightAlign">
+            <Setter Property="Control.HorizontalAlignment" Value="Right" />
+        </Style>
+    </Window.Resources>
+
+
+    <Grid>
+        <TabControl Margin="0,0,0,0" BorderBrush ="Gainsboro" TabStripPlacement="Left" FontSize="16">
+            <!--Định dạng memu-->
+            <TabControl.Resources>
+                <Style TargetType="TabItem">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="TabItem">
+                                <Border Name="Border" BorderThickness="0" BorderBrush="Gainsboro" CornerRadius="4,4,4,4" Margin="2,3,4,3">
+                                    <ContentPresenter x:Name="ContentSite"
+                                        VerticalAlignment="Center"
+                                        HorizontalAlignment="Center"
+                                        ContentSource="Header"
+                                        Margin="20,10, 0, 0"
+                                        Height="50"
+                                        Width="150"/>
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsSelected" Value="True">
+                                        <Setter TargetName="Border" Property="Background" Value="LightSkyBlue" />
+                                    </Trigger>
+                                    <Trigger Property="IsSelected" Value="False">
+                                        <Setter TargetName="Border" Property="Background" Value="GhostWhite" />
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </TabControl.Resources>
+            <!--Cửa số Thông tin-->
+            <TabItem Header="Thông tin" Loaded="Tt_ThongTin_loaded">
+                <TabControl Margin="10" BorderBrush ="Gainsboro">
+                    <TabControl.Resources>
+                        <Style TargetType="TabItem">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="TabItem">
+                                        <Border Name="Border" BorderThickness="1,1,1,0" BorderBrush="Gainsboro" CornerRadius="4,4,0,0" Margin="2,0">
+                                            <ContentPresenter x:Name="ContentSite"
+                                        VerticalAlignment="Center"
+                                        HorizontalAlignment="Center"
+                                        ContentSource="Header"
+                                        Margin="10,2"/>
+                                        </Border>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsSelected" Value="True">
+                                                <Setter TargetName="Border" Property="Background" Value="Cyan" />
+                                            </Trigger>
+                                            <Trigger Property="IsSelected" Value="False">
+                                                <Setter TargetName="Border" Property="Background" Value="GhostWhite" />
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </TabControl.Resources>
+                    <!--Bắt đầu Thông tin cá nhân-->
+                    <TabItem Header="Thông tin cá nhân">
+                        <Grid Style="{StaticResource MyStyle_GridBackground}" >
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1*"/>
+                                <ColumnDefinition Width="140"/>
+                                <ColumnDefinition Width="250"/>
+                                <ColumnDefinition Width="1*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="50"/>
+                                <RowDefinition Height="240"/>
+                                <RowDefinition Height="2*"/>
+                            </Grid.RowDefinitions>
+                            <Grid Grid.Row="1" Grid.Column="1">
+                                <Label Content="Email" Margin="0,0,0,0" Style="{StaticResource MyStyle_Label}"/>
+                                <Label Content="Người đại diện" Margin="0,40,0,0" Style="{StaticResource MyStyle_Label}"/>
+                                <Label Content="SL chi nhánh"  Margin="0,80,0,0" Style="{StaticResource MyStyle_Label}"/>
+                                <Label Content="Tên quán"  Margin="0,120,0,0" Style="{StaticResource MyStyle_Label}"/>
+                                <Label Content="Loại thực phẩm"  Margin="0,160,0,0" Style="{StaticResource MyStyle_Label}"/>
+                            </Grid>
+                            <Grid Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="3">
+                                <Label x:Name="Tt_lb_thongtin_errorout"  
+                               Content="" 
+                               Margin="0,0,0,5"
+                               Style="{StaticResource MyStyle_Label}" 
+                               HorizontalAlignment="Right" 
+                               VerticalAlignment="Bottom"/>
+                            </Grid>
+
+                            <Grid Grid.Row="1" Grid.Column="2">
+                                <TextBox x:Name="TT_tb_email" Margin="0,0,0,0" Width="250" Style="{StaticResource MyStyle_TextBox}"/>
+                                <TextBox x:Name="TT_tb_nguoidaidien" Margin="0,40,0,0" Width="250" Style="{StaticResource MyStyle_TextBox}"/>
+                                <TextBox  x:Name="TT_tb_slchinhanh"  Margin="0,80,0,0" Width="250" Style="{StaticResource MyStyle_ReadOnlyTextbox}" IsReadOnly="True"/>
+                                <TextBox x:Name="TT_tb_tenquan"  Margin="0,120,0,0" Width="250" Style="{StaticResource MyStyle_TextBox}"/>
+                                <TextBox x:Name="TT_tb_loaithucpham" Margin="0,160,0,0" Width="250" Style="{StaticResource MyStyle_TextBox}"/>
+                                <Button x:Name="TT_bt_capnhat" Content="Cập nhật" HorizontalAlignment="Right" Margin="0,210,-0.4,0" VerticalAlignment="Top" Width="90" Height="30" FontSize="16" Click="Tt_capnhatthongtincanhan_click"/>
+                            </Grid>
+                        </Grid>
+
+                    </TabItem>
+                    <!--Kết thúc Thông tin cá nhân-->
+                    <!--Bắt đầu đổi mat khẩu-->
+                    <TabItem Header="Đổi mật khẩu" Loaded="tt_bt_doimatkhau_loaded">
+                        <Grid Style="{StaticResource MyStyle_GridBackground}" >
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1*"/>
+                                <ColumnDefinition Width="140"/>
+                                <ColumnDefinition Width="250"/>
+                                <ColumnDefinition Width="1*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="50"/>
+                                <RowDefinition Height="200"/>
+                                <RowDefinition Height="2*"/>
+                            </Grid.RowDefinitions>
+                            <Grid Grid.Row="1" Grid.Column="1">
+                                <Label Content="Tên đăng nhập"  Margin="0,0,0,0" Style="{StaticResource MyStyle_Label}"/>
+                                <Label Content="Mật khẩu cũ"  Margin="0,40,0,0" Style="{StaticResource MyStyle_Label}"/>
+                                <Label Content="Mật khẩu"  Margin="0,80,0,0" Style="{StaticResource MyStyle_Label}"/>
+                                <Label Content="Nhập lại mật khẩu" Margin="0,120,0,0" Style="{StaticResource MyStyle_Label}"/>
+                            </Grid>
+                            <Grid Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="3">
+                                <Label x:Name="Tt_lb_doimatkhau_errorout"  
+                               Content="" 
+                               Margin="0,0,0,5"
+                               Style="{StaticResource MyStyle_Label}" 
+                               HorizontalAlignment="Right" 
+                               VerticalAlignment="Bottom"/>
+                            </Grid>
+                            <Grid Grid.Row="1" Grid.Column="2">
+                                <TextBox x:Name="TT_tb_taikhoan" IsReadOnly="True" Margin="0,0,0,0" Width="250" Style="{StaticResource MyStyle_ReadOnlyTextbox}"/>
+                                <TextBox x:Name="TT_tb_matkhaucu" Margin="0,40,0,0" Width="250" Style="{StaticResource MyStyle_TextBox}"/>
+                                <PasswordBox x:Name="TT_tb_matkhaumoi"  Margin="0,80,0,0" HorizontalAlignment="Left" Height="25" VerticalAlignment="Top" Width="250" FontSize="16"/>
+                                <PasswordBox x:Name="TT_tb_matkhaumoi_2"  Margin="0,120,0,0" HorizontalAlignment="Left" Height="25"  VerticalAlignment="Top" Width="250" FontSize="16"/>
+                                <Button x:Name="TT_bt_capnhatmatkhau" Content="Cập nhật" Grid.Column="2" HorizontalAlignment="Right" Margin="18,1,0,0" Grid.Row="2" VerticalAlignment="Bottom" Width="90" Height="30" FontSize="14" Click="Tt_capnhatmatkhau_click"/>
+                            </Grid>
+                        </Grid>
+                    </TabItem>
+                </TabControl>
+                <!--Hết item Thông tin-->
+            </TabItem>
+
+            <!--item Chi nhánh-->
+            <TabItem Header="Chi nhánh" >
+                <Grid  Style="{StaticResource MyStyle_GridBackground}" >
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="90"/>
+                        <ColumnDefinition MinWidth="220" MaxWidth="350"/>
+                        <ColumnDefinition Width="90"/>
+                        <ColumnDefinition MinWidth="220" MaxWidth="350"/>
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="50"/>
+                        <RowDefinition Height="150"/>
+                        <RowDefinition Height="2*"/>
+                        <RowDefinition Height="10"/>
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="1" Grid.Column="1">
+                        <Label Content="SĐT"        Margin="0, 0,0,0" Style="{StaticResource MyStyle_Label}"/>
+                        <Label Content="Tình trạng" Margin="0,40,0,0" Style="{StaticResource MyStyle_Label}"/>
+                        <Label Content="Ngày lập"   Margin="0,80,0,0" Style="{StaticResource MyStyle_Label}"/>
+                    </Grid>
+                    <Grid Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="3">
+                        <Label x:Name="Cn_lb_errorout"  
+                               Content="" 
+                               Margin="0,0,0,5"
+                               Style="{StaticResource MyStyle_Label}" 
+                               HorizontalAlignment="Right" 
+                               VerticalAlignment="Bottom"/>
+                    </Grid>
+                    <Grid Grid.Row="1" Grid.Column="3">
+                        <Label Content="Thành phố"  Margin="0, 0,0,0" Style="{StaticResource MyStyle_Label}"/>
+                        <Label Content="Quận"       Margin="0,40,0,0" Style="{StaticResource MyStyle_Label}"/>
+                        <Label Content="Địa chỉ"    Margin="0,80,0,0" Style="{StaticResource MyStyle_Label}"/>
+                    </Grid>
+                    <Grid Grid.Row="1" Grid.Column="2">
+                        <TextBox x:Name="Cn_tb_sdt"  Margin="0,0,0,0"   Width="200" Style="{StaticResource MyStyle_TextBox}"/>
+                        <ComboBox x:Name="Cn_tb_tinhtrang" Margin="0,40,0,0"  Width="200" Style="{StaticResource MyStyle_ComboBox}"
+                                  AllowDrop="True">
+                            <ComboBoxItem Content="Bình thường"/>
+                            <ComboBoxItem Content="Tạm nghỉ" />
+                        </ComboBox>
+                        <DatePicker x:Name="Cn_tb_ngaylap" Margin="0,80,0,0"  Width="200" Style="{StaticResource MyStyle_DatePicker}" FirstDayOfWeek="Monday"  DisplayDate="2022-08-12"/>
+                    </Grid>
+                    <Grid Grid.Row="1" Grid.Column="4">
+                        <TextBox x:Name="Cn_tb_thanhpho" Margin="0,0,0,0"   Width="200" Style="{StaticResource MyStyle_TextBox}"/>
+                        <TextBox x:Name="Cn_tb_quan" Margin="0,40,0,0"  Width="200" Style="{StaticResource MyStyle_TextBox}"/>
+                        <TextBox x:Name="Cn_tb_diachi" Margin="0,80,0,0"  Width="200" Style="{StaticResource MyStyle_TextBox}"/>
+                        <Button Content="Xoá"  Margin="18,0,0,0"    Click="Cn_btn_xoa_Click" Style="{StaticResource MyStyle_Button}"/>
+                        <Button Content="Sửa"  Margin="0,0,100,0"   Click="Cn_btn_sua_Click" Style="{StaticResource MyStyle_Button}"/>
+                        <Button Content="Thêm" Margin="-70,0,200,0" Click="Cn_btn_them_Click" Style="{StaticResource MyStyle_Button}"/>
+                    </Grid>
+
+                    <!--Bảng dữ liệu-->
+                    <Grid Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="6" Margin="10,10,10,0">
+                        <DataGrid x:Name="cn_datagrid" 
+                                  AutoGenerateColumns="False"
+                                  Loaded="Cn_datagrid_Loaded"
+                                  SelectionChanged="Cn_datagrid_SelectionChanged" IsReadOnly="True"
+                                  HorizontalContentAlignment="Center" HorizontalAlignment="Center"
+                                  >
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="STT" Binding="{Binding Path=STT}" Width="3*" HeaderStyle="{StaticResource CellRightAlign}" CellStyle="{StaticResource CellRightAlign}"/>
+                                <DataGridTextColumn Header="Thành phố" Binding="{Binding Path=TP}" />
+                                <DataGridTextColumn Header="Quận" Binding="{Binding Path=Quan}"/>
+                                <DataGridTextColumn Header="Địa chỉ" Binding="{Binding Path=DiaChiCuThe}" />
+                                <DataGridTextColumn Header="SĐT" Binding="{Binding Path=SDT}" />
+                                <DataGridTextColumn Header="Ngày lập"  Binding="{Binding Path=NgayLap,StringFormat={}{0:dd/MM/yyyy}}"/>
+                                <DataGridTextColumn Header="Mã hợp đồng" Binding="{Binding Path=MaHopDong}"/>
+                                <DataGridTextColumn Header="Tình trạng" Binding="{Binding Path=TinhTrang}" MinWidth="100" Width="4*" />
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </Grid>
+
+                </Grid>
+                <!--Hết item Thông tin-->
+            </TabItem>
+
+            <!--Bắt đầu item ThucDon-->
+            <TabItem Header="Thực đơn">
+                <Grid  Style="{StaticResource MyStyle_GridBackground}" >
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="90"/>
+                        <ColumnDefinition MinWidth="220" MaxWidth="350"/>
+                        <ColumnDefinition Width="90"/>
+                        <ColumnDefinition MinWidth="220" MaxWidth="350"/>
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="50"/>
+                        <RowDefinition Height="150"/>
+                        <RowDefinition Height="2*"/>
+                        <RowDefinition Height="10"/>
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="1" Grid.Column="1">
+                        <Label Content="MaTP"        Margin="0, 0,0,0" Style="{StaticResource MyStyle_Label}"/>
+                        <Label Content="Tên món" Margin="0,40,0,0" Style="{StaticResource MyStyle_Label}"/>
+                        <Label Content="Miêu tả"   Margin="0,80,0,0" Style="{StaticResource MyStyle_Label}"/>
+                    </Grid>
+                    <Grid Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="3">
+                        <Label x:Name="Tp_lb_errorout"  
+                               Content="" 
+                               Margin="0,0,0,5"
+                               Style="{StaticResource MyStyle_Label}" 
+                               HorizontalAlignment="Right" 
+                               VerticalAlignment="Bottom"/>
+                    </Grid>
+                    <Grid Grid.Row="1" Grid.Column="3">
+                        <Label Content="Giá"  Margin="0, 0,0,0" Style="{StaticResource MyStyle_Label}"/>
+                        <Label Content="Tùy chọn"       Margin="0,40,0,0" Style="{StaticResource MyStyle_Label}"/>
+                        <Label Content="Tình trạng"    Margin="0,80,0,0" Style="{StaticResource MyStyle_Label}"/>
+                    </Grid>
+                    <Grid Grid.Row="1" Grid.Column="2">
+                        <TextBox x:Name="Tp_tb_matp" IsEnabled="False" Margin="0,0,0,0"   Width="200" Style="{StaticResource MyStyle_ReadOnlyTextbox}"/>
+                        <TextBox x:Name="Tp_tb_tenmon" Margin="0,40,0,0"  Width="200" Style="{StaticResource MyStyle_TextBox}"/>
+                        <TextBox x:Name="Tp_tb_mieuta"  Margin="0,80,0,0"  Width="200" Style="{StaticResource MyStyle_TextBox}"/>
+                    </Grid>
+                    <Grid Grid.Row="1" Grid.Column="4">
+                        <TextBox x:Name="Tp_tb_gia" Margin="0,0,0,0"   Width="200" Style="{StaticResource MyStyle_TextBox}"/>
+                        <TextBox x:Name="Tp_tb_tuychon" Margin="0,40,0,0"  Width="200" Style="{StaticResource MyStyle_TextBox}"/>
+                        <ComboBox x:Name="Tp_tb_tinhtrang"  Margin="0,80,0,0"  Width="200" Style="{StaticResource MyStyle_ComboBox}" AllowDrop="True">
+                            <ComboBoxItem Content="Có bán"/>
+                            <ComboBoxItem Content="Hết hàng hôm nay"/>
+                            <ComboBoxItem Content="Tạm ngưng"/>
+                        </ComboBox>
+                        <Button Content="Xoá"  Margin="18,0,0,0"    Click="Tp_btn_xoa_Click_new" Style="{StaticResource MyStyle_Button}"/>
+                        <Button Content="Sửa"  Margin="0,0,100,0"   Click="Tp_btn_sua_Click_new" Style="{StaticResource MyStyle_Button}"/>
+                        <Button Content="Thêm" Margin="-70,120,200,0" Click="Tp_btn_them_Click_new" Style="{StaticResource MyStyle_Button}" VerticalAlignment="Top"/>
+                    </Grid>
+
+                    <!--Bảng dữ liệu-->
+
+                    <Grid Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="6" Margin="10,10,10,0">
+                        <DataGrid x:Name="Tp_datagrid" 
+                                  AutoGenerateColumns="False"
+                                  Loaded="Tp_datagrid_Loaded"
+                                  IsReadOnly="True"
+                                  SelectionChanged="TP_datagrid_SelectionChanged">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="STT" Binding="{Binding Path=MaTP}" Width="0.8*" HeaderStyle="{StaticResource CellRightAlign}" CellStyle="{StaticResource CellRightAlign}" />
+                                <DataGridTextColumn Header="Tên món ăn" Binding="{Binding Path=TenMon}"  />
+                                <DataGridTextColumn Header="Mô tả" Binding="{Binding Path=MieuTa}" />
+                                <DataGridTextColumn Header="Giá" Binding="{Binding Path=Gia}" />
+                                <DataGridTextColumn Header="TinhTrang" Binding="{Binding Path=TinhTrang}" />
+                                <DataGridTextColumn Header="TuyChon" Binding="{Binding Path=TuyChon}" Width="*" />
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </Grid>
+
+                </Grid>
+            </TabItem>
+            <!--Kết thúc item ThucDon-->
+            <TabItem Header="Đơn hàng" >
+                <Grid  Style="{StaticResource MyStyle_GridBackground}" >
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="120"/>
+                        <ColumnDefinition MinWidth="200" MaxWidth="350"/>
+                        <ColumnDefinition Width="90"/>
+                        <ColumnDefinition MinWidth="220" MaxWidth="350"/>
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="50"/>
+                        <RowDefinition Height="240"/>
+                        <RowDefinition Height="2*"/>
+                        <RowDefinition Height="10"/>
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="1" Grid.Column="1">
+                        <Label Content="Mã đơn"     Margin="0, 0,0,0" Style="{StaticResource MyStyle_Label}"/>
+                        <Label Content="Mã tài xế"  Margin="0,40,0,0" Style="{StaticResource MyStyle_Label}"/>
+                        <Label Content="Mã khách hàng" Margin="0,80,0,0" Style="{StaticResource MyStyle_Label}"/>
+                    </Grid>
+
+                    <Grid Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="3">
+                        <Label x:Name="Dh_lb_errorout"  
+                               Content="" 
+                               Margin="0,0,0,5"
+                               Style="{StaticResource MyStyle_Label}" 
+                               HorizontalAlignment="Right" 
+                               VerticalAlignment="Bottom"/>
+                    </Grid>
+                    <Grid Grid.Row="1" Grid.Column="3">
+                    </Grid>
+                    <Grid Grid.Row="1" Grid.Column="2">
+                        <TextBox x:Name="Dh_tb_madon" Margin="0,0,0,0"   Width="200" Style="{StaticResource MyStyle_ReadOnlyTextbox}" />
+                        <TextBox x:Name="Dh_tb_mataixe" Margin="0,40,0,0"  Width="200" Style="{StaticResource MyStyle_ReadOnlyTextbox}" />
+                        <TextBox x:Name="Dh_tb_khachhang" Margin="0,80,0,0"  Width="200" Style="{StaticResource MyStyle_ReadOnlyTextbox}" />
+
+                        <Button Content="Nhận đơn" Margin="0,0,100,0" Click="Dh_btn_nhandon_Click" Style="{StaticResource MyStyle_Button}"/>
+                        <Button Content="Huỷ đơn" Margin="0" Click="Dh_btn_huydon_Click" Style="{StaticResource MyStyle_Button}"/>
+                    </Grid>
+                    <Grid Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="2" Margin="20,0,0,0">
+                        <DataGrid x:Name="Dh_datagrid_Chitietdon" 
+                                  AutoGenerateColumns="False"
+                                  IsReadOnly="True"
+                                  HorizontalContentAlignment="Center" HorizontalAlignment="Center"
+                                  >
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Tên món" Binding="{Binding Path=TenMon}" Width="*"/>
+                                <DataGridTextColumn Header="Đơn giá" Binding="{Binding Path=Gia}" />
+                                <DataGridTextColumn Header="SL" Binding="{Binding Path=SoLuong}" />
+                                <DataGridTextColumn Header="Rate" Binding="{Binding Path=DanhGia}" />
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </Grid>
+
+                    <!--Bảng dữ liệu-->
+                    <Grid Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="6" Margin="10,10,10,0">
+                        <DataGrid x:Name="Dh_datagrid" 
+                                  AutoGenerateColumns="False"
+                                  Loaded="Dh_datagrid_Loaded"
+                                  SelectionChanged="Dh_datagrid_SelectionChanged" IsReadOnly="True"
+                                  HorizontalContentAlignment="Center" HorizontalAlignment="Center"
+                                  >
+                            <DataGrid.Columns>
+                                <!--<DataGridTextColumn Header="STT" Binding="{Binding Path=STT}" Width="1*" CellStyle="{StaticResource CellRightAlign}"/>-->
+                                <DataGridTextColumn Header="Giờ đặt" Binding="{Binding Path=GioDat}" Width="0.8*" HeaderStyle="{StaticResource CellRightAlign}" CellStyle="{StaticResource CellRightAlign}"  />
+                                <DataGridTextColumn Header="Ngày đặt" Binding="{Binding Path=NgayDat,StringFormat={}{0:dd/MM/yyyy}}"/>
+                                <DataGridTextColumn Header="Giá trị đơn hàng" Binding="{Binding Path=GiaTriDH}" />
+                                <DataGridTextColumn Header="Tình trạng" Binding="{Binding Path=TinhTrang}" />
+                                <DataGridTextColumn Header="Khách hàng" Binding="{Binding Path=TenKH}" />
+                                <DataGridTextColumn Header="Tài xế" Binding="{Binding Path=TenTX}"  Width="*" />
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </Grid>
+
+                </Grid>
+                <!--Hết item Thông tin-->
+            </TabItem>
+            <!--bắt đầu tab hợp đồng-->
+            <TabItem Header="Hợp đồng">
+                <Grid Style="{StaticResource MyStyle_GridBackground}" >
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="120"/>
+                        <ColumnDefinition MinWidth="220" MaxWidth="350"/>
+                        <ColumnDefinition Width="120"/>
+                        <ColumnDefinition MinWidth="220" MaxWidth="350"/>
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="50"/>
+                        <RowDefinition Height="350"/>
+                        <RowDefinition Height="0.3*"/>
+                        <RowDefinition Height="10"/>
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="3">
+                        <Label x:Name="Hd_lb_errorout"  
+                               Content="" 
+                               Margin="0,0,0,5"
+                               Style="{StaticResource MyStyle_Label}" 
+                               HorizontalAlignment="Right" 
+                               VerticalAlignment="Bottom"/>
+                    </Grid>
+
+                    <Grid Grid.Row="1" Grid.Column="1">
+                        <Label Content="Người đại diện" Style="{StaticResource MyStyle_Label}"/>
+                        <Label Content="SL chi nhánh"   Margin="0,40,0,0" Style="{StaticResource MyStyle_Label}"/>
+                        <Label Content="Số tài khoản"   Margin="0,80,0,0" Style="{StaticResource MyStyle_Label}"/>
+                        <Label Content="Ngân hàng"   Margin="0,120,0,0" Style="{StaticResource MyStyle_Label}"/>
+                        <Label Content="Chi nhánh NH"   Margin="0,160,0,0" Style="{StaticResource MyStyle_Label}"/>
+                        <Label Content="Mã số thuế"   Margin="0,200,0,0" Style="{StaticResource MyStyle_Label}"/>
+                        <Label Content="NV duyệt"  Margin="0,240,0,0" Style="{StaticResource MyStyle_Label}"/>
+                        <Label Content="Trạng thái"  Margin="0,280,0,0" Style="{StaticResource MyStyle_Label}"/>
+                    </Grid>
+                    <Grid Grid.Row="1" Grid.Column="3">
+                        <Label Content="Ngày kí"  Margin="0, 0,0,0" Style="{StaticResource MyStyle_Label}"/>
+                        <Label Content="Thời hạn" Margin="0,40,0,0" Style="{StaticResource MyStyle_Label}"/>
+                        <Label Content="Ngày hết hạn" Margin="0,80,0,0" Style="{StaticResource MyStyle_Label}"/>
+                        <Label Content="Chi nhánh " Margin="0,120,0,0" Style="{StaticResource MyStyle_Label}"/>
+                        <Button Content="ReLoad" BorderBrush="Transparent" Margin="0,160,0,0"    
+                                Click="Hd_btn_reload_Click" Style="{StaticResource MyStyle_Button}" 
+                                HorizontalAlignment="Left" VerticalAlignment="Top"/>
+
+                    </Grid>
+                    <Grid Grid.Row="1" Grid.Column="2">
+                        <TextBox x:Name="Hd_tb_nguoidaidien"  Width="200" Style="{StaticResource MyStyle_ReadOnlyTextbox}"/>
+                        <TextBox x:Name="Hd_tb_slchinhanh"  Margin="0,40,0,0"  Width="200" Style="{StaticResource MyStyle_ReadOnlyTextbox}" IsReadOnly="True" />
+                        <TextBox x:Name="Hd_tb_sotaikhoan"  Margin="0,80,0,0"   Width="200" Style="{StaticResource MyStyle_TextBox}"/>
+                        <TextBox x:Name="Hd_tb_nganhang"  Margin="0,120,0,0"   Width="200" Style="{StaticResource MyStyle_TextBox}"/>
+                        <TextBox x:Name="Hd_tb_chinhanhnganhang"  Margin="0,160,0,0"   Width="200" Style="{StaticResource MyStyle_TextBox}"/>
+                        <TextBox x:Name="Hd_tb_masothue"  Margin="0,200,0,0"   Width="200" Style="{StaticResource MyStyle_TextBox}"/>
+                        <TextBox x:Name="Hd_tb_tinhtrang"  Margin="0,280,0,0"   Width="200" Style="{StaticResource MyStyle_ReadOnlyTextbox}" IsReadOnly="True" />
+                        <TextBox x:Name="Hd_tb_nvduyet"   Width="200" Style="{StaticResource MyStyle_ReadOnlyTextbox}" Margin="0,240,0,0"  IsReadOnly="True" />
+                        <Button Content="Thêm hợp đồng" Width="160" Margin="0,0,0,0" Click="Hd_btn_them_Click" Style="{StaticResource MyStyle_Button}" HorizontalAlignment="Left"/>
+
+
+                    </Grid>
+                    <Grid Grid.Row="1" Grid.Column="4">
+                        <DatePicker x:Name="Hd_tb_ngayki" Margin="0,0,0,0"  Width="200" 
+                                    Text="{Binding StringFormat='yyyy MM dd'}"  
+                                    Style="{StaticResource MyStyle_DatePicker}" FirstDayOfWeek="Monday"  DisplayDate="2022-08-12"/>
+                        <TextBox x:Name="Hd_tb_thoihan" Margin="0,40,0,0"  Width="200" Style="{StaticResource MyStyle_TextBox}" />
+                        <DatePicker x:Name="Hd_tb_ngayhethan" Margin="0,80,0,0"  Width="200" 
+                                    Style="{StaticResource MyStyle_DatePicker}" 
+                                    FirstDayOfWeek="Monday" DisplayDate="2022-08-12" 
+                                    Text="{Binding StringFormat='yyyy-MM-dd'}"
+                                    />
+                        <DataGrid x:Name="Hd_datagrid_chinhanh"
+                                  AutoGenerateColumns="False"
+                                  Loaded="Hd_datagrid_chinhanh_Loaded"
+                                  GotFocus="Hd_datagrid_chinhanh_GotFocus"
+                                  Width="200" Margin="0,120,0,0"
+                                  HorizontalAlignment="Left"
+                                  >
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="STT" Binding="{Binding Path=STT}"  
+                                  IsReadOnly="True"/>
+                                <DataGridTextColumn Header="SDT" Binding="{Binding Path=SDT}" Width="*"
+                                  IsReadOnly="True" />
+                                <DataGridCheckBoxColumn CanUserSort="False"/>
+                                <!--<DataGridCheckBoxColumn x:Name="Hd_chinhanh_check" Binding="{Binding Path=IsChecked}" CanUserSort="False">-->
+                                <!--<DataGridCheckBoxColumn.ElementStyle>
+                                        <Style TargetType="CheckBox" BasedOn="{StaticResource {x:Type CheckBox}}">
+                                            <EventSetter Event="Checked" Handler="OnChecked"/>
+                                        </Style>
+                                    </DataGridCheckBoxColumn.ElementStyle>
+                                </DataGridCheckBoxColumn>-->
+                            </DataGrid.Columns>
+                        </DataGrid>
+
+                    </Grid>
+
+                    <!--Bảng dữ liệu-->
+
+                    <Grid Grid.Row="2" Grid.ColumnSpan="6"  Margin="10,10,10,10">
+
+                        <DataGrid x:Name="Hd_datagrid" 
+                                  AutoGenerateColumns="False"
+                                  Loaded="Hd_datagrid_Loaded"
+                                  SelectionChanged="Hd_datagrid_SelectionChanged"
+                                  IsReadOnly="True"
+                                  >
+
+                            <DataGrid.Columns>
+                                <!--<DataGridTextColumn Header="Tên" Binding="{Binding Path=NgDaiDien}" />-->
+                                <DataGridTextColumn Header="SL" Binding="{Binding Path=SLChiNhanh}" MinWidth="40" Width="0.8*" HeaderStyle="{StaticResource CellRightAlign}" CellStyle="{StaticResource CellRightAlign}" />
+                                <DataGridTextColumn Header="STK" Binding="{Binding Path=SoTaiKhoan}" />
+                                <DataGridTextColumn Header="Ngân hàng" Binding="{Binding Path=NganHang}" />
+                                <DataGridTextColumn Header="Chi nhánh NH" Binding="{Binding Path=CNNganHang}" />
+                                <DataGridTextColumn Header="Mã số thuế" Binding="{Binding Path=MaSoThue}"/>
+                                <DataGridTextColumn Header="Ngày ký" Binding="{Binding Path=NgayKy,StringFormat={}{0:dd/MM/yyyy}}" />
+                                <DataGridTextColumn Header="Thời hạn" Binding="{Binding Path=ThoiHan}" />
+                                <DataGridTextColumn Header="Ngày hết hạn" Binding="{Binding Path=NgayHetHan,StringFormat={}{0:dd/MM/yyyy}}" />
+                                <DataGridTextColumn Header="MaNV" Binding="{Binding Path=MaNV}"/>
+                                <DataGridTextColumn Header="Trạng thái" Binding="{Binding Path=TrangThai}" MinWidth="100" Width="*"  />
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </Grid>
+                </Grid>
+            </TabItem>
+            <!--kết thúc tab hợp đồng-->
+            <!--bắt đầu số liệu-->
+            <TabItem Header="Số liệu" Loaded="Tt_ThongTin_loaded">
+                <TabControl Margin="10" BorderBrush ="Gainsboro">
+                    <TabControl.Resources>
+                        <Style TargetType="TabItem">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="TabItem">
+                                        <Border Name="Border" BorderThickness="1,1,1,0" BorderBrush="Gainsboro" CornerRadius="4,4,0,0" Margin="2,0">
+                                            <ContentPresenter x:Name="ContentSite"
+                                        VerticalAlignment="Center"
+                                        HorizontalAlignment="Center"
+                                        ContentSource="Header"
+                                        Margin="10,2"/>
+                                        </Border>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsSelected" Value="True">
+                                                <Setter TargetName="Border" Property="Background" Value="Cyan" />
+                                            </Trigger>
+                                            <Trigger Property="IsSelected" Value="False">
+                                                <Setter TargetName="Border" Property="Background" Value="GhostWhite" />
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </TabControl.Resources>
+                    <!--Bắt đầu Số liệu đơn hàng-->
+                    <TabItem Header="Số liệu đơn hàng">
+                        <Grid Style="{StaticResource MyStyle_GridBackground}" >
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1*"/>
+                                <ColumnDefinition Width="140"/>
+                                <ColumnDefinition Width="450"/>
+                                <ColumnDefinition Width="1*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="50"/>
+                                <RowDefinition Height="130"/>
+                                <RowDefinition Height="2*"/>
+                            </Grid.RowDefinitions>
+                            <Grid Grid.Row="1" Grid.Column="1">
+                                <StackPanel>
+                                    <Label Content="Xem đơn theo" FontSize="20"/>
+                                    <RadioButton FontSize="18" x:Name="Sl_rb_ngay" Content="Theo ngày" VerticalContentAlignment="Center" Checked="Sl_rb_ngay_Click"/>
+                                    <RadioButton FontSize="18" x:Name="Sl_rb_thang" Content="Theo tháng" VerticalContentAlignment="Center" Checked="Sl_rb_thang_Click"/>
+                                    <RadioButton FontSize="18" x:Name="Sl_rb_nam" Content="Theo năm" VerticalContentAlignment="Center" Checked="Sl_rb_nam_Click"/>
+                                </StackPanel>
+                            </Grid>
+                            <Grid Grid.Row="1" Grid.Column="2" Grid.RowSpan="2" Background="LightSkyBlue" Margin="10,10,10,0">
+                                <DataGrid x:Name="Sl_datagrid" 
+                                  AutoGenerateColumns="True"
+                                  Loaded="Sl_datagrid_Loaded" Margin="0,0,0,0"
+                                  >
+
+                                </DataGrid>
+                            </Grid>
+                        </Grid>
+
+
+                    </TabItem>
+                    <!--Kết thúc Số liệu đơn hàng-->
+                    <!--Bắt đầu Tương tác thực phẩm-->
+                    <TabItem Header="Tương tác thực phẩm">
+                        <Grid Style="{StaticResource MyStyle_GridBackground}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition Width="90"/>
+                                <ColumnDefinition MinWidth="220" MaxWidth="350"/>
+                                <ColumnDefinition Width="90"/>
+                                <ColumnDefinition MinWidth="220" MaxWidth="350"/>
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="50"/>
+                                <RowDefinition Height="150"/>
+                                <RowDefinition Height="2*"/>
+                                <RowDefinition Height="10"/>
+                            </Grid.RowDefinitions>
+                            <Grid Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="3">
+                                <Label x:Name="Sl_lb_errorout"  
+                               Content="" 
+                               Margin="0,0,0,5"
+                               Style="{StaticResource MyStyle_Label}" 
+                               HorizontalAlignment="Right" 
+                               VerticalAlignment="Bottom"/>
+                            </Grid>
+
+                            <Grid Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="6" Grid.RowSpan="2" Background="LightSkyBlue" Margin="10,10,10,0">
+                                <DataGrid x:Name="Sl_rating_datagrid"
+                                          AutoGenerateColumns="False"
+                                          Loaded="Sl_rating_datagrid_Loaded"
+                                          IsReadOnly="True"
+                                          HorizontalContentAlignment="Center" HorizontalAlignment="Center"
+                                  >
+                                    <DataGrid.Columns>
+                                        <!--<DataGridTextColumn Width="*"/>-->
+                                        <DataGridTextColumn Header="Tên món" Width="3*"  MinWidth="100" Binding="{Binding Path=TenMon}"  HeaderStyle="{StaticResource CellRightAlign}" CellStyle="{StaticResource CellRightAlign}"/>
+                                        <DataGridTextColumn Header="Số lượng like" Binding="{Binding Path=Like_}" Width="120" HeaderStyle="{StaticResource CellRightAlign}" CellStyle="{StaticResource CellRightAlign}"/>
+                                        <DataGridTextColumn Header="Số lượng bán" Binding="{Binding Path=Ban}" Width="120" HeaderStyle="{StaticResource CellRightAlign}" CellStyle="{StaticResource CellRightAlign}"/>
+                                        <DataGridTextColumn Width="2*"/>
+                                    </DataGrid.Columns>
+                                </DataGrid>
+                            </Grid>
+
+                        </Grid>
+                    </TabItem>
+                    <!--hết item  2 trong số liệu-->
+                </TabControl>
+                <!--Hết item số liệu-->
+            </TabItem>
+        </TabControl>
+
+        <!--Button đăng xuất-->
+        <Button x:Name="btn_dangxuat" Margin="35,20" 
+                HorizontalAlignment="Left" VerticalAlignment="Bottom" 
+                Click="Btn_dangxuat_Click_1"
+                BorderThickness="0"
+                Background="Transparent"
+                >
+            <Border CornerRadius="5" Background="AliceBlue">
+                <StackPanel >
+                    <Grid >
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="40"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid>
+                            <Image Source="logout.png" Margin="5" Height="25" Width="25" HorizontalAlignment="Left"/>
+                        </Grid>
+                        <Grid Grid.Column="1">
+                            <TextBlock FontSize="15" Text="Đăng xuất" Margin="0,0,10,0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                        </Grid>
+                    </Grid>
+                </StackPanel>
+            </Border>
+        </Button>
+    </Grid>
+</Window>
