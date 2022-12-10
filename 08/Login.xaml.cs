@@ -79,21 +79,42 @@ namespace _08
                             tx.ShowDialog();
                             login.Close();
                         }
+                        if (RoleName == "NhanVien")
+                        {
+                            NhanVien_Window nv = new NhanVien_Window(UserName);
+                            nv.ShowDialog();
+                            login.Close();
+                        }
+                        if (RoleName == "QuanTri")
+                        {
+                            QuanTri_Window qt = new QuanTri_Window(UserName);
+                            qt.ShowDialog();
+                            login.Close();
+                        }
                     }
                     catch
                     {
                         MessageBox.Show("Lỗi hệ thống!");
                     }
                 }
-                else
+                else if (result == 1)
                 {
                     MessageBox.Show("Sai tên đăng nhập hoặc mật khẩu!");
+                }
+                else if (result == 2)
+                {
+                    MessageBox.Show("Tài khoản bị khóa không thể đăng nhập!");
+                }
+                else
+                {
+                    MessageBox.Show("Lỗi hệ thống!");
                 }
             }
             catch
             {
                 MessageBox.Show("Lỗi hệ thống!");
             }
+
             
         }
         private void ClickRegister(object sender, RoutedEventArgs e)

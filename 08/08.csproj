@@ -86,6 +86,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="QuanTri_Window.xaml.cs">
+      <DependentUpon>QuanTri_Window.xaml</DependentUpon>
+    </Compile>
     <Compile Include="TaiXe_Window.xaml.cs">
       <DependentUpon>TaiXe_Window.xaml</DependentUpon>
     </Compile>
@@ -107,6 +110,10 @@
     <Compile Include="Register_KhachHang.xaml.cs">
       <DependentUpon>Register_KhachHang.xaml</DependentUpon>
     </Compile>
+    <Page Include="QuanTri_Window.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="TaiXe_Window.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

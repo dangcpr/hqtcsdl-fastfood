@@ -6,22 +6,196 @@
         xmlns:local="clr-namespace:_08"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
-        Title="Nhân Viên" FontSize="20" Height="500" Width="800" Background="#222">
+        Title="Nhân Viên" FontSize="20" Height="800" Width="1300" Background="#333">
     <DockPanel LastChildFill="True">
-        <StackPanel DockPanel.Dock="Left" Width="200" Background="#CCFFFF">
-            <Button Height="50" FontWeight="Bold" Background="#33FF99" Content="Thông tin cá nhân"></Button>
-            <Button Height="50" FontWeight="Bold" Background="#33FF99" Content="Quản lý đối tác" Margin="0 10"></Button>
-            <Button Height="50" FontWeight="Bold" Background="#33FF99" Content="Quản lý hợp đồng"></Button>
+
+        <StackPanel DockPanel.Dock="Left" Width="100">
+
+            <Button Height="70" Style="{StaticResource SimpleButtonStyle}" FontWeight="Bold" Click="ShowTTCN">
+                <TextBlock Text="Thông tin nhân viên" TextAlignment="Center" TextWrapping="Wrap"></TextBlock>
+            </Button>
+            <Button Height="70" FontWeight="Bold" Style="{StaticResource SimpleButtonStyle}" Margin="0 5" Click="ShowQLDT">
+                <TextBlock Text="Quản lý đối tác" TextAlignment="Center" TextWrapping="Wrap"></TextBlock>
+            </Button>
+            <Button Height="70" FontWeight="Bold" Style="{StaticResource SimpleButtonStyle}" Click="ShowQLHD">
+                <TextBlock Text="Quản lý hợp đồng" TextAlignment="Center" TextWrapping="Wrap"></TextBlock>
+            </Button>
         </StackPanel>
-        <StackPanel>
-            <StackPanel Orientation="Horizontal" Margin="20 20">
-                <Label Foreground="WhiteSmoke" Style="{StaticResource LabelStyle}" Width="200" Content="Mã nhân viên"></Label>
-                <TextBox Foreground="WhiteSmoke" Style="{StaticResource TextBoxStyle}" x:Name="MNV" IsEnabled="False" Width="300"></TextBox>
+        <ScrollViewer Margin="10" VerticalScrollBarVisibility="Auto">
+            <StackPanel Orientation="Vertical">
+                <StackPanel x:Name="ThongTinCaNhan" HorizontalAlignment="Center" Visibility="Visible">
+                    <StackPanel x:Name="InfoBox1" Orientation="Horizontal" Margin="20 20">
+                        <Label Foreground="WhiteSmoke" Style="{StaticResource LabelStyle}" Width="200" Content="Username"></Label>
+                        <TextBox Foreground="#FF0000" x:Name="UsernameBox" Style="{StaticResource TextBoxStyle}" IsEnabled="False" Width="400"></TextBox>
+                    </StackPanel>
+                    <StackPanel x:Name="InfoBox2" Orientation="Horizontal" Margin="20 20">
+                        <Label Foreground="WhiteSmoke" Style="{StaticResource LabelStyle}" Width="200" Content="Mã nhân viên"></Label>
+                        <TextBox Foreground="#FF0000" x:Name="MaNVBox" Style="{StaticResource TextBoxStyle}" IsEnabled="False" Width="400"></TextBox>
+                    </StackPanel>
+                    <StackPanel x:Name="InfoBox3" Orientation="Horizontal" Margin="20 20">
+                        <Label Foreground="WhiteSmoke" Style="{StaticResource LabelStyle}" Width="200" Content="Họ tên"></Label>
+                        <TextBox Foreground="#FF0000" x:Name="HoTenNVBox" Style="{StaticResource TextBoxStyle}" IsEnabled="False" Width="400"></TextBox>
+                    </StackPanel>
+                    <StackPanel x:Name="PassBox1" Orientation="Horizontal" Margin="20 20" Visibility="Collapsed">
+                        <Label Foreground="WhiteSmoke" Style="{StaticResource LabelStyle}" Width="200" Content="Nhập mật khẩu cũ"></Label>
+                        <PasswordBox Foreground="#FF0000" x:Name="OldPassBox" Style="{StaticResource PasswordBoxStyle}" Width="400"></PasswordBox>
+                    </StackPanel>
+                    <StackPanel x:Name="PassBox2" Orientation="Horizontal" Margin="20 20" Visibility="Collapsed">
+                        <Label Foreground="WhiteSmoke" Style="{StaticResource LabelStyle}" Width="200" Content="Nhập mật khẩu mới"></Label>
+                        <PasswordBox Foreground="#FF0000" x:Name="NewPassBox" Style="{StaticResource PasswordBoxStyle}" Width="400"></PasswordBox>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <StackPanel Orientation="Vertical">
+                            <Button x:Name="EditBtn" Style="{StaticResource ButtonStyle}" Click="Edit" Width="150" Height="70">
+                                <TextBlock Text="Chỉnh sửa thông tin" TextAlignment="Center" TextWrapping="Wrap"></TextBlock>
+                            </Button>
+                            <Button x:Name="SaveBtn" Style="{StaticResource ButtonStyle}" Content="Lưu" Click="Save" Width="150" Height="70" Visibility="Collapsed" ></Button>
+                        </StackPanel>
+                        <StackPanel Orientation="Vertical">
+                            <Button x:Name="ChangePassBtn" Style="{StaticResource ButtonStyle}" Width="150" Height="70" Click="DoiMatKhau">
+                                <TextBlock Text="Đổi mật khẩu" TextAlignment="Center" TextWrapping="Wrap"></TextBlock>
+                            </Button>
+                            <Button x:Name="SavePassBtn" Style="{StaticResource ButtonStyle}" Content="Lưu" Click="SavePass" Width="150" Height="70" Visibility="Collapsed" ></Button>
+                        </StackPanel>
+                    </StackPanel>
+
+
+                </StackPanel>
+
+                <StackPanel x:Name="QuanLyDoiTac" Visibility="Collapsed">
+                    <StackPanel Orientation="Horizontal" Width="1150" HorizontalAlignment="Center">
+                        <StackPanel Orientation="Vertical" Width="650" Margin="0 0 10 0" HorizontalAlignment="Center">
+                            <StackPanel Orientation="Horizontal">
+                                <Label Height="40" Foreground="WhiteSmoke" Style="{StaticResource LabelStyle}" Width="170" Content="Nhập mã đối tác"></Label>
+                                <TextBox Height="40" Foreground="#FF0000" x:Name="FindDTBox" Style="{StaticResource TextBoxStyle}" Width="300"></TextBox>
+                                <Button Style="{StaticResource ButtonStyle}" Margin="30 30" Content="Tìm kiếm" Click="FindDT"></Button>
+                            </StackPanel>
+                            <Button x:Name="DoiTac" Style="{StaticResource ButtonStyle}" Margin="0 30" Content="Hiển thị danh sách đối tác" Width="350" Click="HienThiDSDoiTac" ></Button>
+                            <Grid>
+                                <DataGrid x:Name="dgDoiTac" HorizontalAlignment="Center" Visibility="Collapsed" SelectionChanged="SelectDGDoiTac" ></DataGrid>
+                            </Grid>
+                        </StackPanel>
+                        <StackPanel Orientation="Vertical">
+                            <StackPanel Orientation="Horizontal">
+                                <Label Foreground="WhiteSmoke" Style="{StaticResource LabelStyle}" Width="200" Content="Mã đối tác"></Label>
+                                <TextBox Foreground="#FF0000" x:Name="MaDTBox" Style="{StaticResource TextBoxStyle}" IsEnabled="False" Width="300"></TextBox>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <Label Foreground="WhiteSmoke" Style="{StaticResource LabelStyle}" Width="200" Content="Email"></Label>
+                                <TextBox Foreground="#FF0000" x:Name="EmailBox" Style="{StaticResource TextBoxStyle}" IsEnabled="False" Width="300"></TextBox>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <Label Foreground="WhiteSmoke" Style="{StaticResource LabelStyle}" Width="200" Content="Người đại diện"></Label>
+                                <TextBox Foreground="#FF0000" x:Name="NgDaiDienBox" Style="{StaticResource TextBoxStyle}" IsEnabled="False" Width="300"></TextBox>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <Label Foreground="WhiteSmoke" Style="{StaticResource LabelStyle}" Width="200" Content="Số lượng chi nhánh"></Label>
+                                <TextBox Foreground="#FF0000" x:Name="SLChiNhanhBox" Style="{StaticResource TextBoxStyle}" IsEnabled="False" Width="300"></TextBox>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <Label Foreground="WhiteSmoke" Style="{StaticResource LabelStyle}" Width="200" Content="Tên quán"></Label>
+                                <TextBox Foreground="#FF0000" x:Name="TenQuanBox" Style="{StaticResource TextBoxStyle}" IsEnabled="False" Width="300"></TextBox>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <Label Foreground="WhiteSmoke" Style="{StaticResource LabelStyle}" Width="200" Content="Loại thực phẩm"></Label>
+                                <TextBox Foreground="#FF0000" x:Name="LoaiTPBox" Style="{StaticResource TextBoxStyle}" IsEnabled="False" Width="300"></TextBox>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <Label Foreground="WhiteSmoke" Style="{StaticResource LabelStyle}" Width="200" Content="Username"></Label>
+                                <TextBox Foreground="#FF0000" x:Name="UsernameDTBox" Style="{StaticResource TextBoxStyle}" IsEnabled="False" Width="300"></TextBox>
+                            </StackPanel>
+                        </StackPanel>
+                    </StackPanel>
+
+                </StackPanel>
+
+
+                <StackPanel x:Name="QuanLyHopDong" Visibility="Collapsed">
+                    <StackPanel Orientation="Horizontal" Width="1150" HorizontalAlignment="Center">
+                        <StackPanel Orientation="Vertical" Width="650" Margin="0 0 10 0" HorizontalAlignment="Center">
+                            <StackPanel Orientation="Horizontal">
+                                <Label Height="40" Foreground="WhiteSmoke" Style="{StaticResource LabelStyle}" Width="190" Content="Nhập mã hợp đồng"></Label>
+                                <TextBox Height="40" Foreground="#FF0000" x:Name="FindHDBox" Style="{StaticResource TextBoxStyle}" Width="300"></TextBox>
+                                <Button Style="{StaticResource ButtonStyle}" Margin="30 30" Content="Tìm kiếm" Click="FindHD"></Button>
+                            </StackPanel>
+                            <Button x:Name="HopDong" Style="{StaticResource ButtonStyle}" Margin="0 30" Content="Hiển thị danh sách hợp đồng" Width="350" Click="HienThiDSHopDong" ></Button>
+                            <Grid>
+                                <DataGrid x:Name="dgHopDong" HorizontalAlignment="Center" Visibility="Collapsed" SelectionChanged="SelectDGHopDong"></DataGrid>
+                            </Grid>
+                            <StackPanel HorizontalAlignment="Center">
+                                <StackPanel Orientation="Horizontal">
+                                    <Label Foreground="WhiteSmoke" Style="{StaticResource LabelStyle}" Width="200" Content="Nhập thời hạn"></Label>
+                                    <TextBox Height="40" Foreground="#FF0000" x:Name="DuyetThoiHanBox" Style="{StaticResource TextBoxStyle}" IsEnabled="False" Width="300"></TextBox>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                    <Label Foreground="WhiteSmoke" Style="{StaticResource LabelStyle}" Width="200">
+                                        <TextBlock Text="Nhập ngày hết hạn (MM/DD/YYYY)" TextAlignment="Center" TextWrapping="Wrap"></TextBlock>
+                                    </Label>
+                                    <TextBox Height="40" Foreground="#FF0000" x:Name="DuyetNgayHetHanBox" Style="{StaticResource TextBoxStyle}" IsEnabled="False" Width="300"></TextBox>
+                                </StackPanel>
+                            </StackPanel>
+                            <Button x:Name="DuyetHD" Style="{StaticResource ButtonStyle}" Margin="0 30" Content="Duyệt hợp đồng" Width="200" IsEnabled="False" Click="DuyetHopDong"></Button>
+                        </StackPanel>
+
+                        <StackPanel Orientation="Vertical">
+                            <StackPanel Orientation="Horizontal">
+                                <Label Foreground="WhiteSmoke" Style="{StaticResource LabelStyle}" Width="200" Content="Mã hợp đồng"></Label>
+                                <TextBox Foreground="#FF0000" x:Name="MaHDBox" Style="{StaticResource TextBoxStyle}" IsEnabled="False" Width="300"></TextBox>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <Label Foreground="WhiteSmoke" Style="{StaticResource LabelStyle}" Width="200" Content="Người đại diện"></Label>
+                                <TextBox Foreground="#FF0000" x:Name="NgDaiDien_HDBox" Style="{StaticResource TextBoxStyle}" IsEnabled="False" Width="300"></TextBox>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <Label Foreground="WhiteSmoke" Style="{StaticResource LabelStyle}" Width="200" Content="Số lượng chi nhánh"></Label>
+                                <TextBox Foreground="#FF0000" x:Name="SLChiNhanh_HDBox" Style="{StaticResource TextBoxStyle}" IsEnabled="False" Width="300"></TextBox>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <Label Foreground="WhiteSmoke" Style="{StaticResource LabelStyle}" Width="200" Content="Số tài khoản"></Label>
+                                <TextBox Foreground="#FF0000" x:Name="SoTaiKhoanBox" Style="{StaticResource TextBoxStyle}" IsEnabled="False" Width="300"></TextBox>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <Label Foreground="WhiteSmoke" Style="{StaticResource LabelStyle}" Width="200" Content="Tên ngân hàng"></Label>
+                                <TextBox Foreground="#FF0000" x:Name="NganHangBox" Style="{StaticResource TextBoxStyle}" IsEnabled="False" Width="300"></TextBox>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <Label Foreground="WhiteSmoke" Style="{StaticResource LabelStyle}" Width="200" Content="Chi nhánh ngân hàng"></Label>
+                                <TextBox Foreground="#FF0000" x:Name="CNNganHangBox" Style="{StaticResource TextBoxStyle}" IsEnabled="False" Width="300"></TextBox>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <Label Foreground="WhiteSmoke" Style="{StaticResource LabelStyle}" Width="200" Content="Mã số thuế"></Label>
+                                <TextBox Foreground="#FF0000" x:Name="MaSoThueBox" Style="{StaticResource TextBoxStyle}" IsEnabled="False" Width="300"></TextBox>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <Label Foreground="WhiteSmoke" Style="{StaticResource LabelStyle}" Width="200" Content="Ngày ký"></Label>
+                                <TextBox Foreground="#FF0000" x:Name="NgayKyBox" Style="{StaticResource TextBoxStyle}" IsEnabled="False" Width="300"></TextBox>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <Label Foreground="WhiteSmoke" Style="{StaticResource LabelStyle}" Width="200" Content="Thời hạn"></Label>
+                                <TextBox Foreground="#FF0000" x:Name="ThoiHanBox" Style="{StaticResource TextBoxStyle}" IsEnabled="False" Width="300"></TextBox>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <Label Foreground="WhiteSmoke" Style="{StaticResource LabelStyle}" Width="200" Content="Ngày hết hạn"></Label>
+                                <TextBox Foreground="#FF0000" x:Name="NgayHetHanBox" Style="{StaticResource TextBoxStyle}" IsEnabled="False" Width="300"></TextBox>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <Label Foreground="WhiteSmoke" Style="{StaticResource LabelStyle}" Width="200" Content="Mã đối tác"></Label>
+                                <TextBox Foreground="#FF0000" x:Name="MaDT_HDBox" Style="{StaticResource TextBoxStyle}" IsEnabled="False" Width="300"></TextBox>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <Label Foreground="WhiteSmoke" Style="{StaticResource LabelStyle}" Width="200" Content="Mã nhân viên"></Label>
+                                <TextBox Foreground="#FF0000" x:Name="MaNV_HDBox" Style="{StaticResource TextBoxStyle}" IsEnabled="False" Width="300"></TextBox>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <Label Foreground="WhiteSmoke" Style="{StaticResource LabelStyle}" Width="200" Content="Trạng thái hợp đồng"></Label>
+                                <TextBox Foreground="#FF0000" x:Name="TrangThaiBox" Style="{StaticResource TextBoxStyle}" IsEnabled="False" Width="300"></TextBox>
+                            </StackPanel>
+                        </StackPanel>
+                    </StackPanel>
+
+                </StackPanel>
+
             </StackPanel>
-            <StackPanel Orientation="Horizontal" Margin="20 20">
-                <Label Foreground="WhiteSmoke" Style="{StaticResource LabelStyle}" Width="200" Content="Họ tên"></Label>
-                <TextBox Foreground="WhiteSmoke" Style="{StaticResource TextBoxStyle}" x:Name="HoTen" Width="300"></TextBox>
-            </StackPanel>
-        </StackPanel>
+        </ScrollViewer>
     </DockPanel>
 </Window>
