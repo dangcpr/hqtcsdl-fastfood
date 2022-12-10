@@ -91,6 +91,12 @@ namespace _08
                             qt.ShowDialog();
                             login.Close();
                         }
+                        if (RoleName == "DoiTac")
+                        {
+                            DoiTacWindow dt = new DoiTacWindow(UserName);
+                            dt.ShowDialog();
+                            login.Close();
+                        }
                     }
                     catch
                     {

@@ -517,6 +517,7 @@ namespace _08
                 cmd.Parameters.AddWithValue("@MaHD", hd.MaHD);
                 cmd.Parameters.AddWithValue("@ThoiHan", DuyetThoiHanBox.Text);
                 cmd.Parameters.AddWithValue("@NgayHetHan", DuyetNgayHetHanBox.Text);
+                cmd.Parameters.AddWithValue("@MaNV", MaNVBox.Text);
                 int result = Convert.ToInt32(cmd.ExecuteScalar());
                 if (result == 0)
                 {
