@@ -23,8 +23,8 @@ namespace _08
         public DoiTacWindow(string username)
         {
             InitializeComponent();
-            MaDoiTac = (string)db.layMotGiaTri("select MaDT from DOITAC where Username = '"+username+"'");
-            if (MaDoiTac == "-1")
+            MaDoiTac = db.layMotGiaTri("select MaDT from DOITAC where Username = '"+username+"'");
+            if (MaDoiTac == null)
             {
                 MessageBox.Show("Username không tồn tại tài khoản Đối Tác");
                 this.Close();
@@ -42,16 +42,7 @@ namespace _08
         ///================================================ BẢNG THÔNG TIN ================================================
         ///================================================================================================================
         ///================================================================================================================
-
-        private void capnhatthongtin_click(object sender, RoutedEventArgs e)
-        {
-            //DialogResult t= MessageBox.Show("Bạn có muốn cập nhật thông tin?","Thong bao", MessageBoxButton.YesNo, );
-            int sl = Int32.Parse(TT_tb_slchinhanh.Text);
-            doitac.capNhatThongTin(TT_tb_email.Text, TT_tb_nguoidaidien.Text, sl, TT_tb_slchinhanh.Text, TT_tb_loaithucpham.Text);
-            //doitac.capNhatThongTin();
-            //MessageBox.Show("Bạn đã cập nhật thông tin thành công","Thông báo");
-        }
-        private void ThongTin_loaded(object sender, RoutedEventArgs e)
+        private void Tt_load_Datagrid()
         {
             try
             {
@@ -63,8 +54,10 @@ namespace _08
                 TT_tb_slchinhanh.Text = r["SLChiNhanh"].ToString();
                 TT_tb_tenquan.Text = r["TenQuan"].ToString();
                 TT_tb_loaithucpham.Text = r["LoaiTP"].ToString();
-                Tt_lb_thongtin_errorout.Content = "Thông tin user : " + doitac.username;
-                Tt_lb_thongtin_errorout.Background = Brushes.LightGreen;
+                //Tt_lb_thongtin_errorout.Content = "Thông tin user : " + doitac.username;
+                //Tt_lb_thongtin_errorout.Background = Brushes.LightGreen;
+                Tt_lb_thongtin_errorout.Content = "";
+                Tt_lb_thongtin_errorout.Background = Brushes.Transparent;
             }
             catch
             {
@@ -72,7 +65,19 @@ namespace _08
                 Tt_lb_thongtin_errorout.Background = Brushes.IndianRed;
             }
         }
-        private void capnhatthongtincanhan_click(object sender, RoutedEventArgs e)
+        private void Tt_capnhatthongtin_click(object sender, RoutedEventArgs e)
+        {
+            //DialogResult t= MessageBox.Show("Bạn có muốn cập nhật thông tin?","Thong bao", MessageBoxButton.YesNo, );
+            int sl = Int32.Parse(TT_tb_slchinhanh.Text);
+            doitac.capNhatThongTin(TT_tb_email.Text, TT_tb_nguoidaidien.Text, sl, TT_tb_slchinhanh.Text, TT_tb_loaithucpham.Text);
+            //doitac.capNhatThongTin();
+            //MessageBox.Show("Bạn đã cập nhật thông tin thành công","Thông báo");
+        }
+        private void Tt_ThongTin_loaded(object sender, RoutedEventArgs e)
+        {
+            Tt_load_Datagrid();
+        }
+        private void Tt_capnhatthongtincanhan_click(object sender, RoutedEventArgs e)
         {
             //DialogResult t= MessageBox.Show("Bạn có muốn cập nhật thông tin?","Thong bao", MessageBoxButton.YesNo, );
             int sl = Int32.Parse(TT_tb_slchinhanh.Text);
@@ -81,7 +86,7 @@ namespace _08
             Tt_lb_thongtin_errorout.Content = "Cập nhật thông tin thành công";
             Tt_lb_thongtin_errorout.Background = Brushes.LightGreen;
         }
-        private void capnhatmatkhau_click(object sender, RoutedEventArgs e)
+        private void Tt_capnhatmatkhau_click(object sender, RoutedEventArgs e)
         {
             if (TT_tb_matkhaucu.Text != doitac.layMatKhau())
             {
@@ -187,6 +192,7 @@ namespace _08
                     Cn_tb_thanhpho.Text = "";
                     Cn_tb_quan.Text = "";
                     Cn_tb_diachi.Text = "";
+                    Tt_load_Datagrid();
                 }
             }
             catch
@@ -203,6 +209,7 @@ namespace _08
                             "", "", "",
                             "", "", "");
                     HienMaLoi_Label(maLoi, "xoá", "chi nhánh");
+                    Tt_load_Datagrid();
                 }
                 else
                 {
@@ -220,7 +227,7 @@ namespace _08
                 DataRowView rowview = (DataRowView)cn_datagrid.SelectedItem;
                 if (rowview != null)
                 {
-                    int maLoi = doitac.QueryChiNhanh("Sua", rowview["STT"].ToString(), MaDoiTac.ToString(),
+                    int maLoi = doitac.QueryChiNhanh("Sua",  rowview["STT"].ToString(), MaDoiTac.ToString(),
                         Cn_tb_thanhpho.Text.ToString(), Cn_tb_quan.Text.ToString(), Cn_tb_diachi.Text.ToString(),
                         Cn_tb_sdt.Text.ToString(), Cn_tb_tinhtrang.Text.ToString(), Cn_tb_ngaylap.Text.ToString());
                     HienMaLoi_Label(maLoi, "sửa", "chi nhánh");
@@ -352,7 +359,7 @@ namespace _08
                 DataRowView rowview = (DataRowView)Tp_datagrid.SelectedItem;
                 if (rowview != null)
                 {
-                    int maLoi = doitac.QueryThucPham("Sua", rowview["MaTP"].ToString(), MaDoiTac.ToString(),
+                    int maLoi = doitac.QueryThucPham("Sua", Tp_tb_matp.Text, MaDoiTac.ToString(),
                         Tp_tb_tenmon.Text.ToString(), Tp_tb_mieuta.Text.ToString(), Tp_tb_gia.Text.ToString(), Tp_tb_tinhtrang.Text.ToString(),
                         Tp_tb_tuychon.Text.ToString());
                     Tp_HienMaLoi_Label(maLoi, "sửa");
@@ -740,7 +747,7 @@ namespace _08
                     return 1;
                     break;
                 case "-2":
-                    Sl_lb_errorout.Content = "Mã đối tác không tồn tại";
+                    Sl_lb_errorout.Content = "Mã đối tác không có thực phẩm ";
                     Sl_lb_errorout.Background = Brushes.IndianRed;
                     return 1;
                     break;
@@ -786,10 +793,6 @@ namespace _08
                 Sl_datagrid.ItemsSource = dt.DefaultView;
         }
 
-        private void Sl_rating_datagrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
-        }
         private void Sl_rb_ngay_Click(object sender, RoutedEventArgs e)
         {
             try

@@ -8,7 +8,7 @@
         Title="FakeLogin" Height="450" Width="800">
     <Grid>
         <Button Click="Login_Click" Content="Login" FontSize="20" HorizontalAlignment="Left" Margin="147,134,0,0" VerticalAlignment="Top" Height="38" Width="91"/>
-        <TextBox x:Name="tb_username" HorizontalAlignment="Left" FontSize="20" Margin="280,134,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="236" Height="38"/>
+        <TextBox x:Name="tb_username" Text="vanniee" HorizontalAlignment="Left" FontSize="20" Margin="280,134,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="236" Height="38"/>
 
     </Grid>
 </Window>
