@@ -622,7 +622,7 @@
                             <Grid Grid.Row="1" Grid.Column="2" Grid.RowSpan="2" Background="LightSkyBlue" Margin="10,10,10,0">
                                 <DataGrid x:Name="Sl_datagrid" 
                                   AutoGenerateColumns="True"
-                                  Loaded="Sl_datagrid_Loaded" Margin="0,-30,0,0"
+                                  Loaded="Sl_datagrid_Loaded" Margin="0,0,0,0"
                                   >
 
                                 </DataGrid>

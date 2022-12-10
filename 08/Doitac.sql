@@ -1,18 +1,35 @@
-﻿
+﻿-- Tóm tắm hàm
+
 /*
-Các giao tác cần chú ý (Có tranh chấp):
-KHACHHANG hủy đơn trong khi DOITAC chuyển tình trạng đơn hàng sang “Đã tiếp nhận” (không thểhủy), khi đó xảy ra tranh chấp Lost Update.
+Đây là những proc mà phân hệ đối tác dùng
 
-Đối tác đang cập nhật giá cho 1 thực phẩm, thì khách hàng tìm kiếm thông tin thực phẩm đó, nhưng do giá đối tác nhập không hợp lệ(vô tình nhập sốâm) dẫn đến Dirty read
 
-khách hàng đang tìm kiếm thực phẩm với một tình trạng cụthểthì đối tác cập nhật tình trạng  thực phẩm dẫn đến Unrepeatable Read.
+SoLuongDonTheoNam
+SoLuongDonTheoThang
+SoLuongDonTheoNgay
+SuaThucPham
+XoaThucPham
+ThemHopDong
+ThemThucPham
+DsChiNhanh
+DsChiNhanhNull
+XuHuongBan
+SuaChiNhanh
+XoaChiNhanh
+ThemChiNhanh
 
-khách hàng đang kiểm tra đơn đặt hàng thì đối tác cập nhật thông tin trạng thái giao hàng Unrepeatable Read
+
+select * from USERS
+insert into USERS values ()
 
 */
-CREATE DATABASE GIAONHANHANG1
+
+
+-- Database
+
+CREATE DATABASE GIAONHANHANG
 GO
-USE GIAONHANHANG1
+USE GIAONHANHANG
 GO
 
 
@@ -20,7 +37,8 @@ CREATE TABLE USERS
 (
 	Username varchar(20),
 	Pass varchar(30),
-	RoleName varchar(9)
+	RoleName varchar(9),
+	TrangThai nvarchar(20),
 	PRIMARY KEY(Username)
 )
 
@@ -28,7 +46,18 @@ CREATE TABLE NHANVIEN
 (
 	MaNV varchar(10),
 	HoTen nvarchar(30),
-	Primary key(MaNV)
+	Username varchar(20),
+	Primary key(MaNV),
+	Foreign key(Username) references USERS(Username)
+)
+
+CREATE TABLE QUANTRI
+(
+	MaQT varchar(10),
+	HoTen nvarchar(30),
+	Username varchar(20),
+	Primary key(MaQT),
+	Foreign key(Username) references USERS(Username)
 )
 
 CREATE TABLE DOITAC
@@ -43,7 +72,7 @@ CREATE TABLE DOITAC
 	Primary key(MaDT),
 	Foreign key(Username) references USERS(Username)
 )
-
+SELECT MaQT FROM QUANTRI WHERE Username = 'leinea'
 CREATE TABLE HOPDONG
 (
 	MaHD varchar(10),
@@ -58,7 +87,7 @@ CREATE TABLE HOPDONG
 	NgayHetHan date,
 	MaDT varchar(10),
 	MaNV varchar(10),
-	TrangThai nvarchar(30)
+	TrangThai nvarchar(10),
 	Primary key(MaHD),
 	Foreign key(MaDT) references DOITAC(MaDT),
 	Foreign key(MaNV) references NHANVIEN(MaNV)
@@ -74,12 +103,10 @@ CREATE TABLE CHINHANH
 	SDT	char(10),
 	TinhTrang nvarchar(30),
 	NgayLap date,
-	MaHopDong varchar(10),
+	MaHopDong varchar(30)
 	Primary key(STT,MaDT),
-	Foreign key(MaDT) references DOITAC(MaDT),
-	Foreign key(MaHopDong) references HOPDONG(MaHD)
+	Foreign key(MaDT) references DOITAC(MaDT)
 )
-
 
 CREATE TABLE THUCPHAM
 (
@@ -101,7 +128,9 @@ CREATE TABLE KHACHHANG
 	DiaChi nvarchar(100),
 	SDT char(10),
 	Email varchar(30),
-	Primary key(MaKH)
+	Username varchar(20),
+	Primary key(MaKH),
+	Foreign key(Username) references USERS(Username)
 )
 
 CREATE TABLE TAIXE
@@ -117,7 +146,9 @@ CREATE TABLE TAIXE
 	SoTaiKhoan varchar(20),
 	NganHang nvarchar(30),
 	CNNganHang nvarchar(30),
-	Primary key(MaTX)
+	Username varchar(20),
+	Primary key(MaTX),
+	Foreign key(Username) references USERS(Username)
 )
 
 CREATE TABLE DONDATHANG
@@ -145,312 +176,8 @@ CREATE TABLE CHITIETDONDATHANG
 	Foreign key(MaDH) references DONDATHANG(MaDH),
 	Foreign key(MaTP,MaDT) references THUCPHAM(MaTP,MaDT)
 )
-
+-- Đối tác (done)
 go
-
----------------------------------------------------------------------------------------------------------------------------
----------------------------------------------------------------------------------------------------------------------------
--------------------------------------------------------- KHÔNG CẦN --------------------------------------------------------
----------------------------------------------------------------------------------------------------------------------------
----------------------------------------------------------------------------------------------------------------------------
-create proc ThemUser
-	@Username varchar(20),
-	@Pass varchar(30),
-	@RoleName varchar(9)
-as
-	begin tran
-		begin try
-			if @Username='' or @Pass=''
-			begin 
-				print N'Thông tin trống'
-				ROLLBACK TRAN
-				select 1 as code
-			end
-			if exists(select* from USERS where Username = @Username)
-			begin
-				print N'Username đã tồn tại'
-				ROLLBACK TRAN
-				select 2 as code
-			end
-			if @RoleName != 'DoiTac' and @RoleName != 'KhachHang' and @RoleName != 'TaiXe' and @RoleName != 'NhanVien' and @RoleName != 'QuanTri'
-			begin
-				print N'Role name không hợp lệ!'
-				ROLLBACK TRAN
-				select 3 as code
-			end
-			insert into USERS values(@Username,@Pass,@RoleName)
-		end try
-		begin catch
-			print N'Lỗi hệ thống!'
-			ROLLBACK TRAN
-			select 4 as code
-		END CATCH
-COMMIT TRAN
-select 0 as code
-GO
-
-exec ThemUser 'vvmd','123456', 'QuanTri'
-exec ThemUser 'lmt','123456', 'NhanVien'
-exec ThemUser 'nhd','123456', 'DoiTac'
-exec ThemUser 'mqv','123456', 'KhachHang'
-
---Thêm đối tác (để test)
-insert into DOITAC Values ('1','1@gmail.com',N'Lee Chong Way',0,N'Cafe Hai Len',N'Cà phê','nhd')
-insert into DOITAC Values ( '2','2@gmail.com',N'Lê Nguyên Vũ',0,N'Trà sữa KoKo',N'Trà sữa','lmt')
-insert into DOITAC Values ( '3','3@gmail.com',N'Trần Uy',0,N'Bánh mì Ngon',N'Bánh mì',null)
-insert into DOITAC Values ( '4','4@gmail.com',N'Ngô Văn Quyền',0,N'Cơm Ngô Quyền',N'Cơm',null)
-insert into DOITAC Values ( '5','5@gmail.com',N'Nguyên Văn Kí',0,N'Cơm Nguyên Kí',N'Cơm',null)
-
-
---Thêm chi nhánh (Tiến sửa)
---ĐÃ SỬA
-go
---thêm khách hàng
-begin try 
-	drop proc sp_Them_Khach_Hang
-end try
-begin catch
-end catch
-go
-create proc sp_Them_Khach_Hang
-	@MaKH varchar(10),
-	@HoTen nvarchar(30),
-	@DiaChi nvarchar(100),
-	@SDT char(10),
-	@Email varchar(30)
-as
-	begin tran
-		begin try 
-			if @MaKH='' or @HoTen='' or @DiaChi='' or @SDT='' or @Email=''
-			begin 
-				print N'Thông tin trống'
-				rollback tran
-				return 1
-			end
-			if exists(select* from KhachHang where MaKH=@MaKH)
-			begin 
-				print N'Mã khách hàng đã tồn tại'
-				rollback tran
-				return 1
-			end
-			insert into KhachHang values(@MaKH,@HoTen,@DiaChi,@SDT,@Email)
-		end try
-		begin catch
-			print N'Lỗi hệ thống!'
-			ROLLBACK TRAN
-			RETURN 1
-		END CATCH
-COMMIT TRAN
-RETURN 0
-GO
-declare @check int
-Exec @check=sp_Them_Khach_Hang '1',N'Lê Minh Chiến',N'122, Phạm Văn Đồng, Q.Bình Thạnh,TP.HCM','0123456789','leminhchien122@gmail.com'
-print 'OUTPUT: ' + cast(@check as char(1))
-Exec sp_Them_Khach_Hang '2',N'Mai Quyết Chiến',N'333, Phạm Văn Đồng, Q.Bình Thạnh,TP.HCM','0987654321','maiquyetchien333@gmail.com'
-Exec sp_Them_Khach_Hang '3',N'Lê Trí Dũng',N'266,Võ Thị Sáu,Q.1,TP.HCM','0123456788','letridung266@gmail.com'
-Exec sp_Them_Khach_Hang '4',N'Nguyễn Hữu Trung',N'500, Phạm Văn Đồng, Q.Bình Thạnh,TP.HCM','0123456888','nguyenhuutrung500@gmail.com'
-Exec sp_Them_Khach_Hang '5',N'Nguyễn Khoa Nhiên',N'272,Nguyễn Văn Cừ,Q.5,TP.HCM','0123456777','nguyenkhoanhien272@gmail.com'
-Exec sp_Them_Khach_Hang '6',N'Hoàng Phi Hồng',N'23,Hai Bà Trưng,Q.1,TP.HCM','0123456987','hoangphihong23@gmail.com'
-Exec sp_Them_Khach_Hang '7',N'Ngô Bá Khớ',N'555,CMT8,Q.4,TP.HCM','0123456666','ngobakho555@gmail.com'
-select* from KhachHang
-go
---7. Thêm tài xế
---Mô tả:
---input:các thông tin của tài xế
---output:0- thêm thành công, 1- thêm thất bại
---kiểm tra thông tin có trống
---kiểm tra mã tài xế đã tồn tại
---kiểm tra CMND có trùng
---thêm tài xế
-go
-create proc sp_Them_Tai_Xe
-	@MaTX varchar(10),
-	@CMND varchar(12),
-	@HoTen nvarchar(30),
-	@SDT char(10),
-	@DiaChi nvarchar(100),
-	@BienSoXe varchar(10),
-	@KhuVucHoatDong nvarchar(30),
-	@Email varchar(30),
-	@SoTaiKhoan varchar(20),
-	@NganHang nvarchar(30),
-	@CNNganHang nvarchar(30)
-as
-	begin tran
-		begin try
-			if @MaTX='' or @CMND='' or @HoTen=''
-			or @SDT='' or @DiaChi='' or @BienSoXe=''
-			or @KhuVucHoatDong='' or @Email='' or @SoTaiKhoan=''
-			or @NganHang='' or @CNNganHang=''
-			begin 
-				print N'Thông tin trống'
-				rollback tran
-				return 1
-			end
-			if exists(select* from TaiXe where MaTX=@MaTX)
-			begin 
-				print N'Mã tài xế đã tôn tại'
-				rollback tran
-				return 1
-			end
-			if exists(select* from TaiXe where CMND=@CMND) 
-			begin 
-				print N'Mã cmnd này đã tồn tại'
-				rollback tran
-				return 1
-			end
-			insert into TaiXe values(@MaTX,@CMND,@HoTen,@SDT,@DiaChi,@BienSoXe,@KhuVucHoatDong,@Email,@SoTaiKhoan,@NganHang,@CNNganHang)
-		end try
-		begin catch
-			print N'Lỗi hệ thống!'
-			ROLLBACK TRAN
-			RETURN 1
-		END CATCH
-COMMIT TRAN
-RETURN 0
-GO
-Exec sp_Them_Tai_Xe '1','1234',N'Nguyễn Văn Nam','0278945666',N'Q.Thủ Đức,TP.HCM','72-C2-0123',N'Q.1,TP.HCM','nvnam@gmail.com','123','Agribank',N'CN.Thủ Đức'
-Exec sp_Them_Tai_Xe '2','1235',N'Nguyễn Văn An','0278945665',N'Q.Thủ Đức,TP.HCM','72-C2-0124',N'Q.Thủ Đức,TP.HCM','nvan@gmail.com','124','Agribank',N'CN.Thủ Đức'
-Exec sp_Them_Tai_Xe '3','1236',N'Nguyễn Duy Tân','0278945664',N'Q.Bình Thạnh,TP.HCM','62-C2-1088',N'Q.5,TP.HCM','ndtan@gmail.com','456','BIDV',N'CN.Bình Thạnh'
-Exec sp_Them_Tai_Xe '4','1237',N'Vũ Văn Vang','0278945666',N'Q.Gò Vấp,TP.HCM','60-C1-0128',N'Q.4,TP.HCM','vvvang@gmail.com','129','Agribank',N'CN.Gò Vấp'
-Exec sp_Them_Tai_Xe '4','1238',N'Vũ Văn Vang','0278945666',N'Q.Gò Vấp,TP.HCM','60-C1-0128',N'Q.4,TP.HCM','vvvang@gmail.com','129','Agribank',N'CN.Gò Vấp'
-Exec sp_Them_Tai_Xe '5','1237',N'Vũ Văn Vang','0278945666',N'Q.Gò Vấp,TP.HCM','60-C1-0128',N'Q.4,TP.HCM','vvvang@gmail.com','129','Agribank',N'CN.Gò Vấp'
-Exec sp_Them_Tai_Xe '4','1237',N'Vũ Văn Vang','',N'Q.Gò Vấp,TP.HCM','60-C1-0128',N'Q.4,TP.HCM','vvvang@gmail.com','129','Agribank',N'CN.Gò Vấp'
-select* from TaiXe
-go
---8. Thêm đơn đặt hàng
---Mô tả:
---kiểm tra mã đơn hàng đã tồn tại
---kiểm tra mã tài xế có tồn tại
---kiểm tra mã khách hàng có tồn tại
---nếu chưa có tài xế nhận thì đơn hàng ở trạng thái chờ
---giá đơn hàng khởi tạo với giá trị bằng 0
-create proc sp_Them_DDH
-	@MaDH varchar(10),
-	@GioDat varchar(6),
-	@NgayDat date,
-	@GiaTriDH decimal(10,1),
-	@TinhTrang nvarchar(30),
-	@MaKH varchar(10),
-	@MaTX varchar(10)
-as 
-	begin tran
-		begin try
-			if exists(select* from DONDATHANG where @MaDH=MaDH)
-			begin
-				print N'Mã đơn đặt hàng đã tồn tại'
-				rollback tran
-				return 1
-			end
-			if not exists(select* from KHACHHANG where @MaKH=MaKH)
-			begin
-				print N'Khách hàng không tồn tại'
-				rollback tran
-				return 1
-			end
-			if @MaTX=''
-			begin 
-				set @TinhTrang=N'Chờ'
-			end
-			else if not exists(select* from TAIXE where @MaTX=MaTX)
-			begin
-				print N'Tài xế không tồn tại'
-				rollback tran
-				return 1
-			end
-			insert into DONDATHANG values
-			(@MaDH,@GioDat,@NgayDat,@GiaTriDH,@TinhTrang,@MaKH,@MaTX)
-		end try
-		begin catch
-			print N'Lỗi hệ thống!'
-			ROLLBACK TRAN
-			RETURN 1
-		END CATCH
-COMMIT TRAN
-RETURN 0
-GO
-Exec sp_Them_DDH '1','12:20','2022-10-22',0,N'Chờ','1','1'
-Exec sp_Them_DDH '2','13:20','2022-10-22',0,N'Đang giao','1','2'
-Exec sp_Them_DDH '3','13:20','2022-10-22',0,N'Đang giao','4','2'
-Exec sp_Them_DDH '4','13:20','2022-10-22',0,N'Đang giao','3','3'
-Exec sp_Them_DDH '5','13:20','2022-10-22',0,N'Chờ giao','1','2'
-go
---9. Thêm chi tiết đơn đặt hàng
---Mô tả:
---kiểm tra đơn đặt hàng có tồn tại
---kiểm tra mã thực phẩm có tồn tại
---kiểm tra mã đối tác có tồn tại
---kiểm tra tình trạng thưcj phẩm có đang bán
---kiểm tra đối tác có đang hoạt động
---thêm chi tiết đơn hàng
---cập nhật lại tổng giá trong đhang
-create proc sp_Them_CT_DDH
-	@MaDH varchar(10),
-	@MaTP varchar(10),
-	@MaDT varchar(10),
-	@SoLuong int,
-	@DanhGia nvarchar(100)
-as
-	begin tran
-		begin try
-			if not exists(select* from DONDATHANG where @MaDH=MaDH)
-			begin
-				print N'Mã đơn đặt hàng không tồn tại'
-				rollback tran
-				return 1
-			end
-			if not exists(select* from ThucPham where MaDT=@MaDT and MaTP=@MaTP)
-			begin
-				print N'Thực phẩm này không tồn tại'
-				rollback tran
-				return 1
-			end
-			declare @TinhTrang nvarchar(30)
-			select @TinhTrang=TinhTrang from ThucPham where MaDT=@MaDT and MaTP=@MaTP
-			if @TinhTrang<>N'Có bán'
-			begin
-				print N'Thực phẩm này không còn được bán'
-				rollback tran
-				return 1
-			end
-			if not exists(select* from ChiNhanh where MaDT=@MaDT and TinhTrang=N'Bình thường')
-			begin
-				print N'Đối tác đóng cửa'
-				rollback tran
-				return 1
-			end
-			insert into CHITIETDONDATHANG values
-			(@MaDH,@MaTP,@MaDT,@SoLuong,@DanhGia)
-			declare @gia decimal(10,1)
-			select @gia=Gia from ThucPham where MaDT=@MaDT and MaTP=@MaTP
-			set @gia=@gia*@SoLuong
-			update DONDATHANG
-			set GiaTriDH=GiaTriDH+@gia
-			where @MaDH=MaDH
-		end try
-		begin catch
-			print N'Lỗi hệ thống!'
-			ROLLBACK TRAN
-			RETURN 1
-		END CATCH
-COMMIT TRAN
-RETURN 0
-GO
-Exec sp_Them_CT_DDH '1','1','4',2,'Like'
-Exec sp_Them_CT_DDH '1','2','4',1,'Like'
-Exec sp_Them_CT_DDH '1','3','4',2,'Like'
-Exec sp_Them_CT_DDH '2','1','1',1,'Like'
-Exec sp_Them_CT_DDH '2','2','1',2,'Like'
-Exec sp_Them_CT_DDH '3','1','4',4,'Like'
-select * from THUCPHAM
-select* from DONDATHANG
-go
-
----------------------------------------------------------------------------------------------------------------------------
----------------------------------------------------------------------------------------------------------------------------
----------------------------------------------------------- CÓ CẦN ----------------------------------------------------------
----------------------------------------------------------------------------------------------------------------------------
----------------------------------------------------------------------------------------------------------------------------
 create proc ThemChiNhanh
 	@MaDT varchar(10),
 	@TP nvarchar(30),
@@ -515,7 +242,8 @@ select 0
 return
 GO
 
-create proc XoaChiNhanh
+create -- alter
+proc XoaChiNhanh
 	@MaDT varchar(10),
 	@STT int
 as 
@@ -544,6 +272,10 @@ as
 			end
 			delete CHINHANH 
 				where MaDT = @MaDT and STT = @STT
+			update DoiTac
+			set SLChiNhanh=SLChiNhanh-1
+			where @MaDT=MaDT
+
 
 
 		end try
@@ -558,7 +290,8 @@ select 0
 return
 GO
 
-create proc SuaChiNhanh
+create --  alter
+proc SuaChiNhanh
 	@MaDT varchar(10),
 	@TP nvarchar(30),
 	@Quan nvarchar(30),
@@ -571,7 +304,7 @@ as
 	begin tran
 		begin try
 			if @MaDT='' or @TP='' or @Quan='' or @DiaChiCuThe='' 
-			or @SDT='' or @TinhTrang='' or @NgayLap='' or @stt =''
+			or @SDT='' or @NgayLap='' or @stt =''
 			begin
 				print N'Thông tin trống'
 				rollback tran
@@ -659,27 +392,29 @@ Exec ThemChiNhanh '4',N'TP.HCM',N'Q.2',N'111,Hai Bà Trưng','0753951123',N'Bìn
 
 
  
- /*
- 
- update DONDATHANG set TinhTrang = N'Chờ'
- select * from DONDATHANG
- 
- update CHITIETDONDATHANG set MaDT = '1'
- select * from CHITIETDONDATHANG
 
- select *, (select k.HoTen from KHACHHANG k where k.MaKH = dh_cho.MaKH) TenKH,
- (select t.HoTen from TAIXE t where t.MaTX = dh_cho.MaTX) TenTX 
- from(select * from DONDATHANG where TinhTrang = N'Chờ') dh_cho  
- where MaDH in (select distinct MaDH from CHITIETDONDATHANG where MaDT = '1' )
+-- update DONDATHANG set TinhTrang = N'Chờ'
+go
 
- */
-create proc XuHuongBan
+create function DemSoLuongBan(@MaTP varchar(10), @MaDT varchar(10))
+returns int
+as
+begin
+	declare @out int
+	set @out = (select (SUM(SoLuong+0)) from CHITIETDONDATHANG ct where ct.MaTP = @MaTP and ct.MaDT = @MaDT)
+	if @out is null
+		set @out = 0
+	return @out
+end	
+go
+create -- alter 
+proc XuHuongBan
 	@madt varchar(10)
 as
 	begin try		
 		select tp.MaDT, tp.MaTP, tp.TenMon,
 			(select COUNT(MaDH) from CHITIETDONDATHANG ct where ct.MaTP = tp.MaTP and ct.MaDT = tp.MaDT and DanhGia = 'Like') Like_,
-			(select SUM(SoLuong) from CHITIETDONDATHANG ct where ct.MaTP = tp.MaTP and ct.MaDT = tp.MaDT) Ban
+			(dbo.DemSoLuongBan(tp.MaTP,tp.MaDT)) Ban
 		from THUCPHAM tp
 		where MaDT =@madt
 
@@ -715,15 +450,14 @@ as
 	begin catch
 	end catch
 go
-/*
 exec DsChiNhanhNull '1'
 exec DsChiNhanh '1'
 	
 select * from DONDATHANG
 go
-*/
 --Thêm thực phẩm 
-create proc ThemThucPham
+create -- alter
+proc ThemThucPham
 	@MaDT varchar(10),
 	@TenMon nvarchar(30),
 	@MieuTa nvarchar(50),
@@ -733,8 +467,8 @@ create proc ThemThucPham
 as
 	begin tran
 		begin try
-			if @MaDT='' or @TenMon='' or @MieuTa='' 
-			or @TinhTrang='' or @TinhTrang='' or @TuyChon=''
+			if @MaDT='' or @TenMon='' --or @MieuTa='' 
+			or @TinhTrang=''-- or @TuyChon=''
 			begin
 				print N'Thông tin trống'
 				rollback tran
@@ -762,15 +496,15 @@ as
 				select 4
 				return
 			end
-			declare @MaTP varchar(10)
-			set @MaTP='0'
+			declare @MaTP int
+			set @MaTP=0
 			if exists (select * from ThucPham where MaDT=@MaDT)
 			begin 
 				set @MaTP=(select max(MaTP) from ThucPham where MaDT=@MaDT) 
 			end
 			set @MaTP=@MaTP+1
 			insert into ThucPham values 
-			(@MaTP,@MaDT,@TenMon,@MieuTa,@Gia,@TinhTrang,@TuyChon)
+			(CONVERT(varchar(10), @MaTP),@MaDT,@TenMon,@MieuTa,@Gia,@TinhTrang,@TuyChon)
 		end try
 		begin catch
 			print N'Lỗi hệ thống!'
@@ -783,7 +517,8 @@ select 0
 return
 GO
 
-create proc ThemHopDong
+create --alter
+proc ThemHopDong
 	@SLChiNhanh smallint,
 	@SoTaiKhoan varchar(20),
 	@NganHang nvarchar(30),
@@ -831,8 +566,8 @@ as
 			end
 			set @MaHD=@MaHD+1
 
-			insert into HopDong values (CONVERT(varchar(10), @MaHD),@NgDaiDien,@SLChiNhanh,@SoTaiKhoan,@NganHang,@CNNganHang,@MaSoThue,@NgayKy,@ThoiHan,@NgayHetHan,@MaDT,NULL,N'Chờ duyệt')
 			select (@MaHD*-1)
+			insert into HopDong values (CONVERT(varchar(10), @MaHD),@NgDaiDien,@SLChiNhanh,@SoTaiKhoan,@NganHang,@CNNganHang,@MaSoThue,@NgayKy,@ThoiHan,@NgayHetHan,@MaDT,NULL,N'Chờ duyệt')
 			
 		end try
 		begin catch
@@ -862,14 +597,8 @@ Exec ThemThucPham '2',N'Sườn non',N'Hương vị mới',30000,N'Có bán',N'�
 Exec ThemThucPham '3',N'Sườn nướng',N'Hương vị mới',30000,N'Có bán',N'Đường/Nhiệt độ'
 */
 go
-/*
 
-delete ThuCPham
 select * from ThucPham
-
-
-*/
-
 go
 
 --Xóa thực phẩm
@@ -928,7 +657,7 @@ exec XoaThucPham '2','3'
 
 --Update Thực phẩm
 --Sửa thực phẩm
-create --create
+create -- alter
 proc SuaThucPham
 	@MaDT varchar(10),
 	@TenMon nvarchar(30),
@@ -940,8 +669,8 @@ proc SuaThucPham
 as
 	begin tran
 		begin try
-			if @MaDT='' or @TenMon='' or @MieuTa='' 
-			or @TinhTrang=''  or @TuyChon='' or @MaTP=''
+			if @MaDT='' or @TenMon='' 
+			or @TinhTrang=''   or @MaTP=''
 			begin
 				print N'Thông tin trống'
 				rollback tran
@@ -998,6 +727,11 @@ Exec SuaThucPham '3',N'Cà phê bọt biển',N'Hương vị mới',50000,N'Có 
 Exec SuaThucPham '1',N'Gà chiêm nước mắm',N'Hương vị mới',30000,N'Có bán',N'Đường/Nhiệt độ','1'
 Exec SuaThucPham '2',N'Sườn non',N'Hương vị mới',30000,N'Có bán',N'Đường/Nhiệt độ','1'
 Exec SuaThucPham '3',N'Sườn nướng',N'Hương vị mới',30000,N'Có bán',N'Đường/Nhiệt độ','1'
+
+
+Exec ThemThucPham '1',N'Gà xối mỡa',N' ','25000.0',N'Có bán',N' '
+
+
 */
 
 
@@ -1116,4 +850,166 @@ Exec SoLuongDonTheoThang '1'
 go
 Exec SoLuongDonTheoNam '1'
 go
+*/
+
+-- Khách hàng (chưa)
+
+-- Tài xế (done)
+create proc ThemTaiXe
+	@MaTX varchar(10),
+	@CMND varchar(12),
+	@HoTen nvarchar(30),
+	@SDT char(10),
+	@DiaChi nvarchar(100),
+	@BienSoXe varchar(10),
+	@KhuVucHoatDong nvarchar(30),
+	@Email varchar(30),
+	@SoTaiKhoan varchar(20),
+	@NganHang nvarchar(30),
+	@CNNganHang nvarchar(30),
+	@Username varchar(20)
+as 
+	begin tran ThemTaiXe
+		begin try
+			if @MaTX='' or @CMND='' or @HoTen=''
+			or @SDT='' or @DiaChi='' or @BienSoXe=''
+			or @KhuVucHoatDong='' or @Email='' or @SoTaiKhoan=''
+			or @NganHang='' or @CNNganHang='' OR @Username =''
+			begin 
+				print N'Thông tin trống'
+				select 1
+				rollback tran ThemTaiXe
+			end
+			if exists(SELECT * from TAIXE where MaTX = @MaTX)
+			begin
+				print N'Mã tài xế đã tồn tại'
+				select 2
+				rollback tran ThemTaiXe
+			end
+			insert into TAIXE values(@MaTX, @CMND,@HoTen,@SDT,@DiaChi,@BienSoXe,@KhuVucHoatDong,@Email,@SoTaiKhoan,@NganHang,@CNNganHang,@Username)
+		end try
+		begin catch
+			print N'Lỗi hệ thống!'
+			ROLLBACK TRAN ThemTaiXe
+		END CATCH
+COMMIT TRAN ThemTaiXe
+select 0
+GO
+
+-- Quản trị viên (chưa)
+
+CREATE PROC LoginUser
+	@Username varchar(20),
+	@Pass varchar(30)
+AS
+BEGIN TRAN
+	BEGIN TRY
+		IF NOT EXISTS (SELECT * FROM USERS WHERE Username = @Username AND Pass = @Pass)
+		BEGIN
+			Print N'Sai tên đăng nhập hoặc mật khẩu!'
+			SELECT 1 AS code
+			ROLLBACK TRAN
+		END
+		
+	END TRY
+	BEGIN CATCH
+		print N'Lỗi hệ thống!'
+		SELECT 1 AS code
+		ROLLBACK TRAN
+	END CATCH
+COMMIT TRAN
+SELECT 0 AS code
+GO
+
+CREATE PROC TimKiemUser
+	@Username varchar(20)
+AS
+BEGIN TRAN
+	BEGIN TRY
+		IF NOT EXISTS (SELECT * FROM USERS WHERE Username = @Username)
+		BEGIN
+			Print @Username + N' không tồn tại!'
+			Select 1 as code
+			ROLLBACK TRAN
+		END
+		
+	END TRY
+	BEGIN CATCH
+		print N'Lỗi hệ thống!'
+		Select 2 as code
+		ROLLBACK TRAN
+	END CATCH
+COMMIT TRAN
+Select 0 as code
+GO
+
+/*
+
+insert into USERS values ('vanniee','1','','')
+insert into USERS values ('tx','1','','')
+insert into USERS values ('kh','1','','')
+select * from USERS
+
+insert into DOITAC values ('1','','','','','','vanniee')
+select * from DOITAC
+
+insert into TAIXE values ('1','',N'Nguyễn Tài Xế','','','','','','','','','tx')
+select * from TAIXE
+
+insert into KHACHHANG values ('1',N'Phạm Khách Hàng','','','','kh')
+select * from KHACHHANG
+select * from THUCPHAM
+
+insert into DONDATHANG values ('1','12:00','2022-12-13',45000,'','1','1')
+insert into DONDATHANG values ('2','12:00','2022-12-13',30000,'','1','1')
+insert into DONDATHANG values ('3','12:00','2022-12-13',15000,'','1','1')
+insert into DONDATHANG values ('4','12:00','2022-12-13',45000,'','1','1')
+insert into DONDATHANG values ('5','12:00','2022-12-13',60000,'','1','1')
+insert into DONDATHANG values ('6','12:00','2022-12-13',25000,'','1','1')
+insert into DONDATHANG values ('7','12:00','2022-12-13',35000,'','1','1')
+insert into DONDATHANG values ('8','12:00','2022-12-13',55000,'','1','1')
+insert into DONDATHANG values ('9','12:00','2021-5-13',55000,'','1','1')
+insert into DONDATHANG values ('10','12:00','2021-2-13',55000,'','1','1')
+insert into DONDATHANG values ('11','12:00','2021-4-13',55000,'','1','1')
+insert into DONDATHANG values ('12','12:00','2021-2-13',55000,'','1','1')
+insert into DONDATHANG values ('13','12:00','2021-1-13',55000,'','1','1')
+insert into DONDATHANG values ('14','12:00','2022-5-13',55000,'','1','1')
+insert into DONDATHANG values ('15','12:00','2022-4-13',55000,'','1','1')
+insert into DONDATHANG values ('16','12:00','2022-7-13',55000,'','1','1')
+insert into DONDATHANG values ('17','12:00','2021-4-13',55000,'','1','1')
+insert into DONDATHANG values ('18','12:00','2022-8-13',55000,'','1','1')
+insert into DONDATHANG values ('19','12:00','2021-1-13',55000,'','1','1')
+insert into DONDATHANG values ('20','12:00','2021-5-13',55000,'','1','1')
+insert into DONDATHANG values ('21','12:00','2020-5-13',55000,'','1','1')
+update DONDATHANG set TinhTrang = N'Chờ'
+select * from DONDATHANG
+
+insert into CHITIETDONDATHANG values ('1','2','1',3,'Like')
+insert into CHITIETDONDATHANG values ('2','1','1',1,'Like')
+insert into CHITIETDONDATHANG values ('3','4','1',1,'Like')
+insert into CHITIETDONDATHANG values ('4','3','1',1,'Like')
+insert into CHITIETDONDATHANG values ('4','4','1',1,'Like')
+insert into CHITIETDONDATHANG values ('5','3','1',1,'Like')
+insert into CHITIETDONDATHANG values ('5','5','1',1,'Like')
+insert into CHITIETDONDATHANG values ('5','6','1',1,'Like')
+insert into CHITIETDONDATHANG values ('5','7','1',1,'Like')
+insert into CHITIETDONDATHANG values ('9','1','1',1,'Like')
+insert into CHITIETDONDATHANG values ('10','2','1',1,'Like')
+insert into CHITIETDONDATHANG values ('11','6','1',1,'Like')
+insert into CHITIETDONDATHANG values ('12','3','1',1,'Like')
+insert into CHITIETDONDATHANG values ('13','5','1',1,'Like')
+insert into CHITIETDONDATHANG values ('14','1','1',1,'Like')
+insert into CHITIETDONDATHANG values ('15','2','1',1,'Like')
+insert into CHITIETDONDATHANG values ('16','3','1',1,'Like')
+insert into CHITIETDONDATHANG values ('17','4','1',1,'Like')
+insert into CHITIETDONDATHANG values ('18','2','1',1,'Like')
+insert into CHITIETDONDATHANG values ('19','5','1',1,'Like')
+insert into CHITIETDONDATHANG values ('20','2','1',1,'Like')
+insert into CHITIETDONDATHANG values ('21','1','1',1,'Like')
+select * from CHITIETDONDATHANG
+select * from THUCPHAM
+
+
+
+
 */

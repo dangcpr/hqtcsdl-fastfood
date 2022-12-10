@@ -470,27 +470,36 @@ namespace _08
                 DataRowView rowview = (DataRowView)Dh_datagrid.SelectedItem;
                 if (rowview != null)
                 {
-                    string query = " begintry " +
-                    "update DONDATHANG set TinhTrang = N'Chờ giao' where MaDH='" + rowview["MaDH"].ToString() + "' " +
-                    "select 0 endtry " +
-                    "begincatch select 1 endcatch";
+                    string query = " begin try " +
+                    "update DONDATHANG set TinhTrang = N'Chờ giao' where MaDH='" + Dh_tb_madon.Text + "' " +
+                    "select 0 end try " +
+                    "begin catch select 1 end catch";
                     int kq = (int)db.sql_select(query).Rows[0][0];
-                    Dh_lb_errorout.Content = "Nhận đơn thành công";
-                    Dh_lb_errorout.Background = Brushes.LightGreen;
-                    ///Refresh bảng
-                    Dh_load_Datagrid();
+                    if (kq ==0)
+                    {
+                        Dh_lb_errorout.Content = "Nhận đơn thành công";
+                        Dh_lb_errorout.Background = Brushes.LightGreen;
+                        ///Refresh bảng
+                        Dh_load_Datagrid();
 
-                    ///Refresh textbox
-                    Dh_tb_madon.Text = "";
-                    Dh_tb_mataixe.Text = "";
-                    Dh_tb_khachhang.Text = "";
-
+                        ///Refresh textbox
+                        Dh_tb_madon.Text = "";
+                        Dh_tb_mataixe.Text = "";
+                        Dh_tb_khachhang.Text = "";
+                        return;
+                    }
+                    else
+                    {
+                        Dh_lb_errorout.Content = "Lỗi khi kết nốt SQL";
+                        Dh_lb_errorout.Background = Brushes.IndianRed; ;
+                    }
                 }
                 else
                 {
                     Dh_lb_errorout.Content = "Chọn đơn hàng để nhận";
                     Dh_lb_errorout.Background = Brushes.IndianRed; ;
                 }
+
             }
             catch
             { }
@@ -502,25 +511,27 @@ namespace _08
                 DataRowView rowview = (DataRowView)Dh_datagrid.SelectedItem;
                 if (rowview != null)
                 {
-                    string query = " begintry " +
-                    "update DONDATHANG set TinhTrang = N'Huỷ' where MaDH='" + rowview["MaDH"].ToString() + "'" +
-                    "select 0 endtry" +
-                    "begin catch select 1 endcatch";
+                    string query = " begin try " +
+                    "update DONDATHANG set TinhTrang = N'Huỷ' where MaDH='" + Dh_tb_madon.Text + "' " +
+                    "select 0 end try " +
+                    "begin catch select 1 end catch";
                     int kq = (int)db.sql_select(query).Rows[0][0];
-                    Dh_lb_errorout.Content = "Nhận đơn thành công";
-                    Dh_lb_errorout.Background = Brushes.LightGreen;
-                    ///Refresh bảng
-                    Dh_load_Datagrid();
+                    if (kq == 0)
+                    {
+                        Dh_lb_errorout.Content = "Huỷ đơn thành công";
+                        Dh_lb_errorout.Background = Brushes.LightGreen;
+                        ///Refresh bảng
+                        Dh_load_Datagrid();
 
-                    ///Refresh textbox
-                    Dh_tb_madon.Text = "";
-                    Dh_tb_mataixe.Text = "";
-                    Dh_tb_khachhang.Text = "";
-
+                        ///Refresh textbox
+                        Dh_tb_madon.Text = "";
+                        Dh_tb_mataixe.Text = "";
+                        Dh_tb_khachhang.Text = "";
+                    }
                 }
                 else
                 {
-                    Dh_lb_errorout.Content = "Chọn đơn hàng để nhận";
+                    Dh_lb_errorout.Content = "Chọn đơn hàng để huỷ";
                     Dh_lb_errorout.Background = Brushes.IndianRed; ;
                 }
             }
@@ -544,8 +555,8 @@ namespace _08
                         Dh_tb_madon.Text = rowview["MaDH"].ToString();
                         Dh_tb_mataixe.Text = rowview["MaTX"].ToString();
                         Dh_tb_khachhang.Text = rowview["MaKH"].ToString();
+                        Dh_load_datagrid_Chitietdon(rowview["MaDH"].ToString());
                     }
-                    Dh_load_datagrid_Chitietdon(rowview["MaKH"].ToString());
                 }
             }
             catch
