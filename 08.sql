@@ -103,7 +103,9 @@ CREATE TABLE TAIXE
 	SoTaiKhoan varchar(20),
 	NganHang nvarchar(30),
 	CNNganHang nvarchar(30),
-	Primary key(MaTX)
+	Username varchar(20),
+	Primary key(MaTX),
+	Foreign key(Username) references USERS(Username)
 )
 
 CREATE TABLE DONDATHANG
@@ -163,18 +165,15 @@ BEGIN TRAN
 		IF NOT EXISTS (SELECT * FROM USERS WHERE Username = @Username)
 		BEGIN
 			Print @Username + N' không tồn tại!'
-			Select 1 as code
 			ROLLBACK TRAN
 		END
-		
+		Select * from USERS where Username = @Username
 	END TRY
 	BEGIN CATCH
 		print N'Lỗi hệ thống!'
-		Select 2 as code
 		ROLLBACK TRAN
 	END CATCH
 COMMIT TRAN
-Select 0 as code
 GO
 
 
@@ -811,6 +810,48 @@ as
 COMMIT TRAN
 RETURN 0
 GO
+
+create proc ThemTaiXe
+	@MaTX varchar(10),
+	@CMND varchar(12),
+	@HoTen nvarchar(30),
+	@SDT char(10),
+	@DiaChi nvarchar(100),
+	@BienSoXe varchar(10),
+	@KhuVucHoatDong nvarchar(30),
+	@Email varchar(30),
+	@SoTaiKhoan varchar(20),
+	@NganHang nvarchar(30),
+	@CNNganHang nvarchar(30),
+	@Username varchar(20)
+as 
+	begin tran ThemTaiXe
+		begin try
+			if @MaTX='' or @CMND='' or @HoTen=''
+			or @SDT='' or @DiaChi='' or @BienSoXe=''
+			or @KhuVucHoatDong='' or @Email='' or @SoTaiKhoan=''
+			or @NganHang='' or @CNNganHang='' OR @Username =''
+			begin 
+				print N'Thông tin trống'
+				select 1
+				rollback tran ThemTaiXe
+			end
+			if exists(SELECT * from TAIXE where MaTX = @MaTX)
+			begin
+				print N'Mã tài xế đã tồn tại'
+				select 2
+				rollback tran ThemTaiXe
+			end
+			insert into TAIXE values(@MaTX, @CMND,@HoTen,@SDT,@DiaChi,@BienSoXe,@KhuVucHoatDong,@Email,@SoTaiKhoan,@NganHang,@CNNganHang,@Username)
+		end try
+		begin catch
+			print N'Lỗi hệ thống!'
+			ROLLBACK TRAN ThemTaiXe
+		END CATCH
+COMMIT TRAN ThemTaiXe
+select 0
+GO
+
 select* from TaiXe
 Exec sp_Them_Tai_Xe '0001','1234',N'Nguyễn Văn Nam','0278945666',N'Q.Thủ Đức,TP.HCM','72-C2-0123',N'Q.1,TP.HCM','nvnam@gmail.com','123','Agribank',N'CN.Thủ Đức'
 Exec sp_Them_Tai_Xe '0002','1235',N'Nguyễn Văn An','0278945665',N'Q.Thủ Đức,TP.HCM','72-C2-0124',N'Q.Thủ Đức,TP.HCM','nvan@gmail.com','124','Agribank',N'CN.Thủ Đức'

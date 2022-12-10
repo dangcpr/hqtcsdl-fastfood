@@ -109,7 +109,49 @@
 
                     </StackPanel>
 
+                    <StackPanel x:Name="Register_TaiXe" Visibility="Collapsed">
+                        <StackPanel Orientation="Horizontal" Margin="50 0">
+                            <Label Style="{StaticResource LabelStyle}" Width="200" Content="CMND"></Label>
+                            <TextBox Style="{StaticResource TextBoxStyle}" x:Name="TCMND" Width="400" ToolTipService.ToolTip="Nhập email"></TextBox>
+                        </StackPanel>
 
+                        <StackPanel Orientation="Horizontal" Margin="50 0">
+                            <Label Style="{StaticResource LabelStyle}" Width="200" Content="Họ và tên"></Label>
+                            <TextBox Style="{StaticResource TextBoxStyle}" x:Name="THoTen" Width="400" ToolTipService.ToolTip="Nhập tên quán"></TextBox>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="50 0">
+                            <Label Style="{StaticResource LabelStyle}" Width="200" Content="SDT"></Label>
+                            <TextBox Style="{StaticResource TextBoxStyle}" x:Name="TSDT" Width="400" ToolTipService.ToolTip="Nhập tên quán"></TextBox>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="50 0">
+                            <Label Style="{StaticResource LabelStyle}" Width="200" Content="Địa chỉ"></Label>
+                            <TextBox Style="{StaticResource TextBoxStyle}" x:Name="TDiaChi" Width="400" ToolTipService.ToolTip="Nhập email"></TextBox>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="50 0">
+                            <Label Style="{StaticResource LabelStyle}" Width="200" Content="Biển số xe"></Label>
+                            <TextBox Style="{StaticResource TextBoxStyle}" x:Name="TBienSoXe" Width="400" ToolTipService.ToolTip="Nhập tên người đại diện"></TextBox>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="50 0">
+                            <Label Style="{StaticResource LabelStyle}" Width="200" Content="Khu vực hoạt động"></Label>
+                            <TextBox Style="{StaticResource TextBoxStyle}" x:Name="TKhuVuc" Width="400" ToolTipService.ToolTip="Nhập số lượng chi nhánh"></TextBox>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="50 0">
+                            <Label Style="{StaticResource LabelStyle}" Width="200" Content="Email"></Label>
+                            <TextBox Style="{StaticResource TextBoxStyle}" x:Name="TEmail" Width="400" ToolTipService.ToolTip="Nhập số lượng chi nhánh"></TextBox>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="50 0">
+                            <Label Style="{StaticResource LabelStyle}" Width="200" Content="Số tài khoản"></Label>
+                            <TextBox Style="{StaticResource TextBoxStyle}" x:Name="TSTK" Width="400" ToolTipService.ToolTip="Nhập số lượng chi nhánh"></TextBox>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="50 0">
+                            <Label Style="{StaticResource LabelStyle}" Width="200" Content="Ngân hàng"></Label>
+                            <TextBox Style="{StaticResource TextBoxStyle}" x:Name="TNganHang" Width="400" ToolTipService.ToolTip="Nhập số lượng chi nhánh"></TextBox>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="50 0">
+                            <Label Style="{StaticResource LabelStyle}" Width="200" Content="Chi nhánh ngân hàng"></Label>
+                            <TextBox Style="{StaticResource TextBoxStyle}" x:Name="TChiNhanhNH" Width="400" ToolTipService.ToolTip="Nhập số lượng chi nhánh"></TextBox>
+                        </StackPanel>
+                    </StackPanel>
 
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                         <Button Style="{StaticResource ButtonStyle}" Content="Return" Click="ReturnLogin" ></Button>

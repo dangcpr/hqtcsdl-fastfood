@@ -31,6 +31,7 @@ namespace _08
         public static int MaQT = 1;
         public static int MaDT = 1;
         public static int MaKH = 1;
+        public static int MaTX = 1;
 
         public Register()
         {
@@ -43,6 +44,7 @@ namespace _08
             Register_DoiTac.Visibility = Visibility.Collapsed;
             Register_QuanTri.Visibility = Visibility.Collapsed;
             Register_KhachHang.Visibility = Visibility.Collapsed;
+            Register_TaiXe.Visibility = Visibility.Collapsed;
         }
         private void ChonPhanHe(object sender, SelectionChangedEventArgs e)
         {
@@ -117,14 +119,33 @@ namespace _08
                 try
                 {
                     db.Open();
-                    SqlCommand createMaDT = db.CreateCommand();
-                    createMaDT.CommandType = CommandType.Text;
-                    createMaDT.CommandText = "SELECT MAX(MAKH) FROM KHACHHANG";
-                    MaKH = Convert.ToInt32(createMaDT.ExecuteScalar()) + 1;
+                    SqlCommand createMaKH = db.CreateCommand();
+                    createMaKH.CommandType = CommandType.Text;
+                    createMaKH.CommandText = "SELECT MAX(MAKH) FROM KHACHHANG";
+                    MaKH = Convert.ToInt32(createMaKH.ExecuteScalar()) + 1;
                 }
                 catch
                 {
                     MaKH = 1;
+                }
+            }
+
+            if (RoleName == "TaiXe")
+            {
+                ResetVisibility();
+                Register_TaiXe.Visibility = Visibility.Visible;
+                SqlConnection db = new SqlConnection("Server=.;Database=GIAONHANHANG;integrated security = true");
+                try
+                {
+                    db.Open();
+                    SqlCommand createMaTX = db.CreateCommand();
+                    createMaTX.CommandType = CommandType.Text;
+                    createMaTX.CommandText = "SELECT MAX(MaTX) FROM TAIXE";
+                    MaTX = Convert.ToInt32(createMaTX.ExecuteScalar()) + 1;
+                }
+                catch
+                {
+                    MaTX = 1;
                 }
             }
         }
@@ -265,7 +286,7 @@ namespace _08
                             SqlCommand cmd_DT = db.CreateCommand();
                             cmd_DT.Transaction = trans_DT;
                             cmd_DT.CommandType = CommandType.StoredProcedure;
-                            cmd_DT.CommandText = "ThemDoiTac";
+                            cmd_DT.CommandText = "sp_ThemDoiTac_fix";
                             cmd_DT.Parameters.AddWithValue("@MaDT", MaDT);
                             cmd_DT.Parameters.AddWithValue("@Email", Email.Text);
                             cmd_DT.Parameters.AddWithValue("@NgDaiDien", NgDaiDien.Text);
@@ -353,8 +374,53 @@ namespace _08
                                 MessageBox.Show("Lỗi hệ thống!");
                             }
                         }
+                        if (RoleName == "TaiXe")
+                        {
+                            SqlTransaction trans_TX = db.BeginTransaction();
+                            SqlCommand cmd_TX = db.CreateCommand();
+                            cmd_TX.Transaction = trans_TX;
+                            cmd_TX.CommandType = CommandType.StoredProcedure;
+                            cmd_TX.CommandText = "ThemTaiXe";
+                            cmd_TX.Parameters.AddWithValue("@MaTX", MaTX);
+                            cmd_TX.Parameters.AddWithValue("@CMND", TCMND.Text);
+                            cmd_TX.Parameters.AddWithValue("@HoTen", THoTen.Text);
+                            cmd_TX.Parameters.AddWithValue("@SDT", TSDT.Text);
+                            cmd_TX.Parameters.AddWithValue("@DiaChi", TDiaChi.Text);
+                            cmd_TX.Parameters.AddWithValue("@BienSoXe", TBienSoXe.Text);
+                            cmd_TX.Parameters.AddWithValue("@KhuVucHoatDong", TKhuVuc.Text);
+                            cmd_TX.Parameters.AddWithValue("@Email", TEmail.Text);
+                            cmd_TX.Parameters.AddWithValue("@SoTaiKhoan", TSTK.Text);
+                            cmd_TX.Parameters.AddWithValue("@NganHang", TNganHang.Text);
+                            cmd_TX.Parameters.AddWithValue("@CNNganHang", TChiNhanhNH.Text);
+                            cmd_TX.Parameters.AddWithValue("@Username", Username);
+                            int result_TX = Convert.ToInt32(cmd_TX.ExecuteScalar());
+                            if (result_TX == 0)
+                            {
+                                MessageBox.Show("Đăng ký thông tin thành công!");
+                                trans_TX.Commit();
+
+                                register.Hide();
+
+                                register.Close();
+                            }
+                            else if (result == 1)
+                            {
+                                MessageBox.Show("Thông tin trống!");
+                                trans_TX.Rollback();
+                            }                                                            
+                            else if (result == 2)
+                            {
+                                MessageBox.Show("Mã tài xế tồn tại!");
+                                trans_TX.Rollback();
+                                                            }
+                            else
+                            {
+                                MessageBox.Show("Lỗi hệ thống!");
+                            }
+                        }
 
                     }
+                
                 }
 
                 else if (result == 1)

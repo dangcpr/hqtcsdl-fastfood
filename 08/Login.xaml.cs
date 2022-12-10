@@ -73,6 +73,12 @@ namespace _08
                             kh.ShowDialog();
                             login.Close();
                         }
+                        if (RoleName == "TaiXe")
+                        {
+                            TaiXe_Window tx = new TaiXe_Window(UserName);
+                            tx.ShowDialog();
+                            login.Close();
+                        }
                     }
                     catch
                     {
