@@ -67,6 +67,7 @@
     <Compile Include="DBConnect.cs" />
     <Compile Include="DoiTac.cs" />
     <Compile Include="DoiTacWindow.xaml.cs" />
+    <Compile Include="FakeLogin.xaml.cs" />
     <Compile Include="Login.xaml.cs">
       <DependentUpon>Login.xaml</DependentUpon>
     </Compile>
@@ -80,6 +81,10 @@
       <DependentUpon>Register_KhachHang.xaml</DependentUpon>
     </Compile>
     <Page Include="DoiTacWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="FakeLogin.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

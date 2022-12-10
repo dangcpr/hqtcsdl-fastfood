@@ -30,7 +30,7 @@ namespace _08
         }
         private void SubmitRegistration(object sender, RoutedEventArgs e)
         {
-            SqlConnection db = new SqlConnection("server=DANG; database=GIAONHANHANG; integrated security = true");
+            SqlConnection db = new SqlConnection("server=.; database=GIAONHANHANG; integrated security = true");
             try
             {
                 db.Open();
