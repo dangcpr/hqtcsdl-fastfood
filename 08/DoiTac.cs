@@ -1,11 +1,19 @@
 ﻿
 using System.Data;
 
+<<<<<<< Updated upstream
 namespace VangVaTien_DoiTac.DBClass
 {
     public class DoiTac
     {
         public string username = "nhd";
+=======
+namespace _08.DBClass
+{
+    public class DoiTac
+    {
+        public string username;
+>>>>>>> Stashed changes
 
         private string maDT;
         private string email;

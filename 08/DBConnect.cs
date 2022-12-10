@@ -3,11 +3,19 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Windows;
 
+<<<<<<< Updated upstream
 namespace VangVaTien_DoiTac.DBClass
 {
     class DBConnect
     {
         static string chuoiKetNoi = "Data Source=.;Initial Catalog = GIAONHANHANG1; Integrated Security = True";
+=======
+namespace _08.DBClass
+{
+    class DBConnect
+    {
+        static string chuoiKetNoi = "Data Source=.;Initial Catalog = GIAONHANHANG; Integrated Security = True";
+>>>>>>> Stashed changes
         public SqlConnection traCon = new SqlConnection(chuoiKetNoi);
         public DataTable sql_select(string query)
         {

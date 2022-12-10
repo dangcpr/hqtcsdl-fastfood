@@ -5,26 +5,49 @@ using System.Data;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+<<<<<<< Updated upstream
 using VangVaTien_DoiTac.DBClass;
 
 
 namespace VangVaTien_DoiTac
+=======
+using _08.DBClass;
+
+
+namespace _08
+>>>>>>> Stashed changes
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
+<<<<<<< Updated upstream
     public partial class MainWindow : Window
+=======
+    public partial class DoiTacWindow : Window
+>>>>>>> Stashed changes
     {
 
         public string MaDoiTac;
         DBConnect db = new DBConnect();
         
 
+<<<<<<< Updated upstream
         public MainWindow()
         {
             InitializeComponent();
             MaDoiTac = "1".ToString();
 
+=======
+        public DoiTacWindow(string username)
+        {
+            InitializeComponent();
+            MaDoiTac = (string)db.sql_select("begin try select MaDT from DOITAC where Username = '"+username+"' end try begin catch select '-1' end catch  ").Rows[0][0];
+            if (MaDoiTac == "-1")
+            {
+                MessageBox.Show("Username không tồn tại tài khoản Đối Tác");
+                this.Close();
+            }    
+>>>>>>> Stashed changes
         }
         DoiTac doitac = new DoiTac();
 
@@ -193,6 +216,7 @@ namespace VangVaTien_DoiTac
             try
             {
                 DataRowView rowview = (DataRowView)cn_datagrid.SelectedItem;
+<<<<<<< Updated upstream
                 int maLoi = doitac.QueryChiNhanh("Xoa", rowview["STT"].ToString(), MaDoiTac.ToString(),
                         "", "", "",
                         "", "", "");
@@ -201,6 +225,22 @@ namespace VangVaTien_DoiTac
             catch
             {
                 HienMaLoi_Label(11, "xoá", "chi nhánh");
+=======
+                if (rowview != null)
+                {
+                    int maLoi = doitac.QueryChiNhanh("Xoa", rowview["STT"].ToString(), MaDoiTac.ToString(),
+                            "", "", "",
+                            "", "", "");
+                    HienMaLoi_Label(maLoi, "xoá", "chi nhánh");
+                }
+                else
+                {
+                    HienMaLoi_Label(11, "xoá", "chi nhánh");
+                }
+            }
+            catch
+            {
+>>>>>>> Stashed changes
             }
         }
         private void Cn_btn_sua_Click(object sender, RoutedEventArgs e)
@@ -208,6 +248,7 @@ namespace VangVaTien_DoiTac
             try
             {
                 DataRowView rowview = (DataRowView)cn_datagrid.SelectedItem;
+<<<<<<< Updated upstream
                 int maLoi = doitac.QueryChiNhanh("Sua", rowview["STT"].ToString(), MaDoiTac.ToString(),
                     Cn_tb_thanhpho.Text.ToString(), Cn_tb_quan.Text.ToString(), Cn_tb_diachi.Text.ToString(),
                     Cn_tb_sdt.Text.ToString(), Cn_tb_tinhtrang.Text.ToString(), Cn_tb_ngaylap.Text.ToString());
@@ -216,6 +257,23 @@ namespace VangVaTien_DoiTac
             catch
             {
                 HienMaLoi_Label(11, "sửa", "chi nhánh");
+=======
+                if (rowview != null)
+                {
+                    int maLoi = doitac.QueryChiNhanh("Sua", rowview["STT"].ToString(), MaDoiTac.ToString(),
+                        Cn_tb_thanhpho.Text.ToString(), Cn_tb_quan.Text.ToString(), Cn_tb_diachi.Text.ToString(),
+                        Cn_tb_sdt.Text.ToString(), Cn_tb_tinhtrang.Text.ToString(), Cn_tb_ngaylap.Text.ToString());
+                    HienMaLoi_Label(maLoi, "sửa", "chi nhánh");
+                }
+                else
+                {
+                    HienMaLoi_Label(11, "sửa", "chi nhánh");
+                } 
+                    
+            }
+            catch
+            {
+>>>>>>> Stashed changes
             }
         }
 
@@ -333,6 +391,7 @@ namespace VangVaTien_DoiTac
             try
             {
                 DataRowView rowview = (DataRowView)Tp_datagrid.SelectedItem;
+<<<<<<< Updated upstream
                 int maLoi = doitac.QueryThucPham("Sua", rowview["MaTP"].ToString(), MaDoiTac.ToString(),
                     Tp_tb_tenmon.Text.ToString(), Tp_tb_mieuta.Text.ToString(), Tp_tb_gia.Text.ToString(), Tp_tb_tinhtrang.Text.ToString(),
                     Tp_tb_tuychon.Text.ToString());
@@ -341,6 +400,22 @@ namespace VangVaTien_DoiTac
             catch
             {
                 Tp_HienMaLoi_Label(11, "sửa");
+=======
+                if (rowview != null)
+                {
+                    int maLoi = doitac.QueryThucPham("Sua", rowview["MaTP"].ToString(), MaDoiTac.ToString(),
+                        Tp_tb_tenmon.Text.ToString(), Tp_tb_mieuta.Text.ToString(), Tp_tb_gia.Text.ToString(), Tp_tb_tinhtrang.Text.ToString(),
+                        Tp_tb_tuychon.Text.ToString());
+                    Tp_HienMaLoi_Label(maLoi, "sửa");
+                }    
+                else
+                {
+                    Tp_HienMaLoi_Label(11, "sửa");
+                }    
+            }
+            catch
+            {
+>>>>>>> Stashed changes
             }
         }
         private void Tp_btn_xoa_Click_new(object sender, RoutedEventArgs e)
@@ -348,6 +423,7 @@ namespace VangVaTien_DoiTac
             try
             {
                 DataRowView rowview = (DataRowView)Tp_datagrid.SelectedItem;
+<<<<<<< Updated upstream
                 int maLoi = doitac.QueryThucPham("Xoa", rowview["MaTP"].ToString(), MaDoiTac.ToString(),
                         "", "", "",
                         "", "");
@@ -356,6 +432,23 @@ namespace VangVaTien_DoiTac
             catch
             {
                 Tp_HienMaLoi_Label(11, "xoá");
+=======
+
+                if (rowview != null)
+                {
+                    int maLoi = doitac.QueryThucPham("Xoa", rowview["MaTP"].ToString(), MaDoiTac.ToString(),
+                            "", "", "",
+                            "", "");
+                    Tp_HienMaLoi_Label(maLoi, "xoá");
+                }
+                else
+                {
+                    Tp_HienMaLoi_Label(11, "xoá");
+                }
+            }
+            catch
+            {
+>>>>>>> Stashed changes
             }
         }
 

@@ -1,9 +1,17 @@
+<<<<<<< Updated upstream
 ﻿<Window x:Class="VangVaTien_DoiTac.MainWindow"
+=======
+﻿<Window x:Class="_08.DoiTacWindow"
+>>>>>>> Stashed changes
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+<<<<<<< Updated upstream
         xmlns:local="clr-namespace:VangVaTien_DoiTac"
+=======
+        xmlns:local="clr-namespace:_08"
+>>>>>>> Stashed changes
         mc:Ignorable="d"
         Background="Navy"
         MinHeight="600" 
@@ -690,7 +698,11 @@
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
                         <Grid>
+<<<<<<< Updated upstream
                             <Image Source="Icon/logout.png" Margin="5" Height="25" Width="25" HorizontalAlignment="Left"/>
+=======
+                            <Image Source="logout.png" Margin="5" Height="25" Width="25" HorizontalAlignment="Left"/>
+>>>>>>> Stashed changes
                         </Grid>
                         <Grid Grid.Column="1">
                             <TextBlock FontSize="15" Text="Đăng xuất" Margin="0,0,10,0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
