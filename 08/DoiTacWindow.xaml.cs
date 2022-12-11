@@ -18,11 +18,12 @@ namespace _08
 
         public string MaDoiTac;
         DBConnect db = new DBConnect();
-
+        public string username = "";
 
         public DoiTacWindow(string username)
         {
             InitializeComponent();
+            this.username = username;
             MaDoiTac = db.layMotGiaTri("select MaDT from DOITAC where Username = '" + username + "'");
             if (MaDoiTac == null)
             {
@@ -88,7 +89,7 @@ namespace _08
         }
         private void Tt_capnhatmatkhau_click(object sender, RoutedEventArgs e)
         {
-            if (TT_tb_matkhaucu.Text != doitac.layMatKhau())
+            if (TT_tb_matkhaucu.Text != doitac.layMatKhau(username))
             {
                 Tt_lb_doimatkhau_errorout.Content = "Mật khẩu cũ không đúng!";
                 Tt_lb_doimatkhau_errorout.Background = Brushes.IndianRed;
@@ -105,7 +106,7 @@ namespace _08
                 else
                 {
 
-                    doitac.doiMatKhau(TT_tb_matkhaumoi.Password);
+                    doitac.doiMatKhau(TT_tb_matkhaumoi.Password, username);
                     Tt_lb_doimatkhau_errorout.Content = "Đổi mật khẩu thành công";
                     Tt_lb_doimatkhau_errorout.Background = Brushes.LightGreen;
                     //MessageBox.Show("Cập nhật thành công!", "Thông báo");
@@ -442,7 +443,7 @@ namespace _08
         {
             try
             {
-                DataTable dt = db.sql_select("select *, (select k.HoTen from KHACHHANG k where k.MaKH = dh_cho.MaKH) TenKH,(select t.HoTen from TAIXE t where t.MaTX = dh_cho.MaTX) TenTX from(select * from DONDATHANG where TinhTrang = N'Chờ') dh_cho  where MaDH in (select distinct MaDH from CHITIETDONDATHANG where MaDT = '" + MaDoiTac + "' )");
+                DataTable dt = db.sql_select("select *, (select k.HoTen from KHACHHANG k where k.MaKH = dh_cho.MaKH) TenKH,(select t.HoTen from TAIXE t where t.MaTX = dh_cho.MaTX) TenTX from(select * from DONDATHANG where TinhTrang = N'Chờ xử lý') dh_cho  where MaDH in (select distinct MaDH from CHITIETDONDATHANG where MaDT = '" + MaDoiTac + "' )");
                 Dh_datagrid.ItemsSource = dt.DefaultView;
             }
             catch
@@ -512,7 +513,7 @@ namespace _08
                 if (rowview != null)
                 {
                     string query = " begin try " +
-                    "update DONDATHANG set TinhTrang = N'Huỷ' where MaDH='" + Dh_tb_madon.Text + "' " +
+                    "update DONDATHANG set TinhTrang = N'Đã hủy đơn' where MaDH='" + Dh_tb_madon.Text + "' " +
                     "select 0 end try " +
                     "begin catch select 1 end catch";
                     int kq = (int)db.sql_select(query).Rows[0][0];
@@ -640,8 +641,8 @@ namespace _08
             try
             {
                 int maLoi = doitac.QueryHopDong(Hd_LayChiNhanhDaChon().Count.ToString(), Hd_tb_sotaikhoan.Text, Hd_tb_nganhang.Text,
-                    Hd_tb_chinhanhnganhang.Text, Hd_tb_masothue.Text, Hd_tb_ngayki.Text,
-                    Hd_tb_thoihan.Text, Hd_tb_ngayhethan.Text, MaDoiTac);
+                    Hd_tb_chinhanhnganhang.Text, Hd_tb_masothue.Text, Convert.ToDateTime(Hd_tb_ngayki.Text).ToString("MM-dd-yyyy"),
+                    Hd_tb_thoihan.Text, Convert.ToDateTime(Hd_tb_ngayhethan.Text).ToString("MM-dd-yyyy"), MaDoiTac);
 
 
                 Hd_HienMaLoi_Label(maLoi, "thêm");
@@ -704,7 +705,7 @@ namespace _08
                         Hd_tb_chinhanhnganhang.Text = rowview["CNNganHang"].ToString();
                         Hd_tb_masothue.Text = rowview["MaSoThue"].ToString();
                         Hd_tb_tinhtrang.Text = rowview["TrangThai"].ToString();
-                        Hd_tb_ngayki.Text = rowview["NgayKy"].ToString();
+                        Hd_tb_ngayki.Text = Convert.ToDateTime(rowview["NgayKy"]).ToString("mm-dd-yyy");
                         Hd_tb_thoihan.Text = rowview["ThoiHan"].ToString();
                         Hd_tb_ngayhethan.Text = rowview["NgayHetHan"].ToString();
                         Hd_tb_nguoidaidien.Text = rowview["NguoiDaiDien"].ToString();

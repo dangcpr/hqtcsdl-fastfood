@@ -39,14 +39,14 @@ namespace _08.DBClass
             dbconnect.sql_insert_update_delete(sql);
         }
 
-        public void doiMatKhau(string passmoi)
+        public void doiMatKhau(string passmoi, string user)
         {
-            string query = "update USERS set Pass='" + passmoi + "' where Username='" + username + "'";
+            string query = "update USERS set Pass='" + passmoi + "' where Username='" + user + "'";
             dbconnect.sql_insert_update_delete(query);
         }
-        public string layMatKhau()
+        public string layMatKhau(string user)
         {
-            string query = "select Pass from USERS where Username='" + username + "'";
+            string query = "select Pass from USERS where Username='" + user + "'";
             return dbconnect.layMotGiaTri(query);
         }
         public int QueryChiNhanh(string LoaiQuery, string stt, string Ma, string TP, string Quan, string DiaChi, string SDT, string TT, string NgayLap)
