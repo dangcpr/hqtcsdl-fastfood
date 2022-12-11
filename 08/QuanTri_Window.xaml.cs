@@ -354,6 +354,7 @@ namespace _08
                 user.Pass = sdr["Pass"].ToString();
                 user.RoleName = sdr["RoleName"].ToString();
                 user.TrangThai = sdr["TrangThai"].ToString();
+                MessageBox.Show("Đã tìm thấy user!");
                 UserBox.Text = user.Username;
                 PassBox.Text = user.Pass;
                 RoleNameBox.Text = user.RoleName;
@@ -395,6 +396,7 @@ namespace _08
             SuaTTPH.Visibility = Visibility.Collapsed;
             XoaTTPH.Visibility = Visibility.Collapsed;
             XemTTPH.Visibility = Visibility.Collapsed;
+            ShowDSPH.Visibility = Visibility.Collapsed;
         }
 
 
@@ -403,10 +405,6 @@ namespace _08
         {
 
             ph.RoleName = ((ComboBoxItem)SelectPhanHe.SelectedItem).Content.ToString();
-
-
-
-
         }
 
         private void ShowThemTT(object sender, RoutedEventArgs e)
@@ -648,6 +646,7 @@ namespace _08
         }
 
         ND user_Sua = new ND();
+        PhanHe ph_Sua = new PhanHe();
 
         private void FindUser_Sua(object sender, RoutedEventArgs e)
         {
@@ -668,12 +667,75 @@ namespace _08
                 if (user_Sua.Username != "")
                 {
                     MessageBox.Show("Đã tìm thấy user!");
-                    UpdateBtn.IsEnabled = true;
+                    sdr.Close();
+                    if (user_Sua.RoleName == "DoiTac")
+                    {
+                        MaLabel.Content = "Mã đối tác";
+                        SqlCommand cmd2 = db.CreateCommand();
+                        cmd2.CommandType = CommandType.Text;
+                        cmd2.CommandText = "SELECT MaDT FROM DOITAC WHERE Username = @Username";
+                        cmd2.Parameters.AddWithValue("@Username", user_Sua.Username);
+                        ph_Sua.MaDT = Convert.ToInt32(cmd2.ExecuteScalar());
+                        Ma_Sua.Text = ph_Sua.MaDT.ToString();
+                        UpdateBtn.IsEnabled = true;
+                        CapNhat_DoiTac.Visibility = Visibility.Visible;
+
+                        
+                    }
+                    if (user_Sua.RoleName == "NhanVien")
+                    {
+                        CapNhat_DoiTac.Visibility = Visibility.Collapsed;
+                        MaLabel.Content = "Mã nhân viên";
+                        SqlCommand cmd2 = db.CreateCommand();
+                        cmd2.CommandType = CommandType.Text;
+                        cmd2.CommandText = "SELECT MaNV FROM NHANVIEN WHERE Username = @Username";
+                        cmd2.Parameters.AddWithValue("@Username", user_Sua.Username);
+                        ph_Sua.MaNV = Convert.ToInt32(cmd2.ExecuteScalar());
+                        Ma_Sua.Text = ph_Sua.MaNV.ToString();
+                        UpdateBtn.IsEnabled = true;
+                    }
+                    if (user_Sua.RoleName == "KhachHang")
+                    {
+                        CapNhat_DoiTac.Visibility = Visibility.Collapsed;
+                        MaLabel.Content = "Mã khách hàng";
+                        SqlCommand cmd2 = db.CreateCommand();
+                        cmd2.CommandType = CommandType.Text;
+                        cmd2.CommandText = "SELECT MaKH FROM KHACHHANG WHERE Username = @Username";
+                        cmd2.Parameters.AddWithValue("@Username", user_Sua.Username);
+                        ph_Sua.MaKH = Convert.ToInt32(cmd2.ExecuteScalar());
+                        Ma_Sua.Text = ph_Sua.MaKH.ToString();
+                        UpdateBtn.IsEnabled = true;
+                    }
+                    if (user_Sua.RoleName == "QuanTri")
+                    {
+                        CapNhat_DoiTac.Visibility = Visibility.Collapsed;
+                        MaLabel.Content = "Mã quản trị";
+                        SqlCommand cmd2 = db.CreateCommand();
+                        cmd2.CommandType = CommandType.Text;
+                        cmd2.CommandText = "SELECT MaQT FROM QUANTRI WHERE Username = @Username";
+                        cmd2.Parameters.AddWithValue("@Username", user_Sua.Username);
+                        ph_Sua.MaQT = Convert.ToInt32(cmd2.ExecuteScalar());
+                        Ma_Sua.Text = ph_Sua.MaQT.ToString();
+                        UpdateBtn.IsEnabled = true;
+                    }
+                    if (user_Sua.RoleName == "TaiXe")
+                    {
+                        CapNhat_DoiTac.Visibility = Visibility.Collapsed;
+                        MaLabel.Content = "Mã tài xế";
+                        SqlCommand cmd2 = db.CreateCommand();
+                        cmd2.CommandType = CommandType.Text;
+                        cmd2.CommandText = "SELECT MaTX FROM TAIXE WHERE Username = @Username";
+                        cmd2.Parameters.AddWithValue("@Username", user_Sua.Username);
+                        ph_Sua.MaTX = Convert.ToInt32(cmd2.ExecuteScalar());
+                        Ma_Sua.Text = ph_Sua.MaTX.ToString();
+                        UpdateBtn.IsEnabled = true;
+                    }
                 }
                 else
                 {
                     MessageBox.Show("Không tìm thấy!");
                     UpdateBtn.IsEnabled = false;
+                    CapNhat_DoiTac.Visibility = Visibility.Collapsed;
                 }
             }
             catch
@@ -685,46 +747,11 @@ namespace _08
 
 
 
-        PhanHe ph_Sua = new PhanHe();
+        
 
 
 
-        private void ChonPhanHeMoi(object sender, SelectionChangedEventArgs e)
-        {
-
-            ph_Sua.RoleName = ((ComboBoxItem)SelectPhanHeMoi.SelectedItem).Content.ToString();
-
-            if (ph_Sua.RoleName == "DoiTac")
-            {
-                CapNhat_DoiTac.Visibility = Visibility.Visible;
-
-
-                if (user_Sua.RoleName == "DoiTac")
-                {
-                    SqlConnection db = new SqlConnection("Server=.;Database=GIAONHANHANG;integrated security = true");
-                    try
-                    {
-                        db.Open();
-                        SqlCommand getDT = db.CreateCommand();
-                        getDT.CommandType = CommandType.Text;
-                        getDT.CommandText = "SELECT MADT FROM DOITAC WHERE Username=@Username";
-                        getDT.Parameters.AddWithValue("@Username", user_Sua.Username);
-                        ph_Sua.MaDT = Convert.ToInt32(getDT.ExecuteScalar());
-
-
-                    }
-                    catch
-                    {
-                        MessageBox.Show("Lỗi hệ thống!");
-                    }
-                }
-
-            }
-            if (ph_Sua.RoleName == "NhanVien" || ph_Sua.RoleName == "QuanTri" || ph_Sua.RoleName == "KhachHang" || ph_Sua.RoleName == "TaiXe")
-            {
-                CapNhat_DoiTac.Visibility = Visibility.Collapsed;
-            }
-        }
+        
 
 
 
@@ -742,7 +769,7 @@ namespace _08
                 cmd.CommandText = "CapNhatUser";
                 cmd.Parameters.AddWithValue("@Username", username_SuaTT.Text);
                 cmd.Parameters.AddWithValue("@Pass", password_Moi.Password);
-                cmd.Parameters.AddWithValue("@RoleName", ph_Sua.RoleName);
+                cmd.Parameters.AddWithValue("@RoleName", user_Sua.RoleName);
 
                 int result = Convert.ToInt32(cmd.ExecuteScalar());
                 if (result == 0)
@@ -750,7 +777,7 @@ namespace _08
                     MessageBox.Show("Cập nhật thông tin tài khoản(Pass,RoleName) thành công!");
                     trans.Commit();
 
-                    if (ph_Sua.RoleName == "DoiTac")
+                    if (user_Sua.RoleName == "DoiTac")
                     {
                         try
                         {
@@ -955,7 +982,8 @@ namespace _08
                 {
                     SqlCommand cmd = db.CreateCommand();
                     cmd.CommandType = CommandType.Text;
-                    cmd.CommandText = "DELETE FROM NHANVIEN WHERE MaNV = @MaNV";
+                    cmd.CommandText = "DELETE FROM HOPDONG WHERE MaNV = @MaNV " +
+                        "DELETE FROM NHANVIEN WHERE MaNV = @MaNV";
                     cmd.Parameters.AddWithValue("@MaNV", ph_Xoa.MaNV);
                     cmd.ExecuteNonQuery();
                     SqlCommand cmd2 = db.CreateCommand();
@@ -969,7 +997,8 @@ namespace _08
                 {
                     SqlCommand cmd = db.CreateCommand();
                     cmd.CommandType = CommandType.Text;
-                    cmd.CommandText = "DELETE FROM KHACHHANG WHERE MaKH = @MaKH";
+                    cmd.CommandText = "UPDATE DONDATHANG SET MaKH = null WHERE MaKH = @MaKH " +
+                        "DELETE FROM KHACHHANG WHERE MaKH = @MaKH";
                     cmd.Parameters.AddWithValue("@MaKH", ph_Xoa.MaKH);
                     cmd.ExecuteNonQuery();
                     SqlCommand cmd2 = db.CreateCommand();
@@ -997,7 +1026,8 @@ namespace _08
                 {
                     SqlCommand cmd = db.CreateCommand();
                     cmd.CommandType = CommandType.Text;
-                    cmd.CommandText = "DELETE FROM TAIXE WHERE MaTX = @MaTX";
+                    cmd.CommandText = "UPDATE DONDATHANG SET MaTX = null WHERE MaTX = @MaTX " +
+                        "DELETE FROM TAIXE WHERE MaTX = @MaTX";
                     cmd.Parameters.AddWithValue("@MaTX", ph_Xoa.MaTX);
                     cmd.ExecuteNonQuery();
                     SqlCommand cmd2 = db.CreateCommand();
@@ -1200,6 +1230,106 @@ namespace _08
             {
                 MessageBox.Show(ex.Message);
             }
+        }
+
+        public string RoleNameDSPH = "";
+        private void ChonDSPH(object sender, SelectionChangedEventArgs e)
+        {
+
+            RoleNameDSPH = ((ComboBoxItem)SelectDSPH.SelectedItem).Content.ToString();
+            SqlConnection db = new SqlConnection("Server=.;Database=GIAONHANHANG;integrated security = true");
+            try
+            {
+                db.Open();
+                if (RoleNameDSPH == "DoiTac")
+                {
+                    SqlDataAdapter GetDS = new SqlDataAdapter("Select * from DOITAC", db);
+                    DataTable DS = new DataTable("DOITAC");
+                    GetDS.Fill(DS);
+                    dgPhanHe.ItemsSource = DS.DefaultView;
+                    if (DS.Columns.Count.ToString() == "1")
+                    {
+                        dgPhanHe.Visibility = Visibility.Collapsed;
+                    }
+                    else
+                    {
+                        dgPhanHe.Visibility = Visibility.Visible;
+                    }
+                }
+                if (RoleNameDSPH == "NhanVien")
+                {
+                    SqlDataAdapter GetDS = new SqlDataAdapter("Select * from NHANVIEN", db);
+                    DataTable DS = new DataTable("NHANVIEN");
+                    GetDS.Fill(DS);
+                    dgPhanHe.ItemsSource = DS.DefaultView;
+                    if (DS.Columns.Count.ToString() == "1")
+                    {
+                        dgPhanHe.Visibility = Visibility.Collapsed;
+                    }
+                    else
+                    {
+                        dgPhanHe.Visibility = Visibility.Visible;
+                    }
+                }
+                if (RoleNameDSPH == "QuanTri")
+                {
+                    SqlDataAdapter GetDS = new SqlDataAdapter("Select * from QUANTRI", db);
+                    DataTable DS = new DataTable("QUANTRI");
+                    GetDS.Fill(DS);
+                    dgPhanHe.ItemsSource = DS.DefaultView;
+                    if (DS.Columns.Count.ToString() == "1")
+                    {
+                        dgPhanHe.Visibility = Visibility.Collapsed;
+                    }
+                    else
+                    {
+                        dgPhanHe.Visibility = Visibility.Visible;
+                    }
+                }
+                if (RoleNameDSPH == "KhachHang")
+                {
+                    SqlDataAdapter GetDS = new SqlDataAdapter("Select * from KHACHHANG", db);
+                    DataTable DS = new DataTable("KHACHHANG");
+                    GetDS.Fill(DS);
+                    dgPhanHe.ItemsSource = DS.DefaultView;
+                    if (DS.Columns.Count.ToString() == "1")
+                    {
+                        dgPhanHe.Visibility = Visibility.Collapsed;
+                    }
+                    else
+                    {
+                        dgPhanHe.Visibility = Visibility.Visible;
+                    }
+                }
+                if (RoleNameDSPH == "TaiXe")
+                {
+                    SqlDataAdapter GetDS = new SqlDataAdapter("Select * from TAIXE", db);
+                    DataTable DS = new DataTable("TAIXE");
+                    GetDS.Fill(DS);
+                    dgPhanHe.ItemsSource = DS.DefaultView;
+                    if (DS.Columns.Count.ToString() == "1")
+                    {
+                        dgPhanHe.Visibility = Visibility.Collapsed;
+                    }
+                    else
+                    {
+                        dgPhanHe.Visibility = Visibility.Visible;
+                    }
+                }
+
+            }
+            catch
+            {
+            }
+
+
+
+        }
+        private void ShowXemDSTT(object sender, RoutedEventArgs e)
+        {
+            ResetQLPHVisibility();
+            ShowDSPH.Visibility = Visibility.Visible;
+            ChonDSPH(null, null);
         }
     }
 }

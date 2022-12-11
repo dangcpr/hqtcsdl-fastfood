@@ -350,20 +350,20 @@ namespace _08
 
                                 register.Close();
                             }
-                            else if (result == 1)
+                            else if (result_KH == 1)
                             {
 
                                 MessageBox.Show("Thông tin trống!");
                                 trans_KH.Rollback();
 
                             }
-                            else if (result == 2)
+                            else if (result_KH == 2)
                             {
                                 MessageBox.Show("Mã chi nhánh đã tồn tại!");
                                 trans_KH.Rollback();
 
                             }
-                            else if (result == 3)
+                            else if (result_KH == 3)
                             {
                                 MessageBox.Show("Số điện thoại không hợp lệ!");
                                 trans_KH.Rollback();

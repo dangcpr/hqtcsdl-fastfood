@@ -109,12 +109,6 @@
     <Compile Include="Register.xaml.cs">
       <DependentUpon>Register.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Register_DoiTac.xaml.cs">
-      <DependentUpon>Register_DoiTac.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Register_KhachHang.xaml.cs">
-      <DependentUpon>Register_KhachHang.xaml</DependentUpon>
-    </Compile>
     <Page Include="DoiTacWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -152,14 +146,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Register.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Register_DoiTac.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Register_KhachHang.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

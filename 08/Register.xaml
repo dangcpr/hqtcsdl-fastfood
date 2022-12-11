@@ -92,19 +92,19 @@
                     <StackPanel x:Name="Register_KhachHang" Visibility="Collapsed">
                         <StackPanel Orientation="Horizontal" Margin="50 0">
                             <Label Style="{StaticResource LabelStyle}" Width="200" Content="Email"></Label>
-                            <TextBox Style="{StaticResource TextBoxStyle}" x:Name="CEmail" Width="400" ToolTipService.ToolTip="Nhập email"></TextBox>
+                            <TextBox Style="{StaticResource TextBoxStyle}" x:Name="CEmail" Width="400"></TextBox>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal" Margin="50 0">
                             <Label Style="{StaticResource LabelStyle}" Width="200" Content="Họ và tên"></Label>
-                            <TextBox Style="{StaticResource TextBoxStyle}" x:Name="CHoTen" Width="400" ToolTipService.ToolTip="Nhập tên quán"></TextBox>
+                            <TextBox Style="{StaticResource TextBoxStyle}" x:Name="CHoTen" Width="400"></TextBox>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal" Margin="50 0">
                             <Label Style="{StaticResource LabelStyle}" Width="200" Content="Số điện thoại"></Label>
-                            <TextBox Style="{StaticResource TextBoxStyle}" x:Name="CSDT" Width="400" ToolTipService.ToolTip="Nhập tên người đại diện"></TextBox>
+                            <TextBox Style="{StaticResource TextBoxStyle}" x:Name="CSDT" Width="400"></TextBox>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal" Margin="50 0">
                             <Label Style="{StaticResource LabelStyle}" Width="200" Content="Địa chỉ"></Label>
-                            <TextBox Style="{StaticResource TextBoxStyle}" x:Name="CDiaChi" Width="400" ToolTipService.ToolTip="Nhập số lượng chi nhánh"></TextBox>
+                            <TextBox Style="{StaticResource TextBoxStyle}" x:Name="CDiaChi" Width="400"></TextBox>
                         </StackPanel>
 
                     </StackPanel>

@@ -8,71 +8,78 @@
         WindowStartupLocation="CenterScreen"
         Title="Tài Xế" FontSize="20" Height="500" Width="800" Background="#222">
     <DockPanel LastChildFill="True">
-        <StackPanel DockPanel.Dock="Left" Width="200" Background="#CCFFFF">
-            <Button Height="50" FontWeight="Bold" Background="#33FF99" Content="Thông tin cá nhân" Click="GetInfo"></Button>
-            <Button Height="50" FontWeight="Bold" Background="#33FF99" Content="Chọn đơn hàng" Click="SelectDonHang" HorizontalAlignment="Left" Width="200" />
-            <Button Height="50" FontWeight="Bold" Background="#33FF99" Content="Cập nhật đơn hàng" Click="ButtonUpdateDon"></Button>
+        <StackPanel DockPanel.Dock="Left" Width="100">
+            <Button Height="70" Style="{StaticResource SimpleButtonStyle}" FontWeight="Bold" Click="GetInfo">
+                <TextBlock Text="Thông tin cá nhân" TextAlignment="Center" TextWrapping="Wrap"></TextBlock>
+            </Button>
+            <Button Height="70" Style="{StaticResource SimpleButtonStyle}" FontWeight="Bold" Click="SelectDonHang">
+                <TextBlock Text="Chọn đơn hàng" TextAlignment="Center" TextWrapping="Wrap"></TextBlock>
+            </Button>
+            <Button Height="70" Style="{StaticResource SimpleButtonStyle}" FontWeight="Bold" Click="ButtonUpdateDon">
+                <TextBlock Text="Cập nhật đơn hàng" TextAlignment="Center" TextWrapping="Wrap"></TextBlock>
+            </Button>
+            
         </StackPanel>
         <ScrollViewer Margin="10" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
 
-            <StackPanel x:Name="Infomation" Visibility="Collapsed">
-            <StackPanel Orientation="Horizontal" Margin="20 5">
-                <Label Foreground="WhiteSmoke" Style="{StaticResource LabelStyle}" Width="200" Content="Mã tài xế"></Label>
-                <TextBox Foreground="WhiteSmoke" Style="{StaticResource TextBoxStyle}" x:Name="TMaTX" IsEnabled="False" Width="300"></TextBox>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal" Margin="20 5">
-                <Label Foreground="WhiteSmoke" Style="{StaticResource LabelStyle}" Width="200" Content="CMND"></Label>
-                <TextBox Style="{StaticResource TextBoxStyle}" x:Name="TCMND" Width="300" ToolTipService.ToolTip="Nhập CMND"></TextBox>
-            </StackPanel>
+            <StackPanel x:Name="Infomation" Visibility="Visible">
                 <StackPanel Orientation="Horizontal" Margin="20 5">
-                    <Label Foreground="WhiteSmoke" Style="{StaticResource LabelStyle}" Width="200" Content="Họ và tên"/>
-                    <TextBox Style="{StaticResource TextBoxStyle}" x:Name="THoTen" Width="300" ToolTipService.ToolTip="Nhập họ và tên"/>
+                    <Label Foreground="WhiteSmoke" Style="{StaticResource LabelStyle}" Width="200" Content="Mã tài xế"></Label>
+                    <TextBox Foreground="WhiteSmoke" Style="{StaticResource TextBoxStyle}" x:Name="TMaTX" IsEnabled="False" Width="300"></TextBox>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" Margin="20 5">
-                <Label Foreground="WhiteSmoke" Style="{StaticResource LabelStyle}" Width="200" Content="Số điện thoại"></Label>
-                <TextBox Style="{StaticResource TextBoxStyle}" x:Name="TSDT" Width="300" ToolTipService.ToolTip="Nhập số điện thoại"></TextBox>
+                    <Label Foreground="WhiteSmoke" Style="{StaticResource LabelStyle}" Width="200" Content="CMND"></Label>
+                    <TextBox Style="{StaticResource TextBoxStyle}" x:Name="TCMND" Width="300" ToolTipService.ToolTip="Nhập CMND"></TextBox>
+                </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="20 5">
+                        <Label Foreground="WhiteSmoke" Style="{StaticResource LabelStyle}" Width="200" Content="Họ và tên"/>
+                        <TextBox Style="{StaticResource TextBoxStyle}" x:Name="THoTen" Width="300" ToolTipService.ToolTip="Nhập họ và tên"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="20 5">
+                    <Label Foreground="WhiteSmoke" Style="{StaticResource LabelStyle}" Width="200" Content="Số điện thoại"></Label>
+                    <TextBox Style="{StaticResource TextBoxStyle}" x:Name="TSDT" Width="300" ToolTipService.ToolTip="Nhập số điện thoại"></TextBox>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="20 5">
+                    <Label Foreground="WhiteSmoke" Style="{StaticResource LabelStyle}" Width="200" Content="Địa chỉ"></Label>
+                    <TextBox Style="{StaticResource TextBoxStyle}" x:Name="TDiaChi" Width="300" ToolTipService.ToolTip="Nhập địa chỉ"></TextBox>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="20 5">
+                    <Label Foreground="WhiteSmoke" Style="{StaticResource LabelStyle}" Width="200" Content="Biển số xe"></Label>
+                    <TextBox Style="{StaticResource TextBoxStyle}" x:Name="TBienSoXe" Width="300" ToolTipService.ToolTip="Nhập biển số xe"></TextBox>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="20 5">
+                    <Label Foreground="WhiteSmoke" Style="{StaticResource LabelStyle}" Width="200" Content="Khu vực hoạt động"></Label>
+                    <TextBox Style="{StaticResource TextBoxStyle}" x:Name="TKhuVuc" Width="300" ToolTipService.ToolTip="Nhập Khu vực hoạt động"></TextBox>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="20 5">
+                    <Label Foreground="WhiteSmoke" Style="{StaticResource LabelStyle}" Width="200" Content="Email"></Label>
+                    <TextBox Style="{StaticResource TextBoxStyle}" x:Name="TEmail" Width="300" ToolTipService.ToolTip="Nhập email"></TextBox>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="20 5">
+                    <Label Foreground="WhiteSmoke" Style="{StaticResource LabelStyle}" Width="200" Content="Số tài khoản"></Label>
+                    <TextBox Style="{StaticResource TextBoxStyle}" x:Name="TSTK" Width="300" ToolTipService.ToolTip="Nhập số tài khoản"></TextBox>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="20 5">
+                    <Label Foreground="WhiteSmoke" Style="{StaticResource LabelStyle}" Width="200" Content="Ngân hàng"></Label>
+                    <TextBox Style="{StaticResource TextBoxStyle}" x:Name="TNganHang" Width="300" ToolTipService.ToolTip="Nhập ngân hàng"></TextBox>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="20 5">
+                    <Label Foreground="WhiteSmoke" Style="{StaticResource LabelStyle}" Width="200" Content="CNNganHang"></Label>
+                    <TextBox Style="{StaticResource TextBoxStyle}" x:Name="TChiNhanhNH" Width="300" ToolTipService.ToolTip="Nhập chi nhánh ngân hàng"></TextBox>
+                </StackPanel>
+                <Button Margin="20 10" Height="50" FontWeight="Bold" Style="{StaticResource ButtonStyle}" Content="Cập nhật thông tin" Width="224" x:Name="UpdateInfo" Click="ClickUpdateInfo"></Button>
+            
             </StackPanel>
-            <StackPanel Orientation="Horizontal" Margin="20 5">
-                <Label Foreground="WhiteSmoke" Style="{StaticResource LabelStyle}" Width="200" Content="Địa chỉ"></Label>
-                <TextBox Style="{StaticResource TextBoxStyle}" x:Name="TDiaChi" Width="300" ToolTipService.ToolTip="Nhập địa chỉ"></TextBox>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal" Margin="20 5">
-                <Label Foreground="WhiteSmoke" Style="{StaticResource LabelStyle}" Width="200" Content="Biển số xe"></Label>
-                <TextBox Style="{StaticResource TextBoxStyle}" x:Name="TBienSoXe" Width="300" ToolTipService.ToolTip="Nhập biển số xe"></TextBox>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal" Margin="20 5">
-                <Label Foreground="WhiteSmoke" Style="{StaticResource LabelStyle}" Width="200" Content="Khu vực hoạt động"></Label>
-                <TextBox Style="{StaticResource TextBoxStyle}" x:Name="TKhuVuc" Width="300" ToolTipService.ToolTip="Nhập Khu vực hoạt động"></TextBox>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal" Margin="20 5">
-                <Label Foreground="WhiteSmoke" Style="{StaticResource LabelStyle}" Width="200" Content="Email"></Label>
-                <TextBox Style="{StaticResource TextBoxStyle}" x:Name="TEmail" Width="300" ToolTipService.ToolTip="Nhập email"></TextBox>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal" Margin="20 5">
-                <Label Foreground="WhiteSmoke" Style="{StaticResource LabelStyle}" Width="200" Content="Số tài khoản"></Label>
-                <TextBox Style="{StaticResource TextBoxStyle}" x:Name="TSTK" Width="300" ToolTipService.ToolTip="Nhập số tài khoản"></TextBox>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal" Margin="20 5">
-                <Label Foreground="WhiteSmoke" Style="{StaticResource LabelStyle}" Width="200" Content="Ngân hàng"></Label>
-                <TextBox Style="{StaticResource TextBoxStyle}" x:Name="TNganHang" Width="300" ToolTipService.ToolTip="Nhập ngân hàng"></TextBox>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal" Margin="20 5">
-                <Label Foreground="WhiteSmoke" Style="{StaticResource LabelStyle}" Width="200" Content="CNNganHang"></Label>
-                <TextBox Style="{StaticResource TextBoxStyle}" x:Name="TChiNhanhNH" Width="300" ToolTipService.ToolTip="Nhập chi nhánh ngân hàng"></TextBox>
-            </StackPanel>
-            <Button Margin="20 10" Height="50" FontWeight="Bold" Background="Orange" Content="Cập nhật thông tin" Width="224" x:Name="UpdateInfo" Click="ClickUpdateInfo"></Button>
-
-        </StackPanel>
         </ScrollViewer>
         <ScrollViewer Margin="10" VerticalScrollBarVisibility="Auto">
 
-            <StackPanel x:Name="PhucVu" Margin="0,0,0,0" Width="568" >
+            <StackPanel x:Name="PhucVu" Margin="0,0,0,0" Width="568" Visibility="Collapsed">
                 <StackPanel Orientation="Horizontal" Margin="20 20">
                     <Label Foreground="WhiteSmoke" Style="{StaticResource LabelStyle}" Width="300" Content="Chọn đơn hàng muốn phục vụ"></Label>
                     <ComboBox HorizontalAlignment="Left" SelectedIndex="0" x:Name="DonHang" SelectionChanged = "ChonDonHang" Width="170" Height="40"/>
                 </StackPanel>
-                <Button Margin="20 10" Height="50" FontWeight="Bold" Background="Orange" Content="Xác nhận phục vụ" Width="224" x:Name="SubmitPhucVu" Click="ClickPhucVu"></Button>
-                <Button Margin="20 10" Height="50" FontWeight="Bold" Background="Orange" Content="Reload bảng" Width="224" x:Name="SubmitReload" Click="ClickReload"></Button>
+                <Button Margin="20 10" Height="50" FontWeight="Bold" Style="{StaticResource ButtonStyle}" Content="Xác nhận phục vụ" Width="224" x:Name="SubmitPhucVu" Click="ClickPhucVu"></Button>
+                <Button Margin="20 10" Height="50" FontWeight="Bold" Style="{StaticResource ButtonStyle}" Content="Reload bảng" Width="224" x:Name="SubmitReload" Click="ClickReload"></Button>
                 <Grid Margin="0,0,19,0">
                     <DataGrid Name="BangPhucVu" Margin="20,12,39,9.8"/>
                 </Grid>
@@ -101,9 +108,9 @@
                     <ComboBoxItem Content="Khách hủy đơn"></ComboBoxItem>
                 </ComboBox>
             </StackPanel>
-            
-            <Button Height="50" FontWeight="Bold" Background="Orange" Content="Cập nhật tình trạng đơn" Width="250" x:Name="UpdateTT" Click="ClickTT"></Button>
-            <Button Margin="20 10" Height="50" FontWeight="Bold" Background="Orange" Content="Reload bảng" Width="224" x:Name="SubmitReloadUpdate" Click="ClickReloadUpdate"></Button>
+
+                <Button Height="50" FontWeight="Bold" Style="{StaticResource ButtonStyle}" Content="Cập nhật tình trạng đơn" Width="250" x:Name="UpdateTT" Click="ClickTT"></Button>
+                <Button Margin="20 10" Height="50" FontWeight="Bold" Style="{StaticResource ButtonStyle}" Content="Reload bảng" Width="224" x:Name="SubmitReloadUpdate" Click="ClickReloadUpdate"></Button>
             <Grid>
                 <DataGrid Name="BangDonHangUpdate" Margin="20 30 20 10"/>
             </Grid>

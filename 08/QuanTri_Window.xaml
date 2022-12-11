@@ -108,12 +108,38 @@
 
                 <StackPanel x:Name="QuanLyPhanHe" Visibility="Collapsed">
                     <StackPanel Orientation="Horizontal" Margin="0 0 10 0" HorizontalAlignment="Center">
-                        <Button Style="{StaticResource ButtonStyle}" Margin="0 20 0 20" Content="Thêm" Click="ShowThemTT"></Button>
-                        <Button Style="{StaticResource ButtonStyle}" Margin="50 20 0 20" Content="Sửa" Click="ShowSuaTT"></Button>
-                        <Button Style="{StaticResource ButtonStyle}" Margin="50 20 0 20" Content="Xóa" Click="ShowXoaTT"></Button>
-                        <Button Style="{StaticResource ButtonStyle}" Margin="50 20 0 20" Content="Xem" Click="ShowXemTT" ></Button>
-                    </StackPanel>
+                        <Button Style="{StaticResource ButtonStyle}" Height="70" Width="200" Margin="0 20 0 20" Click="ShowXemDSTT" >
+                            <TextBlock Text="Hiển thị danh sách phân hệ" TextAlignment="Center" TextWrapping="Wrap"></TextBlock>
+                        </Button>
+                        <StackPanel Orientation="Vertical" VerticalAlignment="Center">
+                            <Button Style="{StaticResource ButtonStyle}" Margin="50 0 0 10" Content="Thêm" Click="ShowThemTT"></Button>
+                            <Button Style="{StaticResource ButtonStyle}" Margin="50 0 0 0" Content="Sửa" Click="ShowSuaTT"></Button>
+                        </StackPanel>
 
+                        <StackPanel Orientation="Vertical" VerticalAlignment="Center">
+                            <Button Style="{StaticResource ButtonStyle}" Margin="20 0 0 10" Content="Xóa" Click="ShowXoaTT"></Button>
+                            <Button Style="{StaticResource ButtonStyle}" Margin="20 0 0 0" Content="Tìm kiếm" Click="ShowXemTT" ></Button>
+                        </StackPanel>
+                        
+                        
+                    </StackPanel>
+                    <Separator></Separator>
+                    <StackPanel x:Name="ShowDSPH" Visibility="Visible">
+                        <StackPanel Orientation="Horizontal" Margin="50 0" HorizontalAlignment="Center">
+                            <Label Foreground="WhiteSmoke" Style="{StaticResource LabelStyle}" Width="200" Content="Chọn Phân Hệ"></Label>
+                            <ComboBox HorizontalAlignment="Left" SelectedIndex="0" x:Name="SelectDSPH" SelectionChanged = "ChonDSPH" Width="170" Height="40">
+                                <ComboBoxItem Content="Please Select"></ComboBoxItem>
+                                <ComboBoxItem Content="DoiTac"></ComboBoxItem>
+                                <ComboBoxItem Content="KhachHang"></ComboBoxItem>
+                                <ComboBoxItem Content="TaiXe"></ComboBoxItem>
+                                <ComboBoxItem Content="NhanVien"></ComboBoxItem>
+                                <ComboBoxItem Content="QuanTri"></ComboBoxItem>
+                            </ComboBox>
+                        </StackPanel>
+                        <Grid>
+                            <DataGrid x:Name="dgPhanHe" HorizontalAlignment="Center" Margin="20" Visibility="Collapsed"></DataGrid>
+                        </Grid>
+                    </StackPanel>
 
                     <StackPanel  x:Name="ThemTTPH" Orientation="Vertical" Visibility="Collapsed" HorizontalAlignment="Center">
                         <StackPanel Orientation="Horizontal" Margin="50 0">
@@ -151,14 +177,17 @@
                             <TextBox Height="40" Foreground="#FF0000" x:Name="username_SuaTT" Style="{StaticResource TextBoxStyle}" Width="300"></TextBox>
                             <Button Style="{StaticResource ButtonStyle}" Margin="30 30" Content="Tìm kiếm" Click="FindUser_Sua"></Button>
                         </StackPanel>
-
+                        
                         <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
-
+                            <StackPanel Orientation="Horizontal" Margin="50 0">
+                                <Label x:Name="MaLabel" Foreground="WhiteSmoke" Style="{StaticResource LabelStyle}" Width="200" Content="Mã"></Label>
+                                <TextBox Foreground="#FF0000" Style="{StaticResource TextBoxStyle}" x:Name="Ma_Sua" IsEnabled="False" Width="400"></TextBox>
+                            </StackPanel>
                             <StackPanel Orientation="Horizontal" Margin="50 0">
                                 <Label Foreground="WhiteSmoke" Style="{StaticResource LabelStyle}" Width="200" Content="Nhập Password mới"></Label>
                                 <PasswordBox Foreground="#FF0000" Style="{StaticResource PasswordBoxStyle}" x:Name="password_Moi" Width="400"></PasswordBox>
                             </StackPanel>
-                            <StackPanel Orientation="Horizontal" Margin="50 0">
+                            <!--<StackPanel Orientation="Horizontal" Margin="50 0">
                                 <Label Foreground="WhiteSmoke" Style="{StaticResource LabelStyle}" Width="200" Content="Chọn Phân Hệ mới"></Label>
                                 <ComboBox HorizontalAlignment="Left" SelectedIndex="0" x:Name="SelectPhanHeMoi" SelectionChanged = "ChonPhanHeMoi" Width="170" Height="40">
                                     <ComboBoxItem Content="Please Select"></ComboBoxItem>
@@ -168,7 +197,7 @@
                                     <ComboBoxItem Content="NhanVien"></ComboBoxItem>
                                     <ComboBoxItem Content="QuanTri"></ComboBoxItem>
                                 </ComboBox>
-                            </StackPanel>
+                            </StackPanel>-->
 
 
 
