@@ -147,7 +147,7 @@ namespace _08
                 BangMonAn.ItemsSource = dt2.DefaultView;
 
                 //Lấy mã đơn hàng
-                string CmdMaDHMax = "SELECT MAX(MaDH) FROM DONDATHANG";
+                string CmdMaDHMax = "SELECT MAX(convert (int, MaDH)) FROM DONDATHANG";
                 SqlCommand cmd3 = new SqlCommand(CmdMaDHMax, db);
 
                 int MaDH = Convert.ToInt32(cmd3.ExecuteScalar()) + 1;
