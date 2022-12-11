@@ -240,6 +240,38 @@ BEGIN TRAN
 COMMIT TRAN
 GO
 
+CREATE PROC DuyetHopDong
+	@MaHD varchar(10),
+	@ThoiHan nvarchar(10),
+	@MaNV VARCHAR(10),
+	@NgayHetHan date
+AS
+BEGIN TRAN DuyetHopDong
+	BEGIN TRY
+		IF NOT EXISTS (SELECT * FROM HOPDONG WHERE MaHD = @MaHD)
+		BEGIN
+			Print @MaHD + N' không tồn tại!'
+			select 1
+			ROLLBACK TRAN DuyetHopDong
+		END
+		IF (SELECT TrangThai FROM HOPDONG WHERE MaHD = @MaHD) = N'Đã duyệt'
+		BEGIN
+			Print @MaHD + N' đã được duyệt!'
+			select 2
+			ROLLBACK TRAN DuyetHopDong
+		END
+		update HOPDONG
+		set TrangThai = N'Đã duyệt', NgayKy = GETDATE(), ThoiHan = @ThoiHan, NgayHetHan = @NgayHetHan, MaNV = @MaNV
+		where MaHD = @MaHD
+	END TRY
+	BEGIN CATCH
+		print N'Lỗi hệ thống!'
+		ROLLBACK TRAN DuyetHopDong
+	END CATCH
+COMMIT TRAN DuyetHopDong
+select 0
+GO
+
 CREATE PROC TimKiemChiNhanh
 	@STT int,
 	@MaDT varchar(10)
