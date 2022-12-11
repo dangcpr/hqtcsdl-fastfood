@@ -412,25 +412,42 @@ namespace _08
 
             SqlConnection db = new SqlConnection("Server=.;Database=GIAONHANHANG;integrated security = true");
             db.Open();
-            try
+            string cmdStringTT = "SELECT TinhTrang FROM DONDATHANG WHERE MaDH = '" + value1 + "'";
+            SqlCommand cmdTT = new SqlCommand(cmdStringTT, db);
+
+            if (cmdTT.ExecuteScalar().ToString() == "Chờ xử lý")
             {
-                SqlTransaction trans = db.BeginTransaction();
-                SqlCommand cmd = db.CreateCommand();
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Transaction = trans;
-                cmd.CommandText = "sp_KhachHangHuyDon_fix";
+                try
+                {
+                    SqlTransaction trans = db.BeginTransaction();
+                    SqlCommand cmd = db.CreateCommand();
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Transaction = trans;
+                    cmd.CommandText = "sp_KhachHangHuyDon_fix";
 
-                cmd.Parameters.AddWithValue("@MaDonDH", value1);
+                    cmd.Parameters.AddWithValue("@MaDonDH", value1);
 
-                cmd.ExecuteScalar();
-                trans.Commit();
-                MessageBox.Show("Hủy đơn thành công");
+                    cmd.ExecuteScalar();
+                    trans.Commit();
+                    MessageBox.Show("Hủy đơn thành công");
 
-                db.Close();
+                    db.Close();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Lỗi hệ thống: " + ex.ToString());
+                }
             }
-            catch (Exception ex)
+            else
             {
-                MessageBox.Show("Lỗi hệ thống: " + ex.ToString());
+                try
+                {
+                    MessageBox.Show("Không thể hủy đơn");
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Lỗi hệ thống: " + ex.ToString());
+                }
             }
         }
     }

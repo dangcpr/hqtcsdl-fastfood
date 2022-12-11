@@ -88,7 +88,7 @@ namespace _08
 
                 foreach (DataRow dr in dt.Rows)
                 {
-                    if (dr["MaTX"].ToString() == "")
+                    if (dr["MaTX"].ToString() == "" && dr["TinhTrang"].ToString() != "Đã hủy đơn")
                         cb.Items.Add(dr["MaDH"].ToString());
                 }
                 db.Close();
