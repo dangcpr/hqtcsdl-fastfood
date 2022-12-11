@@ -47,7 +47,7 @@ namespace _08
         {
             try
             {
-                doitac.MaDT = "1";
+                doitac.MaDT = MaDoiTac;
                 DataTable dt = doitac.LayThongTinDoiTac();
                 DataRow r = dt.Rows[0];
                 TT_tb_email.Text = r["Email"].ToString();
@@ -183,7 +183,7 @@ namespace _08
             {
                 int maLoi = doitac.QueryChiNhanh("Them", "", MaDoiTac.ToString(),
                     Cn_tb_thanhpho.Text.ToString(), Cn_tb_quan.Text.ToString(), Cn_tb_diachi.Text.ToString(),
-                    Cn_tb_sdt.Text.ToString(), Cn_tb_tinhtrang.Text.ToString(), Cn_tb_ngaylap.Text.ToString());
+                    Cn_tb_sdt.Text.ToString(), Cn_tb_tinhtrang.Text.ToString(), Convert.ToDateTime(Cn_tb_ngaylap.Text).ToString("MM-dd-yyyy"));
                 HienMaLoi_Label(maLoi, "thêm", "chi nhánh");
                 if (maLoi == 0)
                 {
@@ -230,7 +230,7 @@ namespace _08
                 {
                     int maLoi = doitac.QueryChiNhanh("Sua", rowview["STT"].ToString(), MaDoiTac.ToString(),
                         Cn_tb_thanhpho.Text.ToString(), Cn_tb_quan.Text.ToString(), Cn_tb_diachi.Text.ToString(),
-                        Cn_tb_sdt.Text.ToString(), Cn_tb_tinhtrang.Text.ToString(), Cn_tb_ngaylap.Text.ToString());
+                        Cn_tb_sdt.Text.ToString(), Cn_tb_tinhtrang.Text.ToString(), Convert.ToDateTime(Cn_tb_ngaylap.Text).ToString("MM-dd-yyyy"));
                     HienMaLoi_Label(maLoi, "sửa", "chi nhánh");
                 }
                 else
@@ -705,7 +705,7 @@ namespace _08
                         Hd_tb_chinhanhnganhang.Text = rowview["CNNganHang"].ToString();
                         Hd_tb_masothue.Text = rowview["MaSoThue"].ToString();
                         Hd_tb_tinhtrang.Text = rowview["TrangThai"].ToString();
-                        Hd_tb_ngayki.Text = Convert.ToDateTime(rowview["NgayKy"]).ToString("mm-dd-yyy");
+                        Hd_tb_ngayki.Text = rowview["NgayKy"].ToString();
                         Hd_tb_thoihan.Text = rowview["ThoiHan"].ToString();
                         Hd_tb_ngayhethan.Text = rowview["NgayHetHan"].ToString();
                         Hd_tb_nguoidaidien.Text = rowview["NguoiDaiDien"].ToString();

@@ -290,7 +290,7 @@ namespace _08
                             cmd_DT.Parameters.AddWithValue("@MaDT", MaDT);
                             cmd_DT.Parameters.AddWithValue("@Email", Email.Text);
                             cmd_DT.Parameters.AddWithValue("@NgDaiDien", NgDaiDien.Text);
-                            cmd_DT.Parameters.AddWithValue("@SLChiNhanh", SLChiNhanh.Text);
+                            cmd_DT.Parameters.AddWithValue("@SLChiNhanh", 0);
                             cmd_DT.Parameters.AddWithValue("@TenQuan", TenQuan.Text);
                             cmd_DT.Parameters.AddWithValue("@LoaiTP", LoaiTP.Text);
                             cmd_DT.Parameters.AddWithValue("@Username", Username);
